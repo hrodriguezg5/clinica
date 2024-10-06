@@ -9,10 +9,11 @@ define("APP_ROUTE", dirname(dirname(__FILE__)));
 const URL_ROUTE = "/clinica";
 
 //Nombre del sitio
-const SITE_NAME = "Clinica";
+const SITE_NAME = "Clínica";
+
+//Tiempo de expiración del token
+const TOKEN_TTL = 3600;
 
 //Zona horaria
 date_default_timezone_set('America/Guatemala');
-
-
 ?>

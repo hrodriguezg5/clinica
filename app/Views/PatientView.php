@@ -1,4 +1,4 @@
-<?php require_once APP_ROUTE."/Views/Template/HeaderAdmin.php"; ?>
+<?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Modal de Actualizar Reservaciòn -->
             <div class="modal fade" id="updateReservationModal" tabindex="-1" aria-labelledby="updateReservationModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -175,4 +175,4 @@
             </div>
             <!-- Citas Realizadas Fin -->
    
-<?php require_once APP_ROUTE."/Views/Template/FooterAdmin.php"; ?>
+<?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>
