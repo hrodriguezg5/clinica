@@ -45,7 +45,7 @@ class HomeController extends Controllers{
                 $tokenData = [
                     "user_id" => $user->user_id,
                     "token" => bin2hex(random_bytes(32)),
-                    "expires_at" => date('Y-m-d H:i:s', strtotime('+1 hour')),
+                    "expires_at" => date('Y-m-d H:i:s', strtotime('+3600 seconds')),
                     "ip_address" => $_SERVER['REMOTE_ADDR'],
                     "user_agent" => $_SERVER['HTTP_USER_AGENT']
                 ];
