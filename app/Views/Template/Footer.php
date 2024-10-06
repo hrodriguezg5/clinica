@@ -32,7 +32,7 @@
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="<?= URL_ROUTE; ?>/js/main.js"></script>
+    <script src="<?= URL_ROUTE; ?>/js/modules/templateFunctions.js"></script>
 
     <!-- Código personalizado de Javascript -->
     <script>
