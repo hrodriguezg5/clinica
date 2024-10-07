@@ -73,9 +73,6 @@
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/moment.min.js"></script>
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="<?= URL_ROUTE; ?>/js/modules/templateFunctions.js"></script>
     <script type="module" src="<?= URL_ROUTE; ?>/js/modules/login.js"></script>
 </body>
 

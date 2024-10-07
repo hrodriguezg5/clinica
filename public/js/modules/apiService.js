@@ -1,33 +1,19 @@
-function getToken() {
-    return localStorage.getItem('session_token');
-}
-
 export const apiService = {
-    async fetchData(url, method, body = {}, responseType) {
+    async fetchData(url, method, body = {}) {
         try {
-            const token = getToken(); // Llama a la función para obtener el token
+            const token = localStorage.getItem('token');
             const response = await fetch(url, {
                 method,
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Bearer ${token}`  // Usa el token obtenido
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
-                body: new URLSearchParams(body),
+                ...(method !== 'GET' && { body: JSON.stringify(body) }),
             });
 
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
+            if (response.ok) {
+                return response.json();
             }
-
-            // Maneja la respuesta según el tipo solicitado
-            if (responseType === 'json') {
-                return await response.json();
-            } else if (responseType === 'text') {
-                return await response.text();
-            } else {
-                throw new Error('Tipo de respuesta no soportado');
-            }
-
         } catch (error) {
             console.error('Error:', error);
             throw error;
