@@ -1,18 +1,12 @@
 <?php
 //Rutas de controladores de español a inglés
 const ROUTE_MAP = [
-    "inicio" => "HomeController",
+    "login" => "LoginController",
     "paciente" => "PatientController"
 ];
 
 //Rutas de métodos de español a inglés
 const ROUTE_METHOD_MAP = [
-    //Home
-    "ingresar" => "login",
-    "registrar" => "register",
-    "agendar" => "reservation",
-
-    //Admin
     "reservacion" => "reservation",
     "cliente" => "customer",
     "hora" => "hour",
@@ -20,12 +14,12 @@ const ROUTE_METHOD_MAP = [
     "usuarios" => "users",
     "usuario" => "user",
 
-
+    "ingresar" => "login",
+    "token" => "token",
     "actualizar" => "update",
     "eliminar" => "delete",
     "agregar" => "insert",
     "buscar" => "search",
     "mostrar" => "show"
 ];
-
 ?>
