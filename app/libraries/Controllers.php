@@ -2,9 +2,11 @@
 //Clase controlador que se encarga de cargar los módelos y las vistas
 class Controllers{
     protected $model;
+    protected $authMiddleware;
 
     public function __construct(){
         $this->model();
+        $this->authMiddleware();
     }
 
     //Cargar módelo
@@ -16,6 +18,14 @@ class Controllers{
         if(file_exists($routClassModel)){
             require_once($routClassModel);
             $this->model = new $model;
+        }
+    }
+
+    public function authMiddleware(){
+        $routClass = "../app/middleware/AuthMiddleware.php";
+        if(file_exists($routClass)){
+            require_once($routClass);
+            $this->authMiddleware = new AuthMiddleware;
         }
     }
 
@@ -38,16 +48,37 @@ class Controllers{
         exit;
     }
 
-    // Método para validar el token
-    protected function validateToken($token, $userId, $tokenDate) {
-        $storedToken = $this->model->getTokenByUserId(['user_id' => $userId, 'token_date' => $tokenDate]);
-        if (!$storedToken) {
-            return false; // No se encontró el token en la base de datos
+    protected function getUserAndModules($data) {
+        $user = $data['user'];
+        $modules = $data['modules'];
+        
+        if ($user) {
+            $moduleData = [];
+            if ($modules) {
+                foreach ($modules as $module) {
+                    $moduleData[] = [
+                        'module' => $module->module,
+                        'link' => $module->link,
+                        'icon' => $module->icon,
+                        'create_operation' => $module->create_operation,
+                        'update_operation' => $module->update_operation,
+                        'delete_operation' => $module->delete_operation
+                    ];
+                }
+            }
+
+            return [
+                'user_id' => $user->user_id,
+                'role_id' => $user->role_id,
+                'user_name' => $user->user_name,
+                'role_name' => $user->role_name,
+                'modules' => $moduleData
+            ];
         }
 
-        return hash_equals($storedToken->token, $token); // Compara el token almacenado con el proporcionado
+        return null; // En caso de que el usuario no esté autenticado o no tenga módulos
     }
-    
+
     // Destructor para cerrar la conexión
     public function __destruct() {
         if(isset($this->model)) {

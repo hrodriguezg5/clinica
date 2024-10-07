@@ -1,39 +1,22 @@
 <?php
 class PatientController extends Controllers {
-    
     public function __construct() {
         parent::__construct();
     }
     
     public function index() {
-        $this->view("Admin/PatientView");
+        $this->view("PatientView");
     }
 
-    private function validateAuthorizationToken() {
-        session_start();
-        $userId = $_SESSION['user_id'] ?? 1;
-        $headers = getallheaders();
-        $token = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : null;
-        $tokenDate = date('Y-m-d H:i:s');
-    
-        // Verifica si el token es null antes de validar
-        if ($token === null) {
-            $this->jsonResponse(["success" => false, "message" => "Token no proporcionado."]);
-            return false; // Retorna false si no se proporciona el token
-        }
-    
-        if (!$this->validateToken($token, $userId, $tokenDate)) {
-            $this->jsonResponse(["success" => false, "message" => "Token inválido."]);
-            return false; // Retorna false si la validación falla
-        }
-        return $userId; // Retorna el userId si la validación es exitosa
+    public function token(){
+        $data = $this->authMiddleware->validateToken();
+        $response = $this->getUserAndModules($data);
+        $this->jsonResponse($response);
     }
-
-    //Fin de Login
     
     public function customer() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // if (!$this->validateAuthorizationToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
             $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $customer = $this->model->getCustomer(['id' => $id]);
 
@@ -57,7 +40,7 @@ class PatientController extends Controllers {
 
     public function reservation() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->validateAuthorizationToken()) return;
+            // if (!$this->authMiddleware->validateToken()) return;
 
             $startDate = filter_input(INPUT_POST, 'startDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $endDate = filter_input(INPUT_POST, 'endDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
@@ -105,7 +88,7 @@ class PatientController extends Controllers {
 
     public function hour() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->validateAuthorizationToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
 
             $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $hour = filter_input(INPUT_POST, 'hour', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
@@ -129,7 +112,7 @@ class PatientController extends Controllers {
 
     public function product() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->validateAuthorizationToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
 
             $product = filter_input(INPUT_POST, 'product', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $products = $this->model->getProducts();
@@ -151,7 +134,7 @@ class PatientController extends Controllers {
     
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->validateAuthorizationToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
             $userId = $_SESSION['user_id'] ?? 1;
 
             $data = [
@@ -178,7 +161,7 @@ class PatientController extends Controllers {
 
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->validateAuthorizationToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
             $userId = $_SESSION['user_id'] ?? 1;
 
             $data = [

@@ -45,6 +45,21 @@ class LoginModel{
         return $row;
     }
 
+    public function getToken($data) {
+        $this->db->query(
+                "SELECT *
+            FROM session_tokens 
+            WHERE token = :token
+            AND deleted_at IS NULL
+            AND expires_at > NOW()
+            LIMIT 1;"
+        );
+
+        $this->db->bind(":token", $data["token"]);
+        $row = $this->db->record();
+        return $row;
+    }
+
     public function deleteSessionToken($data){
         $this->db->query(
             "UPDATE session_tokens SET deleted_at = CURDATE(), deleted_by = :user_id
