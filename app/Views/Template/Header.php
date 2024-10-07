@@ -56,7 +56,7 @@
                         <span id="navRoleName"></span>
                     </div>
                 </div>
-                <div class="navbar-nav w-100">
+                <div class="navbar-nav w-100 navbar-modules">
                     <a href="<?= URL_ROUTE; ?>/dashboard" class="nav-item nav-link"><i class="bi bi-bar-chart-line me-2"></i>Dashboard</a>
                     <a href="<?= URL_ROUTE; ?>/paciente" class="nav-item nav-link active"><i class="bi bi-person me-2"></i>Pacientes</a>
                     <a href="<?= URL_ROUTE; ?>/usuario" class="nav-item nav-link"><i class="bi bi-person me-2"></i>Usuarios</a>
