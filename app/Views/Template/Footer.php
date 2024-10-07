@@ -39,6 +39,7 @@
       	const urlBase = "<?= URL_ROUTE; ?>";
     </script>
     <script type="module" src="<?= URL_ROUTE; ?>/js/app.js"></script>
+    <script type="module" src="<?= URL_ROUTE; ?>/js/modules/patient.js"></script>
 </body>
 
 </html>

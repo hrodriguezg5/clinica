@@ -1,11 +1,3 @@
-<?php
-session_start();
-
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    redirect("");
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -60,8 +52,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                         <i class="bi bi-person-circle user-icons"></i>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0"><?= $_SESSION["user_name"]; ?></h6>
-                        <span><?= $_SESSION["role_name"]; ?></span>
+                        <h6 id="naveUserName" class="mb-0"></h6>
+                        <span id="navRoleName"></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -89,7 +81,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle "></i>
-                            <span class="d-none d-lg-inline-flex"><?= $_SESSION["user_name"]; ?></span>
+                            <span id="dropUserName" class="d-none d-lg-inline-flex"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="<?= URL_ROUTE; ?>" class="dropdown-item">Salir</a>

@@ -9,11 +9,10 @@ class LoginController extends Controllers{
     }
 
     public function login(){
-        echo "Login";
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            
-            $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $input = json_decode(file_get_contents("php://input"), true);
+            $username = filter_var($input['username'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+            $password = filter_var($input['password'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $user = $this->model->getLoginUser(['username' => $username, 'password' => $password]);
 
             if($user){
@@ -29,6 +28,7 @@ class LoginController extends Controllers{
                 $this->model->storeSessionToken($tokenData);
 
                 $response = [
+                    "success" => true,
                     'user_id' => $user->user_id,
                     'token' => $tokenData["token"],
                     'expires_at' => $tokenData["expires_at"],
@@ -37,7 +37,7 @@ class LoginController extends Controllers{
                 ];
                 $this->jsonResponse($response);
             } else{
-                $this->jsonResponse(["success" => false, "message" => "Credenciales inválidas."]);
+                $this->jsonResponse(["success" => false, "message" => "Usuario o contraseña incorrectos."]);
             }
         }
     }
