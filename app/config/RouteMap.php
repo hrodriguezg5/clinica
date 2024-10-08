@@ -1,6 +1,7 @@
 <?php
 //Rutas de controladores de español a inglés
 const ROUTE_MAP = [
+    "inicio" => "HomeController",
     "login" => "LoginController",
     "paciente" => "PatientController"
 ];
@@ -15,6 +16,7 @@ const ROUTE_METHOD_MAP = [
     "usuario" => "user",
 
     "ingresar" => "login",
+    "salir" => "logout",
     "token" => "token",
     "actualizar" => "update",
     "eliminar" => "delete",

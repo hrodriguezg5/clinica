@@ -12,7 +12,7 @@ export const apiService = {
             });
 
             if (response.ok) {
-                return response.json();
+                return await response.json();
             }
         } catch (error) {
             console.error('Error:', error);
