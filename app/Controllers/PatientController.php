@@ -40,7 +40,7 @@ class PatientController extends Controllers {
 
     public function reservation() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // if (!$this->authMiddleware->validateToken()) return;
+            if (!$this->authMiddleware->validateToken()) return;
 
             $startDate = filter_input(INPUT_POST, 'startDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $endDate = filter_input(INPUT_POST, 'endDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';

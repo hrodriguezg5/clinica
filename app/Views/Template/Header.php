@@ -52,7 +52,7 @@
                         <i class="bi bi-person-circle user-icons"></i>
                     </div>
                     <div class="ms-3">
-                        <h6 id="naveUserName" class="mb-0"></h6>
+                        <h6 id="navUserName" class="mb-0"></h6>
                         <span id="navRoleName"></span>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                             <span id="dropUserName" class="d-none d-lg-inline-flex"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="<?= URL_ROUTE; ?>" class="dropdown-item">Salir</a>
+                            <a href="<?= URL_ROUTE; ?>" id="logoutLink" class="dropdown-item">Salir</a>
                         </div>
                     </div>
                 </div>

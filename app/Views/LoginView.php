@@ -31,6 +31,24 @@
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center flex-column">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+            <div class="text-center mt-3">
+                <p> Cargando...</p>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Alerta HTML Inicio-->
+        <div id="errorMessage" class="alert-dismissible fade position-fixed top-0 end-0 m-3" role="alert">
+            <i class="bi bi-bell-fill me-2"></i><span id="errorText">El usuario no tiene módulos asignados.</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <!-- Alerta HTML Fin -->
+
+
         <!-- Sign In Start -->
         <div class="container-fluid">
             <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
@@ -46,14 +64,14 @@
                                 <input type="test" class="form-control" id="loginUsername" placeholder="" required>
                                 <label for="loginUsername">Usuario</label>
                             </div>
-                            <div class="form-floating mb-1 position-relative">
+                            <div class="form-floating mb-4 position-relative">
                                 <input type="password" class="form-control" id="loginPassword" placeholder="" required>
                                 <label for="loginPassword">Contraseña</label>
                                 <span id="togglePassword" class="position-absolute top-50 end-0 translate-middle-y pe-3 cursor-pointer">
                                     <i class="bi bi-eye"></i>
                                 </span>
                             </div>
-                            <p class="text-center mb-0 pb-4 text-danger" id="errorMessage"></p>
+                            <!-- <p class="text-center mb-0 pb-4 text-danger" id="errorMessage"></p> -->
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Iniciar</button>
                         </form>
                     </div>
@@ -73,6 +91,11 @@
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/moment.min.js"></script>
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="<?= URL_ROUTE; ?>/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+    <script>
+      	const urlBase = "<?= URL_ROUTE; ?>";
+    </script>
+
     <script type="module" src="<?= URL_ROUTE; ?>/js/modules/login.js"></script>
 </body>
 

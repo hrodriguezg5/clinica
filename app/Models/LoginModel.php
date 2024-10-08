@@ -13,7 +13,6 @@ class LoginModel{
     public function getLoginUser($data){
         $this->db->query(
             "SELECT u.id AS user_id,
-                CONCAT(u.first_name, ' ', u.last_name) AS user_name,
                 r.`name` AS role_name
             FROM `user` AS u
             INNER JOIN `role` AS r
@@ -45,7 +44,7 @@ class LoginModel{
         return $row;
     }
 
-    public function getToken($data) {
+    public function getSessionToken($data) {
         $this->db->query(
                 "SELECT *
             FROM session_tokens 
@@ -54,7 +53,7 @@ class LoginModel{
             AND expires_at > NOW()
             LIMIT 1;"
         );
-
+        
         $this->db->bind(":token", $data["token"]);
         $row = $this->db->record();
         return $row;

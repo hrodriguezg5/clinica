@@ -1,3 +1,32 @@
+import { apiService } from './apiService.js';
+import { showAlert } from './showArlert.js';
+
+document.addEventListener("DOMContentLoaded", async function() {
+    const url = `${urlBase}/login/token`;
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        const data = await apiService.fetchData(url, 'GET');
+
+        if (data){
+            if (data.modules[0]) {
+                window.location.href = `${urlBase}/${data.modules[0].link}`;
+            } else {
+                localStorage.removeItem('token');
+                showAlert('El usuario no tiene módulos asignados.');
+                $('#spinner').removeClass('show');
+            }
+        } else {
+            localStorage.removeItem('token');
+            showAlert('Token Expirado.');
+            $('#spinner').removeClass('show');
+        }
+    } else {
+        $('#spinner').removeClass('show');
+    }
+
+});
+
 // Alternar visibilidad de contraseña
 const togglePassword = document.querySelector("#togglePassword");
 const passwordField = document.querySelector("#loginPassword");
@@ -16,26 +45,14 @@ document.getElementById('loginForm').onsubmit = async function (e) {
     e.preventDefault();
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-    const errorMessage = document.getElementById('errorMessage');
 
-    const response = await fetch('http://localhost/clinica/login/ingresar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password })
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-            localStorage.setItem('token', data.token); // Guardar token en localStorage
-            window.location.href = 'http://localhost/clinica/paciente'; // Redirigir al dashboard
-        } else {
-            errorMessage.textContent = data.message;
-        }
+    const url = `${urlBase}/login/ingresar`;
+    const data = await apiService.fetchData(url, 'POST', { username, password });
+    
+    if (data.success) {
+        localStorage.setItem('token', data.token);
+        window.location.href = urlBase;
     } else {
-        const error = await response.json();
-        alert(error.message);
+        showAlert(data.message);
     }
 };
