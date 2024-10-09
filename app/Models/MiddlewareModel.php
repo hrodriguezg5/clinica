@@ -10,7 +10,7 @@ class MiddlewareModel{
         $this->db->closeConnection();
     }
     
-    public function getToken($data) {
+    public function getSessionToken($data) {
         $this->db->query(
                 "SELECT *
             FROM session_tokens 
@@ -20,6 +20,18 @@ class MiddlewareModel{
             LIMIT 1;"
         );
         
+        $this->db->bind(":token", $data["token"]);
+        $row = $this->db->record();
+        return $row;
+    }
+
+    public function updateSessionToken($data){
+        $this->db->query(
+            "UPDATE session_tokens SET expires_at = :expires_at
+            WHERE token = :token AND deleted_at IS NULL;"
+        );
+
+        $this->db->bind(":expires_at", $data["expires_at"]);
         $this->db->bind(":token", $data["token"]);
         $row = $this->db->record();
         return $row;

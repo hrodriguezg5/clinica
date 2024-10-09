@@ -52,14 +52,11 @@
                         <i class="bi bi-person-circle user-icons"></i>
                     </div>
                     <div class="ms-3">
-                        <h6 id="naveUserName" class="mb-0"></h6>
+                        <h6 id="navUserName" class="mb-0"></h6>
                         <span id="navRoleName"></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100 navbar-modules">
-                    <a href="<?= URL_ROUTE; ?>/dashboard" class="nav-item nav-link"><i class="bi bi-bar-chart-line me-2"></i>Dashboard</a>
-                    <a href="<?= URL_ROUTE; ?>/paciente" class="nav-item nav-link active"><i class="bi bi-person me-2"></i>Pacientes</a>
-                    <a href="<?= URL_ROUTE; ?>/usuario" class="nav-item nav-link"><i class="bi bi-person me-2"></i>Usuarios</a>
                 </div>
             </nav>
         </div>
@@ -80,11 +77,12 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle "></i>
+                            <i class="bi bi-person-circle"></i>
                             <span id="dropUserName" class="d-none d-lg-inline-flex"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="<?= URL_ROUTE; ?>" class="dropdown-item">Salir</a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-2 rounded-0 rounded-bottom m-0">
+                            <a href="<?= URL_ROUTE; ?>" id="logoutLink" class="dropdown-item">
+                            <i class="bi bi-box-arrow-right me-2"></i>Salir</a>
                         </div>
                     </div>
                 </div>

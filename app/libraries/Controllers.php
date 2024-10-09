@@ -49,6 +49,10 @@ class Controllers{
     }
 
     protected function getUserAndModules($data) {
+        if (!isset($data['user']) || !isset($data['modules'])) {
+            return $data; // O maneja el error de alguna otra manera
+        }
+
         $user = $data['user'];
         $modules = $data['modules'];
         
@@ -75,8 +79,6 @@ class Controllers{
                 'modules' => $moduleData
             ];
         }
-
-        return null; // En caso de que el usuario no esté autenticado o no tenga módulos
     }
 
     // Destructor para cerrar la conexión

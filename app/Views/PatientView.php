@@ -123,8 +123,8 @@
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-4 mb-md-0">
                         <div class="bg-transparent rounded d-flex align-items-center px-4">
-                            <i class="bi bi-person fa-2x text-dark"></i>
-                            <h4 class="mb-0 ms-3">Pacientes</h4>
+                            <i id="moduleIcon"></i>
+                            <h4 id="moduleTitle" class="mb-0 ms-3"></h4>
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
@@ -147,7 +147,7 @@
 
 
             <!-- Citas Realizadas Inicio -->
-            <div class="container-fluid pt-4 px-4">
+            <div id="content" class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h6 class="mb-0">Pacientes Registrados</h6>

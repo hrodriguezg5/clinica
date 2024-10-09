@@ -3,9 +3,14 @@ class AuthMiddleware {
     private $model;
 
     public function __construct() {
-        $routClassModel = "../app/Models/MiddlewareModel.php";
-        if(file_exists($routClassModel)){
-            require_once($routClassModel);
+        $this->model();
+    }
+
+    public function model(){
+        $routClass = "../app/Models/MiddlewareModel.php";
+        
+        if(file_exists($routClass)){
+            require_once $routClass;
             $this->model = new MiddlewareModel;
         }
     }
@@ -14,24 +19,29 @@ class AuthMiddleware {
         $headers = getallheaders();
         if (isset($headers['Authorization'])) {
             $token = str_replace('Bearer ', '', $headers['Authorization']);
-            $session = $this->model->getToken(['token' => $token]);
+            $session = $this->model->getSessionToken(['token' => $token]);
             
             if ($session) {
+                $tokenData = [
+                    "token" => $token,
+                    "expires_at" => date('Y-m-d H:i:s', strtotime('+' . TOKEN_TTL . ' seconds'))
+                ];
+
+                $this->model->updateSessionToken($tokenData);
                 $user = $this->model->getUser(['user_id' => $session->user_id]);
                 $modules = $this->model->getModules(['role_id' => $user->role_id]);
                 return [
+                    "success" => true,
                     'user' => $user,
                     'modules' => $modules
                 ];
             } else {
                 http_response_code(401);
-                echo json_encode(['message' => 'Token no válido o caducado']);
-                exit;
+                return ["success" => false, 'message' => 'Token no válido o caducado'];
             }
         } else {
             http_response_code(401);
-            echo json_encode(['message' => 'Encabezado de autorización no encontrado']);
-            exit;
+            return ["success" => false, 'message' => 'Encabezado de autorización no encontrado'];
         }
     }
 }
