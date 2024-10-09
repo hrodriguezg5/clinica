@@ -13,7 +13,7 @@
             <!-- Titulo del Módulo Fin -->
 
             <!-- Contenido de Bievenida Inicio -->
-            <div class="container-fluid pt-4 px-4">
+            <div id="content" class="container-fluid pt-4 px-4">
                 <div class="bg-light text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-center mb-4">
                         <h1 id="greetingTitle" class="mb-0"></h1>
@@ -22,6 +22,4 @@
                 </div>
             </div>
             <!-- Contenido de Bievenida Fin -->
-
-   
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

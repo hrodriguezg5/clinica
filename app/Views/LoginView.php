@@ -42,9 +42,9 @@
 
 
         <!-- Alerta HTML Inicio-->
-        <div id="errorMessage" class="alert-dismissible fade position-fixed top-0 end-0 m-3" role="alert">
-            <i class="bi bi-bell-fill me-2"></i><span id="errorText">El usuario no tiene módulos asignados.</span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div id="errorMessage" class="alert-dismissible position-fixed top-0 end-0 m-3 fade" role="alert">
+            <i class="bi bi-bell-fill me-2"></i><span id="errorText"></span>
+            <button id="closeButton" type="button" class="btn-close" aria-label="Close"></button>
         </div>
         <!-- Alerta HTML Fin -->
 
