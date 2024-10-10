@@ -17,7 +17,8 @@ class PatientController extends Controllers {
     public function customer() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+            $input = json_decode(file_get_contents("php://input"), true);
+            $id = filter_var($input['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $customer = $this->model->getCustomer(['id' => $id]);
 
             if ($customer) {
@@ -38,53 +39,31 @@ class PatientController extends Controllers {
         }
     }
 
-    public function reservation() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    public function show() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-
-            $startDate = filter_input(INPUT_POST, 'startDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $endDate = filter_input(INPUT_POST, 'endDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $customers = $this->model->getReservations(['start_date' => $startDate, 'end_date' => $endDate]);
-            $html = '';
-            
-            if ($customers) {
-                foreach ($customers as $customer) {
-                    $html .= '<tr>';
-                    $html .= '<td>' . htmlspecialchars($customer->customer_name) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->email) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->phone_number) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->address) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->product) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->quantity) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->reservation_hour) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->reservation_date) . '</td>';
-                    $html .= '<td>
-                                <div class="d-flex">
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-warning me-1 btn-update-reservation"
-                                        value="' . htmlspecialchars($customer->id) . '"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#updateReservationModal">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-danger btn-delete-reservation"
-                                        value="' . htmlspecialchars($customer->id) . '"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteReservationModal">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-                                </div>
-                            </td>';
-                    $html .= '</tr>';
+            $patients = $this->model->getPatients();
+        
+            if ($patients) {
+                foreach ($patients as $patient){
+                    $response = [
+                        'id' => $patient->id,
+                        'first_name' => $patient->first_name,
+                        'last_name' => $patient->last_name,
+                        'birth_date' => $patient->birth_date,
+                        'gender' =>$patient->gender,
+                        'address' =>$patient->address,
+                        'phone' =>$patient->phone,
+                        'email' => $patient->email
+                    ];
+                
                 }
+                $this->jsonResponse($response);
             }
-
-            $this->htmlResponse($html);
         }
     }
+
+    
 
     public function hour() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

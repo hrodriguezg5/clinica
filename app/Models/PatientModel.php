@@ -86,6 +86,24 @@ class PatientModel{
         $row = $this->db->record();
         return $row;
     }
+
+    public function getPatients(){
+        $this->db->query(
+            "SELECT p.id,
+                p.first_name,
+                p.last_name,
+                p.birth_date,
+                p.gender,
+                p.address,
+                p.phone,
+                p.email
+            FROM patient AS p
+            WHERE p.deleted_at IS NULL;"
+        );
+
+        $row = $this->db->records();
+        return $row;
+    }
     
     public function getAvailableHours($data){
         $this->db->query(
