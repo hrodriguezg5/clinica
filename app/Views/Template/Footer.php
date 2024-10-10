@@ -20,11 +20,8 @@
     <script src="<?= URL_ROUTE; ?>/js/modules/systemFunctions.js"></script>
 
     <!-- Código personalizado de Javascript -->
-    <script>
-      	const urlBase = "<?= URL_ROUTE; ?>";
-    </script>
-
-    <script type="module" src="<?= URL_ROUTE; ?>/js/modules/app.js"></script>
+    <script>const urlBase = "<?= URL_ROUTE; ?>";</script>
+    <script type="module" src="<?= URL_ROUTE; ?>/js/main.js"></script>
 </body>
 
 </html>

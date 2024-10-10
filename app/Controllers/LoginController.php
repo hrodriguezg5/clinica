@@ -4,17 +4,17 @@ class LoginController extends Controllers {
         parent::__construct();
     }
 
-    public function index(){
+    public function index() {
         $this->view("LoginView");
     }
 
-    public function token(){
+    public function token() {
         $data = $this->authMiddleware->validateToken();
         $response = $this->getUserAndModules($data);
         $this->jsonResponse($response);
     }
 
-    public function login(){
+    public function login() {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $input = json_decode(file_get_contents("php://input"), true);
             $username = filter_var($input['username'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
@@ -44,7 +44,7 @@ class LoginController extends Controllers {
         }
     }
 
-    public function logout() {
+    public function logout()  {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $input = json_decode(file_get_contents("php://input"), true);
             $token = filter_var($input['token'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
