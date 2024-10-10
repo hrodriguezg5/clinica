@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { apiService } from '../services/apiService.js';
+=======
+import { apiService } from './apiService.js';
+>>>>>>> 49730f1af6866bc5d1c47702f1907670c1e4ba08
 
 export async function loadModule(module) {
     const url = `${urlBase}/${module}/token`;
@@ -38,7 +42,11 @@ const updateUserInfo = (data) => {
     navRoleName.innerText = data.role_name;
 
     if (greetingTitle) {
+<<<<<<< HEAD
         greetingTitle.textContent = `¡Hola ${data.first_name}!`;
+=======
+        greetingTitle.textContent = `¡Hola ${data.user_name}!`;
+>>>>>>> 49730f1af6866bc5d1c47702f1907670c1e4ba08
     }
 };
 
