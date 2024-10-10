@@ -4,11 +4,11 @@ class PatientController extends Controllers {
         parent::__construct();
     }
     
-    public function index() {
+    public function index()  {
         $this->view("PatientView");
     }
 
-    public function token(){
+    public function token() {
         $data = $this->authMiddleware->validateToken();
         $response = $this->getUserAndModules($data);
         $this->jsonResponse($response);
@@ -38,100 +38,6 @@ class PatientController extends Controllers {
         }
     }
 
-    public function reservation() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
-
-            $startDate = filter_input(INPUT_POST, 'startDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $endDate = filter_input(INPUT_POST, 'endDate', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $customers = $this->model->getReservations(['start_date' => $startDate, 'end_date' => $endDate]);
-            $html = '';
-            
-            if ($customers) {
-                foreach ($customers as $customer) {
-                    $html .= '<tr>';
-                    $html .= '<td>' . htmlspecialchars($customer->customer_name) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->email) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->phone_number) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->address) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->product) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->quantity) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->reservation_hour) . '</td>';
-                    $html .= '<td>' . htmlspecialchars($customer->reservation_date) . '</td>';
-                    $html .= '<td>
-                                <div class="d-flex">
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-warning me-1 btn-update-reservation"
-                                        value="' . htmlspecialchars($customer->id) . '"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#updateReservationModal">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-danger btn-delete-reservation"
-                                        value="' . htmlspecialchars($customer->id) . '"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteReservationModal">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-                                </div>
-                            </td>';
-                    $html .= '</tr>';
-                }
-            }
-
-            $this->htmlResponse($html);
-        }
-    }
-
-    public function hour() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
-
-            $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $hour = filter_input(INPUT_POST, 'hour', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $availableHours = $this->model->getAvailableHours(['date' => $date, 'hour' => $hour]);
-            $html = '';
-
-            if ($availableHours) {
-                foreach ($availableHours as $availableHour) {
-                    $selected = $availableHour->reservation_hour == $hour ? 'selected' : '';
-                    $html .= '<option ' . $selected . ' value="' . htmlspecialchars($availableHour->id) . '">
-                                ' . htmlspecialchars($availableHour->reservation_hour) . '
-                            </option>';
-                }
-            } else {
-                $html .= '<option selected value="">Horario no disponible</option>';
-            }
-
-            $this->htmlResponse($html);
-        }
-    }
-
-    public function product() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
-
-            $product = filter_input(INPUT_POST, 'product', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
-            $products = $this->model->getProducts();
-            $html = '';
-
-            if ($products) {
-                foreach ($products as $productData) {
-                    $selected = $productData->product == $product ? 'selected' : '';
-                    $html .= '<option ' . $selected . ' value="' . htmlspecialchars($productData->id) . '">
-                    ' . htmlspecialchars($productData->product) . '
-                    </option>';
-                }
-            }
-
-            $this->htmlResponse($html);
-        }
-    }
-
-    
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
