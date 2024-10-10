@@ -12,7 +12,7 @@ const URL_ROUTE = "/clinica";
 const SITE_NAME = "Clínica";
 
 //Tiempo de expiración del token
-const TOKEN_TTL = 3600;
+const TOKEN_TTL = 1800;
 
 //Zona horaria
 date_default_timezone_set('America/Guatemala');

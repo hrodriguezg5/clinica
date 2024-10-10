@@ -41,13 +41,6 @@ class Controllers{
         exit;
     }
 
-    // Respuesta en formato HTML
-    protected function htmlResponse($html) {
-        header('Content-Type: text/html');
-        echo $html;
-        exit;
-    }
-
     protected function getUserAndModules($data) {
         if (!isset($data['user']) || !isset($data['modules'])) {
             return $data; // O maneja el error de alguna otra manera
@@ -74,6 +67,7 @@ class Controllers{
             return [
                 'user_id' => $user->user_id,
                 'role_id' => $user->role_id,
+                'first_name' => $user->first_name,
                 'user_name' => $user->user_name,
                 'role_name' => $user->role_name,
                 'modules' => $moduleData

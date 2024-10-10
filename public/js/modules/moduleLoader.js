@@ -1,4 +1,4 @@
-import { apiService } from './apiService.js';
+import { apiService } from '../services/apiService.js';
 
 export async function loadModule(module) {
     const url = `${urlBase}/${module}/token`;
@@ -38,7 +38,7 @@ const updateUserInfo = (data) => {
     navRoleName.innerText = data.role_name;
 
     if (greetingTitle) {
-        greetingTitle.textContent = `¡Hola ${data.user_name}!`;
+        greetingTitle.textContent = `¡Hola ${data.first_name}!`;
     }
 };
 

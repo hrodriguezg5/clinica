@@ -1,5 +1,5 @@
-import { apiService } from './apiService.js';
-import { showAlert } from './showArlert.js';
+import { apiService } from '../services/apiService.js';
+import { showAlert } from '../utils/showArlert.js';
 
 document.addEventListener("DOMContentLoaded", async function() {
     const url = `${urlBase}/login/token`;
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     if (token) {
         const data = await apiService.fetchData(url, 'GET');
 
-        if (data){
+        if (data) {
             if (data.modules[0]) {
                 window.location.href = `${urlBase}/${data.modules[0].link}`;
             } else {
@@ -45,14 +45,18 @@ document.getElementById('loginForm').onsubmit = async function (e) {
     e.preventDefault();
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-
     const url = `${urlBase}/login/ingresar`;
-    const data = await apiService.fetchData(url, 'POST', { username, password });
-    
-    if (data.success) {
-        localStorage.setItem('token', data.token);
-        window.location.href = urlBase;
-    } else {
-        showAlert(data.message);
+
+    try {
+        const data = await apiService.fetchData(url, 'POST', { username, password });
+        if (data.success) {
+            localStorage.setItem('token', data.token);
+            window.location.href = urlBase;
+        } else {
+            showAlert(data.message);
+        }
+    } catch (error) {
+        showAlert('Error de conexión, por favor intenta de nuevo.');
     }
+    
 };

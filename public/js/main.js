@@ -1,13 +1,11 @@
 
-import { loadModule } from './moduleLoader.js';
-import { apiService } from './apiService.js';
+import { loadModule } from './modules/moduleLoader.js';
+import { apiService } from './services/apiService.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const path = window.location.pathname;
-    const module = path.split('/').pop();
+    const module = window.location.pathname.split('/').pop();
     await loadModule(module);
-    const logoutLink = document.getElementById('logoutLink'); // Selecciona el enlace por su clase
-
+    const logoutLink = document.getElementById('logoutLink');
     
     logoutLink.addEventListener('click', async (e) => {
         e.preventDefault(); // Prevenir el comportamiento por defecto del enlace

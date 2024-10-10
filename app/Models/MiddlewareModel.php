@@ -40,6 +40,7 @@ class MiddlewareModel{
     public function getUser($data){
         $this->db->query(
             "SELECT u.id AS user_id,
+                u.first_name,
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name,
                 u.role_id,
                 r.`name` AS role_name
