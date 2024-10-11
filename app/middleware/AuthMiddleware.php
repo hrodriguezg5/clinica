@@ -37,11 +37,11 @@ class AuthMiddleware {
                 ];
             } else {
                 http_response_code(401);
-                return ["success" => false, 'message' => 'Token no válido o caducado'];
+                return false;
             }
         } else {
             http_response_code(401);
-            return ["success" => false, 'message' => 'Encabezado de autorización no encontrado'];
+            return false;
         }
     }
 }
