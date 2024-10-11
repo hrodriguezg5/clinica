@@ -58,99 +58,94 @@ class PatientModel{
         return $row;
     }
 
-    public function getCustomer($data){
+    public function getPatients(){
         $this->db->query(
-            "SELECT r.id,
-                r.first_name,
-                r.last_name,
-                r.email,
-                r.phone_number,
-                r.address,
-                p.`name` AS product,
-                r.product_quantity,
-                rh.`name` AS reservation_hour,
-                r.reservation_date
-            FROM reservation AS r
-            INNER JOIN product AS p
-            ON r.product_id = p.id
-            INNER JOIN reservation_hour AS rh
-            ON r.reservation_hour_id = rh.id
-            WHERE r.deleted_at IS NULL
-            AND p.deleted_at IS NULL
-            AND rh.deleted_at IS NULL
-            AND r.id = :id
-            LIMIT 1;"
+            "SELECT p.id,
+                p.first_name,
+                p.last_name,
+                p.birth_date,
+                p.gender,
+                p.address,
+                p.phone,
+                p.email
+            FROM patient AS p
+            WHERE p.deleted_at IS NULL;"
+        );
+
+        $row = $this->db->records();
+        return $row;
+    }
+
+    public function insertPatient($data){
+        $this->db->query(
+            "INSERT INTO patient
+             (first_name, 
+              last_name, 
+              birth_date, 
+              gender, 
+              address,
+              phone,
+              email,
+              created_by,
+              updated_by)
+             VALUES
+             (:first_name, 
+              :last_name, 
+              :birth_date, 
+              :gender, 
+              :address, 
+              :phone, 
+              :email,
+              :created_by,
+              :updated_by);"
+        );
+
+        $this->db->bind(":first_name", $data["first_name"]);
+        $this->db->bind(":last_name", $data["last_name"]);
+        $this->db->bind(":birth_date", $data["birth_date"]);
+        $this->db->bind(":gender", $data["gender"]);
+        $this->db->bind(":address", $data["address"]);
+        $this->db->bind(":phone", $data["phone"]);
+        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":created_by", $data["created_by"]);
+        $this->db->bind(":updated_by", $data["updated_by"]);
+        
+        if($this->db->execute()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public function updatePatient($data){
+        $this->db->query(
+            "UPDATE patient
+            SET first_name = :first_name,
+            last_name = :last_name,
+            birth_date = :birth_date,
+            gender = :gender,
+            address = :address,
+            phone = :phone,
+            email = :email,
+            updated_at = CURRENT_TIMESTAMP(),
+            updated_by = :user_id
+            WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $row = $this->db->record();
-        return $row;
-    }
-    
-    public function getAvailableHours($data){
-        $this->db->query(
-            "SELECT rh.id,
-                rh.`name` AS reservation_hour
-            FROM reservation_hour AS rh
-            WHERE rh.`active` = 1
-            AND rh.deleted_at IS NULL
-            AND NOT EXISTS (
-                SELECT 1
-                FROM reservation AS r
-                WHERE r.reservation_hour_id = rh.id
-                AND r.deleted_at IS NULL
-                AND r.reservation_date = :date
-                AND rh.`name` != :hour
-            );"
-        );
-
-        $this->db->bind(":date", $data["date"]);
-        $this->db->bind(":hour", $data["hour"]);
-        $row = $this->db->records();
-        return $row;
-    }
-
-    public function getProducts(){
-        $this->db->query(
-            "SELECT p.id,
-                p.name AS product
-            FROM product AS p
-            WHERE p.`active` = 1
-            AND p.deleted_at IS NULL;"
-        );
-
-        $row = $this->db->records();
-        return $row;
-    }
-
-    public function getProduct($data){
-        $this->db->query(
-            "SELECT p.id
-            FROM product AS p
-            WHERE p.`active` = 1
-            AND p.deleted_at IS NULL
-            AND p.`name` = :product
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":product", $data["update_product"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
-    public function getReservationHour($data){
-        $this->db->query(
-            "SELECT rh.id
-            FROM reservation_hour AS rh
-            WHERE rh.`active` = 1
-            AND rh.deleted_at IS NULL
-            AND rh.`name` = :hour
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":hour", $data["update_hour"]);
-        $row = $this->db->record();
-        return $row;
+        $this->db->bind(":first_name", $data["first_name"]);
+        $this->db->bind(":last_name", $data["last_name"]);
+        $this->db->bind(":birth_date", $data["birth_date"]);
+        $this->db->bind(":gender", $data["gender"]);
+        $this->db->bind(":address", $data["address"]);
+        $this->db->bind(":phone", $data["phone"]);
+        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":user_id", $data["user_id"]);
+        if($this->db->execute()){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     public function updateReservation($data){
