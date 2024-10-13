@@ -3,7 +3,8 @@
 const ROUTE_MAP = [
     "inicio" => "HomeController",
     "login" => "LoginController",
-    "paciente" => "PatientController"
+    "paciente" => "PatientController",
+    "empleado" => "EmployeController"
 ];
 
 //Rutas de métodos de español a inglés
