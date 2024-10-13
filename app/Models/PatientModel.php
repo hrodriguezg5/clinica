@@ -145,11 +145,39 @@ class PatientModel{
                 p.phone,
                 p.email
             FROM patient AS p
-            WHERE (p.first_name LIKE :name OR p.last_name LIKE :name)
+            WHERE (p.first_name LIKE :name 
+				OR p.last_name LIKE :name 
+				OR p.birth_date LIKE :name 
+				OR p.gender LIKE :name 
+				OR p.gender LIKE :name 
+				OR p.address LIKE :name 
+				OR p.phone LIKE :name 
+				OR p.email LIKE :name)
             AND p.deleted_at IS NULL;"
         );
 
         $this->db->bind(':name', '%' . $name . '%');
+
+        $row = $this->db->records();
+        return $row;
+    }
+
+    public function fileterPatient($id){
+        $this->db->query(
+            "SELECT p.id,
+                p.first_name,
+                p.last_name,
+                p.birth_date,
+                p.gender,
+                p.address,
+                p.phone,
+                p.email
+            FROM patient AS p
+            WHERE p.id = :id
+            AND p.deleted_at IS NULL;"
+        );
+
+        $this->db->bind(':id', $id);
 
         $row = $this->db->records();
         return $row;

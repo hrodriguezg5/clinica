@@ -22,6 +22,7 @@ const ROUTE_METHOD_MAP = [
     "eliminar" => "delete",
     "agregar" => "insert",
     "buscar" => "search",
-    "mostrar" => "show"
+    "mostrar" => "show",
+    "filtrar" => "filter"
 ];
 ?>

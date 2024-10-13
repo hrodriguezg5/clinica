@@ -20,7 +20,7 @@ class PatientController extends Controllers {
             $patients = $this->model->getPatients();
         
             if ($patients) {
-                $response = [];
+            //    $response = [];
                 foreach ($patients as $patient){
                     $response[] = [
                         'id' => $patient->id,
@@ -41,10 +41,7 @@ class PatientController extends Controllers {
 
     public function insert() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) {
-                $this->jsonResponse(["success" => false, "message" => "Token de autenticación inválido."]);
-                return;
-            }
+            if (!$this->authMiddleware->validateToken()) return;
             
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
@@ -62,19 +59,17 @@ class PatientController extends Controllers {
             ];
     
             if ($this->model->insertPatient($data)) {
-                $this->jsonResponse(["success" => true, "message" => "Paciente insertado exitosamente."]);
+                $this->jsonResponse(["success" => true]);
             } else {
-                $this->jsonResponse(["success" => false, "message" => "Error al insertar el paciente."]);
+                $this->jsonResponse(["success" => false]);
             }
-        } else {
-            $this->jsonResponse(["success" => false, "message" => "Método no permitido."]);
         }
     }
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) {
-                $this->jsonResponse(["success" => false, "message" => "Token de autenticación inválido."]);
+                
                 return;
             }
             
@@ -95,13 +90,10 @@ class PatientController extends Controllers {
             ];
             
             if ($this->model->updatePatient($data)) {
-                $this->jsonResponse(["success" => true, "message" => "Reserva actualizada exitosamente."]);
+                $this->jsonResponse(["success" => true]);
             } else {
-                $this->jsonResponse(["success" => false, "message" => "Error al actualizar la reserva."]);
+                $this->jsonResponse(["success" => false]);
             }
-        } else {
-            
-            $this->jsonResponse(["success" => false, "message" => "Método no permitido."]);
         }
     }
     
@@ -109,7 +101,6 @@ class PatientController extends Controllers {
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
-            $userId = $_SESSION['user_id'] ?? 1;
     
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');
@@ -120,11 +111,6 @@ class PatientController extends Controllers {
                 "deleted_by" => isset($decodedData['deleted_by']) ? filter_var($decodedData['deleted_by'], FILTER_SANITIZE_NUMBER_INT) : null 
             ];
     
-            // Validar que el ID no sea nulo
-            if ($data['id'] === null) {
-                $this->jsonResponse(["success" => false, "message" => "Falta el ID del recurso."]);
-                return;
-            }
     
             if ($this->model->deletePatient($data)) {
                 $this->jsonResponse(["success" => true]);
@@ -137,23 +123,63 @@ class PatientController extends Controllers {
     public function search() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
-    
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
     
             $name = isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            var_dump($name);
-            if ($name === null) {
-                $this->jsonResponse(["success" => false, "message" => "Falta el nombre del paciente."]);
-                return;
-            }
+            $patients = $this->model->searchPatients($name);
     
-            if ($this->model->searchPatients($name)) {
-                $this->jsonResponse(["success" => true]);
-            } else {
-                $this->jsonResponse(["success" => false]);
+            if ($patients) {
+                foreach ($patients as $patient){
+                    $response[] = [
+                        'id' => $patient->id,
+                        'first_name' => $patient->first_name,
+                        'last_name' => $patient->last_name,
+                        'birth_date' => $patient->birth_date,
+                        'gender' =>$patient->gender,
+                        'address' =>$patient->address,
+                        'phone' =>$patient->phone,
+                        'email' => $patient->email
+                    ];
+                
+                }   
+                $this->jsonResponse($response);
+
+                
             }
         }
+        
+    }
+
+    public function filter() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->authMiddleware->validateToken()) return;
+            $json = file_get_contents('php://input');
+            $decodedData = json_decode($json, true); 
+    
+            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+            $patients = $this->model->fileterPatient($id);
+    
+            if ($patients) {
+                foreach ($patients as $patient){
+                    $response[] = [
+                        'id' => $patient->id,
+                        'first_name' => $patient->first_name,
+                        'last_name' => $patient->last_name,
+                        'birth_date' => $patient->birth_date,
+                        'gender' =>$patient->gender,
+                        'address' =>$patient->address,
+                        'phone' =>$patient->phone,
+                        'email' => $patient->email
+                    ];
+                
+                }   
+                $this->jsonResponse($response);
+
+                
+            }
+        }
+        
     }
     
 }
