@@ -4,11 +4,11 @@ class PatientController extends Controllers {
         parent::__construct();
     }
     
-    public function index()  {
+    public function index() {
         $this->view("PatientView");
     }
 
-    public function token() {
+    public function token(){
         $data = $this->authMiddleware->validateToken();
         $response = $this->getUserAndModules($data);
         $this->jsonResponse($response);
@@ -17,7 +17,8 @@ class PatientController extends Controllers {
     public function customer() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
+            $input = json_decode(file_get_contents("php://input"), true);
+            $id = filter_var($input['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? '';
             $customer = $this->model->getCustomer(['id' => $id]);
 
             if ($customer) {
@@ -35,6 +36,63 @@ class PatientController extends Controllers {
                 ];
                 $this->jsonResponse($response);
             }
+        }
+    }
+
+    public function show() {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            if (!$this->authMiddleware->validateToken()) return;
+            $patients = $this->model->getPatients();
+        
+            if ($patients) {
+                $response = [];
+                foreach ($patients as $patient){
+                    $response[] = [
+                        'id' => $patient->id,
+                        'first_name' => $patient->first_name,
+                        'last_name' => $patient->last_name,
+                        'birth_date' => $patient->birth_date,
+                        'gender' =>$patient->gender,
+                        'address' =>$patient->address,
+                        'phone' =>$patient->phone,
+                        'email' => $patient->email
+                    ];
+                
+                }   
+                $this->jsonResponse($response);
+            }
+        }
+    }
+
+    public function insert() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->authMiddleware->validateToken()) {
+                $this->jsonResponse(["success" => false, "message" => "Token de autenticación inválido."]);
+                return;
+            }
+            
+            $json = file_get_contents('php://input');
+            $decodedData = json_decode($json, true); 
+    
+            $data = [
+                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "birth_date" => isset($decodedData['birth_date']) ? filter_var($decodedData['birth_date'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "gender" => isset($decodedData['gender']) ? filter_var($decodedData['gender'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+            ];
+    
+            if ($this->model->insertPatient($data)) {
+                $this->jsonResponse(["success" => true, "message" => "Paciente insertado exitosamente."]);
+            } else {
+                $this->jsonResponse(["success" => false, "message" => "Error al insertar el paciente."]);
+            }
+        } else {
+            $this->jsonResponse(["success" => false, "message" => "Método no permitido."]);
         }
     }
 
