@@ -12,13 +12,14 @@ class LoginModel{
     
     public function getLoginUser($data){
         $this->db->query(
-            "SELECT u.id AS user_id,
-                r.`name` AS role_name
+            "SELECT u.id AS user_id
             FROM `user` AS u
-            INNER JOIN `role` AS r
+            LEFT JOIN `role` AS r
             ON u.role_id = r.id
+            AND r.active = 1
             WHERE u.deleted_at IS NULL
             AND r.deleted_at IS NULL
+            AND u.active = 1
             AND u.username = :username
             AND u.password = SHA2(:password , 256) LIMIT 1;"
         );

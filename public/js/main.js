@@ -1,5 +1,5 @@
 
-import { loadModule } from './modules/moduleLoader.js';
+import { loadModule } from './moduleLoader.js';
 import { apiService } from './services/apiService.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
