@@ -37,7 +37,7 @@ class EmployeModel{
                 e.active,
                 p.name
             FROM employee e
-            LEFT JOIN position p ON p.id = e.id_position
+            INNER JOIN position p ON p.id = e.id_position
             WHERE e.deleted_at IS NULL;"
         );
 
@@ -110,9 +110,9 @@ class EmployeModel{
         }
     }
 
-    public function deletePatient($data){
+    public function deleteEmployee($data){
         $this->db->query(
-            "UPDATE patient
+            "UPDATE employee
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -128,26 +128,24 @@ class EmployeModel{
         }
     }
 
-    public function searchPatients($name){
+    public function searchEmployees($name){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE (p.first_name LIKE :name 
-				OR p.last_name LIKE :name 
-				OR p.birth_date LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.address LIKE :name 
-				OR p.phone LIKE :name 
-				OR p.email LIKE :name)
-            AND p.deleted_at IS NULL;"
+            "SELECT e.id,
+                    e.first_name,
+                    e.last_name,
+                    e.phone,
+                    e.email,
+                    e.`active`,
+                    p.`name`
+                FROM employee AS e
+                INNER JOIN position p ON p.id = e.id_position
+                WHERE (e.first_name LIKE :name 
+                            OR e.last_name LIKE :name  
+                            OR e.phone LIKE :name 
+                            OR e.email LIKE :name
+                            OR e.active LIKE :name
+                            OR p.name LIKE :name)
+                        AND e.deleted_at IS NULL;"
         );
 
         $this->db->bind(':name', '%' . $name . '%');
@@ -156,7 +154,7 @@ class EmployeModel{
         return $row;
     }
 
-    public function fileterPatient($id){
+    public function fileterEmployee($id){
         $this->db->query(
             "SELECT p.id,
                 p.first_name,
