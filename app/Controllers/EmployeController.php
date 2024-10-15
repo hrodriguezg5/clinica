@@ -153,19 +153,18 @@ class EmployeController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $patients = $this->model->fileterPatient($id);
+            $employees = $this->model->fileterEmployee($id);
     
-            if ($patients) {
-                foreach ($patients as $patient){
+            if ($employees) {
+                foreach ($employees as $employee){
                     $response = [
-                        'id' => $patient->id,
-                        'first_name' => $patient->first_name,
-                        'last_name' => $patient->last_name,
-                        'birth_date' => $patient->birth_date,
-                        'gender' =>$patient->gender,
-                        'address' =>$patient->address,
-                        'phone' =>$patient->phone,
-                        'email' => $patient->email
+                        'id' => $employee->id,
+                        'first_name' => $employee->first_name,
+                        'last_name' => $employee->last_name,
+                        'phone' => $employee->phone,
+                        'email' => $employee->email,
+                        'active' =>$employee->active,
+                        'name' =>$employee->name
                     ];
                 
                 }   

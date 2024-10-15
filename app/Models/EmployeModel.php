@@ -156,17 +156,17 @@ class EmployeModel{
 
     public function fileterEmployee($id){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE p.id = :id
-            AND p.deleted_at IS NULL;"
+            "SELECT e.id,
+                e.first_name,
+                e.last_name,
+                e.phone,
+                e.email,
+                e.active,
+                p.name
+            FROM employee AS e
+            INNER JOIN position AS p ON p.id = e.id_position
+            WHERE e.id = :id
+            AND e.deleted_at IS NULL;"
         );
 
         $this->db->bind(':id', $id);
