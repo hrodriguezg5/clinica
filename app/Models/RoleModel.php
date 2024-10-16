@@ -65,13 +65,13 @@ class RoleModel{
 
     public function deleteRole($data) {
         $this->db->query(
-            "UPDATE reservation
+            "UPDATE role
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :user_id
-            WHERE id = :id;"
+            WHERE id = :role_id;"
         );
 
-        $this->db->bind(":id", $data["id"]);
+        $this->db->bind(":role_id", $data["role_id"]);
         $this->db->bind(":user_id", $data["user_id"]);
 
         if($this->db->execute()){

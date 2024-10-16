@@ -57,7 +57,7 @@ class RoleController extends Controllers {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
             $input = json_decode(file_get_contents("php://input"), true);
-            
+
             $data = [
                 "name" => htmlspecialchars($input['name'], ENT_QUOTES, 'UTF-8') ?? null,
                 "description" => htmlspecialchars($input['description'], ENT_QUOTES, 'UTF-8') ?? null,
@@ -77,14 +77,14 @@ class RoleController extends Controllers {
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
-            $userId = $_SESSION['user_id'] ?? 1;
-
+            $input = json_decode(file_get_contents("php://input"), true);
+            
             $data = [
-                "id" => filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS),
-                "user_id" => $userId
+                "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
+                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null
             ];
 
-            if ($this->model->deleteReservation($data)) {
+            if ($this->model->deleteRole($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);

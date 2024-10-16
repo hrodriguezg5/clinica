@@ -48,7 +48,6 @@
                             </div>
                             <div class="modal-body">
                                 <form id="updateRoleForm" data-info="">
-                                    <input type="hidden" id="upModId">
 
                                     <div class="row">
                                         <div class="mb-3 px-4">
@@ -79,38 +78,37 @@
                 <!-- Modal de Actualizar Rol Fin -->
                 
                 
-                <!-- Modal de Eliminar Reservaciòn -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteReservationModalLabel" aria-hidden="true">
+                <!-- Modal de Eliminar Rol Inicio -->
+                <div class="modal fade" id="deleteRoleModal" tabindex="-1" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteReservationModalLabel">Eliminar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteRoleTitle">Eliminar Rol</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="deleteReservationForm">
-                                    <input type="hidden" id="delModReservationId">
+                                <form id="deleteRoleForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Nombre: </span><span id="delModFirstName"></span>
+                                            <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModLastName"></span>
+                                            <span>Descripción: </span><span id="delModDescription"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Estado: </span><span id="delModEmail"></span>
+                                            <span>Estado: </span><span id="delModStatus"></span>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-danger" form="deleteReservationForm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" form="deleteRoleForm">Eliminar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- Modal de Eliminar Rol Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -127,7 +125,7 @@
                                     <input type="text" class="form-control" id="searchInput" placeholder="Buscar">
                                 </div>
                                 <div class="rounded ps-2">
-                                    <button type="button" class="btn btn-primary fw-bold">Agregar</button>
+                                    <button type="button" class="btn btn-sm btn-primary fw-bold">Agregar</button>
                                 </div>
                             </div>
                         </div>

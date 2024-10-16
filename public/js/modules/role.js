@@ -3,20 +3,22 @@ import {
     createButton, 
     assignModalEvent, 
     assignFormSubmitEvent, 
-    assignSearchEvent 
+    assignSearchEvent,
+    closeModal
 } from '../utils/actionButton.js';
 
+let currentData;
 let currentModule;
 
 export async function initModule(data, module) {
+    currentData = data;
     currentModule = module;
     const url = `${urlBase}/${currentModule}/mostrar`;
     const response = await apiService.fetchData(url, 'GET');
     const tableBody = document.getElementById('tableBody');
-    // const moduleData = data.modules.find(moduleData => moduleData.link === currentModule);
+    const moduleData = currentData.modules.find(moduleData => moduleData.link === currentModule);
 
-    console.log('Módulo:', data);
-    // console.log('Módulo:', moduleData);
+    console.log('Módulo:', moduleData);
     let rows = '';
 
     response.forEach(item => {
@@ -43,17 +45,16 @@ export async function initModule(data, module) {
 
     assignModalEvent('.btn-permission', permissionRoleModal, 'permiso');
     assignModalEvent('.btn-update', updateRoleModal, currentModule);
-    // assignModalEvent('.btn-delete', deleteRoleModal, module);
+    assignModalEvent('.btn-delete', deleteRoleModal, currentModule);
 
     assignFormSubmitEvent('permissionForm', permissionFormSubmit, currentModule);
     assignFormSubmitEvent('updateRoleForm', updateFormSubmit, currentModule);
-    // assignFormSubmitEvent('permissionForm', deleteFormSubmit, module);
+    assignFormSubmitEvent('deleteRoleForm', deleteFormSubmit, currentModule);
 
     assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
 }
 
 const permissionRoleModal = async (data) => {
-    console.log(currentModule);
     const url = `${urlBase}/permiso/filtrar`;
     const { role_id, role, user_id} = data;
 
@@ -120,7 +121,7 @@ const permissionFormSubmit = async () => {
     modalInstance.hide();
 };
 
-const updateRoleModal = async (data, module) => {
+const updateRoleModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
     const role_id = data.role_id;
@@ -152,12 +153,50 @@ const updateFormSubmit = async () => {
     
     try {
         await apiService.fetchData(url, 'POST', formData());
-        const modalElement = document.getElementById('updateRoleModal');
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        modalInstance.hide();
+        closeModal('updateRoleModal');
     } catch (error) {
         console.error('Error:', error);
     }
 
-    await initModule(dataInfo, 'rol');
+    await initModule(currentData, currentModule);
+};
+
+const deleteRoleModal = async (data) => {
+    const url = `${urlBase}/${currentModule}/filtrar`;
+    const dataInfo = JSON.stringify(data);
+    const role_id = data.role_id;
+    
+    try {
+        const response = await apiService.fetchData(url, 'POST', { role_id });
+        const status = response.active ? 'Activo' : 'Inactivo';
+        document.getElementById('deleteRoleForm').setAttribute('data-info', dataInfo);
+        document.getElementById('delModName').innerText = response.role || null;
+        document.getElementById('delModDescription').innerText = response.description || null;
+        document.getElementById('delModStatus').innerText = status || null;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+const deleteFormSubmit = async () => {
+    const url = `${urlBase}/rol/eliminar`;
+    const dataInfo = JSON.parse(document.getElementById('deleteRoleForm').getAttribute('data-info'));
+    const status = document.getElementById('delModStatus').innerText === 'Activo' ? 1 : 0;
+
+    const formData = () => ({
+        name: document.getElementById('delModName').innerText || null,
+        description: document.getElementById('delModDescription').innerText || null,
+        active: status,
+        user_id: dataInfo.user_id || null,
+        role_id: dataInfo.role_id || null
+    });
+
+    try {
+        await apiService.fetchData(url, 'POST', formData());
+        closeModal('deleteRoleModal');
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+    await initModule(currentData, currentModule);
 };
