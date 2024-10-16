@@ -95,7 +95,7 @@
       	const urlBase = "<?= URL_ROUTE; ?>";
     </script>
 
-    <script type="module" src="<?= URL_ROUTE; ?>/js/modules/login.js"></script>
+    <script type="module" src="<?= URL_ROUTE; ?>/js/login.js"></script>
 </body>
 
 </html>

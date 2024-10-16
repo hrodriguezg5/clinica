@@ -5,10 +5,9 @@ import { apiService } from './services/apiService.js';
 document.addEventListener('DOMContentLoaded', async () => {
     const module = window.location.pathname.split('/').pop();
     await loadModule(module);
-    const logoutLink = document.getElementById('logoutLink');
     
-    logoutLink.addEventListener('click', async (e) => {
-        e.preventDefault(); // Prevenir el comportamiento por defecto del enlace
+    document.getElementById('logoutLink').addEventListener('click', async (e) => {
+        e.preventDefault();
         const url = `${urlBase}/login/salir`;
         const token = localStorage.getItem('token');
         if (token) {
@@ -16,10 +15,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (response.success) {
                 localStorage.removeItem('token');
-                window.location.href = urlBase; // Redirigir al login
+                window.location.href = urlBase;
             } else {
                 console.error(response.message);
             }
+        } else {
+            window.location.href = urlBase;
         }
     });
 });

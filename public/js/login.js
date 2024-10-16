@@ -1,15 +1,24 @@
-import { apiService } from '../services/apiService.js';
-import { isEmpty } from '../utils/validation.js';
-import { showAlert } from '../utils/showArlert.js';
+import { apiService } from './services/apiService.js';
+import { isEmpty } from './utils/validation.js';
+import { showAlert } from './utils/showArlert.js';
+
+let tokenData;
 
 // Inicializar la página
 document.addEventListener("DOMContentLoaded", async function() {
     const url = `${urlBase}/login/token`;
     const token = localStorage.getItem('token');
+    const tokenExpired = localStorage.getItem('tokenExpired');
+
+    if (tokenExpired === 'true') {
+        showAlert('Token Expirado. Por favor, inicia sesión de nuevo.', 'danger');
+        localStorage.removeItem('tokenExpired');
+    }
 
     if (token) {
         try {
             const data = await apiService.fetchData(url, 'GET');
+            tokenData = data;
 
             if (data) {
                 if (data.modules[0]) {
@@ -21,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async function() {
                 }
             } else {
                 localStorage.removeItem('token');
-                showAlert('Token Expirado.', 'danger');
                 $('#spinner').removeClass('show');
             }
         } catch (error) {
@@ -87,8 +95,20 @@ document.getElementById('loginForm').onsubmit = async function (e) {
                 // Almacenar las credenciales en el navegador
                 await navigator.credentials.store(credentials);
             }
-            
-            window.location.href = urlBase;
+
+            try {
+                const url = `${urlBase}/login/token`;
+                const data = await apiService.fetchData(url, 'GET');
+    
+                if (data && data.modules[0]) {
+                    window.location.href = `${urlBase}/${data.modules[0].link}`;
+                } else {
+                    localStorage.removeItem('token');
+                    showAlert('El usuario no tiene módulos asignados.', 'warning');
+                }
+            } catch (error) {
+                showAlert('Error de conexión, por favor intenta de nuevo.', 'danger');
+            }
         } else {
             showAlert(data.message, 'danger');
         }
