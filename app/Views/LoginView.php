@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title><?= SITE_NAME; ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -61,17 +61,16 @@
                         </div>
                         <form id="loginForm">
                             <div class="form-floating mb-3">
-                                <input type="test" class="form-control" id="loginUsername" placeholder="" required>
+                                <input type="text" class="form-control" id="loginUsername" placeholder="" autocomplete="username">
                                 <label for="loginUsername">Usuario</label>
                             </div>
                             <div class="form-floating mb-4 position-relative">
-                                <input type="password" class="form-control" id="loginPassword" placeholder="" required>
+                                <input type="password" class="form-control" id="loginPassword" placeholder="" autocomplete="current-password">
                                 <label for="loginPassword">Contraseña</label>
                                 <span id="togglePassword" class="position-absolute top-50 end-0 translate-middle-y pe-3 cursor-pointer">
                                     <i class="bi bi-eye"></i>
                                 </span>
                             </div>
-                            <!-- <p class="text-center mb-0 pb-4 text-danger" id="errorMessage"></p> -->
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Iniciar</button>
                         </form>
                     </div>
@@ -96,7 +95,7 @@
       	const urlBase = "<?= URL_ROUTE; ?>";
     </script>
 
-    <script type="module" src="<?= URL_ROUTE; ?>/js/modules/login.js"></script>
+    <script type="module" src="<?= URL_ROUTE; ?>/js/login.js"></script>
 </body>
 
 </html>
