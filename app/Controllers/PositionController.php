@@ -40,17 +40,13 @@ class PositionController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "id_position" => isset($decodedData['id_position']) ? filter_var($decodedData['id_position'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
     
-            if ($this->model->insertEmployee($data)) {
+            if ($this->model->insertPositions($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);

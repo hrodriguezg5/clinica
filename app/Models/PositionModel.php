@@ -40,34 +40,22 @@ class PositionModel{
         return $row;
     }
 
-    public function insertEmployee($data){
+    public function insertPositions($data){
         $this->db->query(
-            "INSERT INTO employee
-             (first_name, 
-              last_name, 
-              phone,
-              email,
-              `active`,
-              id_position,
+            "INSERT INTO position 
+             (name, 
+              active, 
               created_by,
               updated_by)
              VALUES
-             (:first_name, 
-              :last_name, 
-              :phone, 
-              :email, 
-              :active, 
-              :id_position, 
-              :created_by,
-              :updated_by);"
+             (:name, 
+              :active,
+			  :created_by,
+			  :updated_by);"
         );
 
-        $this->db->bind(":first_name", $data["first_name"]);
-        $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":phone", $data["phone"]);
-        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":name", $data["name"]);
         $this->db->bind(":active", $data["active"]);
-        $this->db->bind(":id_position", $data["id_position"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
