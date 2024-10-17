@@ -1,9 +1,13 @@
 <?php
 //Rutas de controladores de español a inglés
 const ROUTE_MAP = [
-    "inicio" => "HomeController",
     "login" => "LoginController",
-    "paciente" => "PatientController"
+    "inicio" => "HomeController",
+    "rol" => "RoleController",
+    "permiso" => "PermissionController",
+    "paciente" => "PatientController",
+    "empleado" => "EmployeController",
+    "posicion" => "PositionController"
 ];
 
 //Rutas de métodos de español a inglés
@@ -22,6 +26,7 @@ const ROUTE_METHOD_MAP = [
     "eliminar" => "delete",
     "agregar" => "insert",
     "buscar" => "search",
-    "mostrar" => "show"
+    "mostrar" => "show",
+    "filtrar" => "filter"
 ];
 ?>
