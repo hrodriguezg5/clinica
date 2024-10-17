@@ -1,31 +1,28 @@
 <?php
-class RoleController extends Controllers {
+class UserController extends Controllers {
     public function __construct() {
         parent::__construct();
     }
     
-    public function index()  {
-        $this->view("RoleView");
+    public function index() {
+        $this->view("UserView");
     }
 
-    public function token() {
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
-    }
-    
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $roles = $this->model->getRoles();
+            $users = $this->model->getUsers();
 
-            if ($roles) {
-                foreach ($roles as $role) {
+            if ($users) {
+                foreach ($users as $user) {
                     $response[] = [
-                        'id' => $role->id,
-                        'role' => $role->role,
-                        'description' => $role->description,
-                        'active' => $role->active
+                        'id' => $user->id,
+                        'user_name' => $user->user_name,
+                        'username' => $user->username,
+                        'active' => $user->active,
+                        'role_id' => $user->role_id,
+                        'role' => $user->role,
+                        'role_name' => $user->role_name
                     ];
                 }
 
@@ -38,14 +35,17 @@ class RoleController extends Controllers {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
             $input = json_decode(file_get_contents("php://input"), true);
-            $role_id = filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null;
-            $role = $this->model->filterRole(['role_id' => $role_id]);
-            if ($role) {
+            $id = filter_var($input['id'], FILTER_VALIDATE_INT) ?? null;
+            $user = $this->model->filterUser(['id' => $id]);
+            if ($user) {
                 $response = [
-                    'id' => $role->id,
-                    'role' => $role->role,
-                    'description' => $role->description,
-                    'active' => $role->active
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'username' => $user->username,
+                    'active' => $user->active,
+                    'role_id' => $user->role_id,
+                    'role_name' => $user->role_name
                 ];
             
                 $this->jsonResponse($response);
@@ -59,8 +59,11 @@ class RoleController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
 
             $data = [
-                "name" => htmlspecialchars($input['name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "description" => htmlspecialchars($input['description'], ENT_QUOTES, 'UTF-8') ?? null,
+                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null,
+                "first_name" => htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') ?? null,
+                "last_name" => htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') ?? null,
+                "username" => htmlspecialchars($input['username'], ENT_QUOTES, 'UTF-8') ?? null,
+                "password" => htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') ?? null,
                 "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
                 "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null
             ];
@@ -79,14 +82,17 @@ class RoleController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
 
             $data = [
-                "name" => htmlspecialchars($input['name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "description" => htmlspecialchars($input['description'], ENT_QUOTES, 'UTF-8') ?? null,
+                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null,
+                "first_name" => htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') ?? null,
+                "last_name" => htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') ?? null,
+                "username" => htmlspecialchars($input['username'], ENT_QUOTES, 'UTF-8') ?? null,
+                "password" => htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') ?? null,
                 "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
                 "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
-                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null
+                "id" => filter_var($input['id'], FILTER_VALIDATE_INT) ?? null
             ];
 
-            if ($this->model->updateRole($data)) {
+            if ($this->model->updateUaser($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -101,10 +107,10 @@ class RoleController extends Controllers {
             
             $data = [
                 "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
-                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null
+                "id" => filter_var($input['id'], FILTER_VALIDATE_INT) ?? null
             ];
 
-            if ($this->model->deleteRole($data)) {
+            if ($this->model->deleteUser($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -112,5 +118,4 @@ class RoleController extends Controllers {
         }
     }
 }
-
 ?>

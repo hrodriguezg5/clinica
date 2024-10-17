@@ -3,6 +3,7 @@
 const ROUTE_MAP = [
     "login" => "LoginController",
     "inicio" => "HomeController",
+    "user" => "UserController",
     "rol" => "RoleController",
     "permiso" => "PermissionController",
     "paciente" => "PatientController",
