@@ -3,7 +3,8 @@
 const ROUTE_MAP = [
     "inicio" => "HomeController",
     "login" => "LoginController",
-    "paciente" => "PatientController"
+    "paciente" => "PatientController",
+    "empleado" => "EmployeController"
 ];
 
 //Rutas de métodos de español a inglés
@@ -22,6 +23,7 @@ const ROUTE_METHOD_MAP = [
     "eliminar" => "delete",
     "agregar" => "insert",
     "buscar" => "search",
-    "mostrar" => "show"
+    "mostrar" => "show",
+    "filtrar" => "filter"
 ];
 ?>
