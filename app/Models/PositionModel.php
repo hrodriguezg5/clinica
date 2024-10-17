@@ -66,24 +66,18 @@ class PositionModel{
         }
     }
 
-    public function updateEmployee($data){
+    public function updatePositions($data){
         $this->db->query(
-            "UPDATE employee
-            SET first_name = :first_name,
-            last_name = :last_name,
-            phone = :phone,
-            email = :email,
-            `active` = :active,
+            "UPDATE position
+            SET NAME = :name,
+            active = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":first_name", $data["first_name"]);
-        $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":phone", $data["phone"]);
-        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":name", $data["name"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
@@ -93,9 +87,9 @@ class PositionModel{
         }
     }
 
-    public function deleteEmployee($data){
+    public function deletePositions($data){
         $this->db->query(
-            "UPDATE employee
+            "UPDATE position
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -111,46 +105,14 @@ class PositionModel{
         }
     }
 
-    public function searchEmployees($name){
+    public function fileterPositions($id){
         $this->db->query(
-            "SELECT e.id,
-                    e.first_name,
-                    e.last_name,
-                    e.phone,
-                    e.email,
-                    e.`active`,
-                    p.`name`
-                FROM employee AS e
-                INNER JOIN position p ON p.id = e.id_position
-                WHERE (e.first_name LIKE :name 
-                            OR e.last_name LIKE :name  
-                            OR e.phone LIKE :name 
-                            OR e.email LIKE :name
-                            OR e.active LIKE :name
-                            OR p.name LIKE :name)
-                        AND e.deleted_at IS NULL;"
-        );
-
-        $this->db->bind(':name', '%' . $name . '%');
-
-        $row = $this->db->records();
-        return $row;
-    }
-
-    public function fileterEmployee($id){
-        $this->db->query(
-            "SELECT e.id,
-                e.first_name,
-                e.last_name,
-                e.phone,
-                e.email,
-                e.active,
-                p.name
-            FROM employee AS e
-            INNER JOIN position AS p ON p.id = e.id_position
-            WHERE e.id = :id
-            AND e.deleted_at IS NULL;"
-        );
+            "SELECT p.id,
+                    p.name,
+                    p.active
+                FROM position AS p
+                WHERE p.id = :id
+                AND p.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 
