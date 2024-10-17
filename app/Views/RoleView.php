@@ -38,6 +38,46 @@
                 <!-- Modal de Permisos Fin -->
 
 
+                <!-- Modal de Insertar Rol Inicio -->
+                <div class="modal fade" id="insertRoleModal" tabindex="-1" aria-labelledby="insertRoleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100 text-center" id="insertRoleTitle">Actualizar Rol</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="insertRoleForm" data-info="">
+
+                                    <div class="row">
+                                        <div class="mb-3 px-4">
+                                            <label for="insModName" class="form-label mb-0">Nombre</label>
+                                            <input type="insModName" class="form-control" id="insModName" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-3 px-4">
+                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="insModDescription""></textarea>
+                                        </div>
+                                        <div class="mb-3 px-4">
+                                            <label for="insModStatus" class="form-label mb-0">Estado</label>
+                                            <select name="insModStatus" class="form-control" id="insModStatus" required>
+                                                <option>Activo</option>
+                                                <option>Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-primary" form="insertRoleForm">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal de Insertar Rol Fin -->
+
+
                 <!-- Modal de Actualizar Rol Inicio -->
                 <div class="modal fade" id="updateRoleModal" tabindex="-1" aria-labelledby="updateRoleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -51,16 +91,16 @@
 
                                     <div class="row">
                                         <div class="mb-3 px-4">
-                                            <label for="upModName" class="form-label mb-0">Nombre</label>
-                                            <input type="upModName" class="form-control" id="upModName" maxlength="50" required>
+                                            <label for="updModName" class="form-label mb-0">Nombre</label>
+                                            <input type="updModName" class="form-control" id="updModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-3 px-4">
-                                            <label for="upModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="upModDescription""></textarea>
+                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
                                         <div class="mb-3 px-4">
-                                            <label for="upModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="upModStatus" class="form-control" id="upModStatus" required>
+                                            <label for="updModStatus" class="form-label mb-0">Estado</label>
+                                            <select name="updModStatus" class="form-control" id="updModStatus" required>
                                                 <option>Activo</option>
                                                 <option>Inactivo</option>
                                             </select>
@@ -121,12 +161,10 @@
                         </div>
                         <div id="buttonClassTitle" class="col-12 col-sm-7 d-flex align-items-center justify-content-start justify-content-sm-end">
                             <div class="bg-transparent rounded d-flex">
-                                <div class="rounded pe-2">
+                                <div class="rounded">
                                     <input type="text" class="form-control" id="searchInput" placeholder="Buscar">
                                 </div>
-                                <div class="rounded ps-2">
-                                    <button type="button" class="btn btn-sm btn-primary fw-bold">Agregar</button>
-                                </div>
+                                <div id="addButton"></div>
                             </div>
                         </div>
                     </div>
@@ -141,12 +179,11 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                <thead>
+                                <thead id="tableHead">
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">Estado</th>
-                                        <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">

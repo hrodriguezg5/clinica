@@ -41,6 +41,23 @@ class RoleModel{
         return $row;
     }
 
+    public function insertRole($data){
+        $this->db->query(
+            "INSERT INTO role (name, description, active, created_by, updated_by)
+            VALUES (:name, :description, :active, :user_id, :user_id);"
+        );
+        
+        $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":active", $data["active"]);
+        $this->db->bind(":user_id", $data["user_id"]);
+        if($this->db->execute()){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public function updateRole($data){
         $this->db->query(
             "UPDATE role

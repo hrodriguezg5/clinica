@@ -53,6 +53,26 @@ class RoleController extends Controllers {
         }
     }
 
+    public function insert() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->authMiddleware->validateToken()) return;
+            $input = json_decode(file_get_contents("php://input"), true);
+
+            $data = [
+                "name" => htmlspecialchars($input['name'], ENT_QUOTES, 'UTF-8') ?? null,
+                "description" => htmlspecialchars($input['description'], ENT_QUOTES, 'UTF-8') ?? null,
+                "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
+                "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null
+            ];
+
+            if ($this->model->insertRole($data)) {
+                $this->jsonResponse(["success" => true]);
+            } else {
+                $this->jsonResponse(["success" => false]);
+            }
+        }
+    }
+
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
