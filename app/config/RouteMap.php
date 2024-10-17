@@ -5,7 +5,9 @@ const ROUTE_MAP = [
     "inicio" => "HomeController",
     "rol" => "RoleController",
     "permiso" => "PermissionController",
-    "paciente" => "PatientController"
+    "paciente" => "PatientController",
+    "empleado" => "EmployeController",
+    "posicion" => "PositionController"
 ];
 
 //Rutas de métodos de español a inglés

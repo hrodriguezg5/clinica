@@ -1,5 +1,5 @@
 <?php
-class PatientModel{
+class PositionModel{
     private $db;
 
     public function __construct(){
@@ -26,17 +26,13 @@ class PatientModel{
         return $row;
     }
 
-    public function getPatients(){
+    public function getPositions(){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
+            "SELECT 
+                p.id,
+                p.name,
+                p.active
+            FROM position p
             WHERE p.deleted_at IS NULL;"
         );
 
@@ -44,37 +40,22 @@ class PatientModel{
         return $row;
     }
 
-    public function insertPatient($data){
+    public function insertPositions($data){
         $this->db->query(
-            "INSERT INTO patient
-             (first_name, 
-              last_name, 
-              birth_date, 
-              gender, 
-              address,
-              phone,
-              email,
+            "INSERT INTO position 
+             (name, 
+              active, 
               created_by,
               updated_by)
              VALUES
-             (:first_name, 
-              :last_name, 
-              :birth_date, 
-              :gender, 
-              :address, 
-              :phone, 
-              :email,
-              :created_by,
-              :updated_by);"
+             (:name, 
+              :active,
+			  :created_by,
+			  :updated_by);"
         );
 
-        $this->db->bind(":first_name", $data["first_name"]);
-        $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":birth_date", $data["birth_date"]);
-        $this->db->bind(":gender", $data["gender"]);
-        $this->db->bind(":address", $data["address"]);
-        $this->db->bind(":phone", $data["phone"]);
-        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -85,16 +66,14 @@ class PatientModel{
         }
     }
 
-    public function updatePatient($data){
+    public function updateEmployee($data){
         $this->db->query(
-            "UPDATE patient
+            "UPDATE employee
             SET first_name = :first_name,
             last_name = :last_name,
-            birth_date = :birth_date,
-            gender = :gender,
-            address = :address,
             phone = :phone,
             email = :email,
+            `active` = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
@@ -103,11 +82,9 @@ class PatientModel{
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":first_name", $data["first_name"]);
         $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":birth_date", $data["birth_date"]);
-        $this->db->bind(":gender", $data["gender"]);
-        $this->db->bind(":address", $data["address"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -116,9 +93,9 @@ class PatientModel{
         }
     }
 
-    public function deletePatient($data){
+    public function deleteEmployee($data){
         $this->db->query(
-            "UPDATE patient
+            "UPDATE employee
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -134,26 +111,24 @@ class PatientModel{
         }
     }
 
-    public function searchPatients($name){
+    public function searchEmployees($name){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE (p.first_name LIKE :name 
-				OR p.last_name LIKE :name 
-				OR p.birth_date LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.address LIKE :name 
-				OR p.phone LIKE :name 
-				OR p.email LIKE :name)
-            AND p.deleted_at IS NULL;"
+            "SELECT e.id,
+                    e.first_name,
+                    e.last_name,
+                    e.phone,
+                    e.email,
+                    e.`active`,
+                    p.`name`
+                FROM employee AS e
+                INNER JOIN position p ON p.id = e.id_position
+                WHERE (e.first_name LIKE :name 
+                            OR e.last_name LIKE :name  
+                            OR e.phone LIKE :name 
+                            OR e.email LIKE :name
+                            OR e.active LIKE :name
+                            OR p.name LIKE :name)
+                        AND e.deleted_at IS NULL;"
         );
 
         $this->db->bind(':name', '%' . $name . '%');
@@ -162,19 +137,19 @@ class PatientModel{
         return $row;
     }
 
-    public function fileterPatient($id){
+    public function fileterEmployee($id){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE p.id = :id
-            AND p.deleted_at IS NULL;"
+            "SELECT e.id,
+                e.first_name,
+                e.last_name,
+                e.phone,
+                e.email,
+                e.active,
+                p.name
+            FROM employee AS e
+            INNER JOIN position AS p ON p.id = e.id_position
+            WHERE e.id = :id
+            AND e.deleted_at IS NULL;"
         );
 
         $this->db->bind(':id', $id);
