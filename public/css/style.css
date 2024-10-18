@@ -54,6 +54,12 @@
 
 
 /*** Desplazamiento suave de alerta ***/
+
+#errorMessage {
+    z-index: 1050; /* Ajusta este valor según sea necesario */
+    max-width: 400px;
+}
+
 @keyframes slideIn {
     from {
         transform: translateX(100%);

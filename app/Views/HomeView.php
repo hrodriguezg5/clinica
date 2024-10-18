@@ -4,8 +4,8 @@
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row">
-                        <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-4 mb-md-0">
-                            <div class="bg-transparent rounded d-flex align-items-center px-4">
+                        <div class="col-12 mb-0">
+                            <div class="bg-transparent rounded d-flex align-items-center px-2">
                                 <i id="moduleIcon"></i>
                                 <h4 id="moduleTitle" class="mb-0 ms-3"></h4>
                             </div>

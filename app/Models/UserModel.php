@@ -54,6 +54,20 @@ class UserModel {
         return $row;
     }
 
+    public function searchUsername($data) {
+        $this->db->query(
+            "SELECT u.username
+            FROM `user` AS u
+            WHERE u.deleted_at IS NULL
+            AND u.username = :username
+            LIMIT 1;"
+        );
+
+        $this->db->bind(":username", $data["username"]);
+        $row = $this->db->record();
+        return $row;
+    }
+
     public function insertUser($data) {
         $this->db->query(
             "INSERT INTO `user` (role_id, first_name, last_name, username, password, active, created_by, updated_by)
@@ -74,14 +88,14 @@ class UserModel {
         }
     }
 
-    public function updateRole($data) {
+    public function updateUser($data) {
         $this->db->query(
             "UPDATE `user`
             SET role_id = :role_id,
             first_name = :first_name,
             last_name = :last_name,
             username = :username,
-            `password` = ISNULL(SHA2(:password, 256), `password`),
+            `password` = IF(:password = '', `password`, SHA2(:password, 256)),
             `active` = :active,
             updated_by = :user_id
             WHERE id = :id;"
@@ -102,7 +116,7 @@ class UserModel {
         }
     }
 
-    public function deleteRole($data) {
+    public function deleteUser($data) {
         $this->db->query(
             "UPDATE `user`
             SET deleted_at = CURRENT_TIMESTAMP(),

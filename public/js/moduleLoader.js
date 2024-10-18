@@ -9,7 +9,7 @@ export async function loadModule(module) {
 
     if (token) {
         const data = await apiService.fetchData(url, 'GET');
-        
+
         if (data) {
             const hasAccess = data.modules.some(item => item.link === module);
 

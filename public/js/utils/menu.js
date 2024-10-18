@@ -34,10 +34,11 @@ export const createMenuItem = (item, activeModule) => {
     // Manejo de eventos
     link.addEventListener('click', async (e) => {
         e.preventDefault();
-        const url = `${urlBase}/${activeModule}/token`;
+        const url = `${urlBase}/login/token`;
         const data = await apiService.fetchData(url, 'GET');
 
         if (!data) {
+            localStorage.setItem('tokenExpired', 'true');
             window.location.href = urlBase;
             return;
         }

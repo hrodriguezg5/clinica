@@ -16,10 +16,42 @@
 
 
 -- Volcando estructura de base de datos para clinica
+DROP DATABASE IF EXISTS `clinica`;
 CREATE DATABASE IF NOT EXISTS `clinica` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `clinica`;
 
+-- Volcando estructura para tabla clinica.employee
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE IF NOT EXISTS `employee` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `active` int NOT NULL DEFAULT '0',
+  `id_position` int DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT (now()),
+  `created_by` int NOT NULL DEFAULT '1',
+  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int NOT NULL DEFAULT '1',
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `id_position` (`id_position`),
+  CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`id_position`) REFERENCES `position` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla clinica.employee: ~5 rows (aproximadamente)
+DELETE FROM `employee`;
+INSERT INTO `employee` (`id`, `first_name`, `last_name`, `phone`, `email`, `active`, `id_position`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 'Jose', 'Monroy', '558523', 'joss@gmail.com', 1, 1, '2024-10-13 12:59:38', 1, '2024-10-13 12:59:44', 1, NULL, NULL),
+	(2, 'Henry', 'Rodriguez', '526358', 'hrodirguez@gmail.com', 1, 1, '2024-10-13 14:00:43', 1, '2024-10-16 20:52:23', 2, '2024-10-16 20:52:23', 3),
+	(3, 'Dennys', 'Hernandez', '558523', 'dhernadez@gmail.com', 1, 1, '2024-10-13 14:28:21', 1, '2024-10-13 14:28:21', 1, NULL, NULL),
+	(4, 'Alejandro', 'Barrientos', '43526987', 'abarrientos@gmail.com', 1, 1, '2024-10-13 14:49:13', 1, '2024-10-13 14:49:13', 1, NULL, NULL),
+	(5, 'Alejandro', 'Barrientos', '43526987', 'abarrientos@gmail.com', 1, 1, '2024-10-16 20:51:51', 1, '2024-10-16 20:51:51', 1, NULL, NULL);
+
 -- Volcando estructura para tabla clinica.module
+DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -32,23 +64,66 @@ CREATE TABLE IF NOT EXISTS `module` (
   `updated_by` int NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
   `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `unique_link` (`link`),
+  UNIQUE KEY `unique_order` (`order`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.module: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.module: ~5 rows (aproximadamente)
 DELETE FROM `module`;
 INSERT INTO `module` (`id`, `name`, `order`, `link`, `icon`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Pacientes', 1, 'paciente', 'bi bi-person me-2', '2024-10-05 15:11:37', 1, '2024-10-06 17:16:49', 1, NULL, NULL),
-	(2, 'Empleados', 1, 'empleado', 'bi bi-person me-2', '2024-10-05 15:11:37', 1, '2024-10-06 17:16:49', 1, NULL, NULL);
+	(1, 'Inicio', 1, 'inicio', 'bi bi-house-door me-2', '2024-10-05 15:11:37', 1, '2024-10-07 21:36:33', 1, NULL, NULL),
+	(2, 'Usuarios', 2, 'usuario', 'bi bi-person-gear me-2', '2024-10-05 15:11:37', 1, '2024-10-17 18:47:00', 1, NULL, NULL),
+	(3, 'Roles', 3, 'rol', 'bi bi-people me-2', '2024-10-07 21:07:53', 1, '2024-10-17 18:48:06', 1, NULL, NULL),
+	(4, 'Pacientes', 4, 'paciente', 'bi bi-file-earmark-person me-2', '2024-10-05 15:11:37', 1, '2024-10-17 18:48:07', 1, NULL, NULL),
+	(5, 'Empleados', 5, 'empleado', 'bi bi-person', '2024-10-17 18:43:28', 1, '2024-10-17 18:48:08', 1, NULL, NULL);
+
+-- Volcando estructura para tabla clinica.patient
+DROP TABLE IF EXISTS `patient`;
+CREATE TABLE IF NOT EXISTS `patient` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `birth_date` date NOT NULL,
+  `gender` enum('Masculino','Femenino','Otro') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT (now()),
+  `created_by` int NOT NULL DEFAULT '1',
+  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int NOT NULL DEFAULT '1',
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla clinica.patient: ~11 rows (aproximadamente)
+DELETE FROM `patient`;
+INSERT INTO `patient` (`id`, `first_name`, `last_name`, `birth_date`, `gender`, `address`, `phone`, `email`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 'Juan', 'Pérez', '1985-05-15', 'Masculino', 'Guatemala', '12345678', 'juan.perez@gmail.com', '2024-10-09 21:13:07', 1, '2024-10-12 13:38:57', 4, '2024-10-12 13:38:57', 1),
+	(2, 'Pedro', 'Morales', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 18:07:00', 1, '2024-10-10 18:07:00', 1, NULL, NULL),
+	(3, 'Pedro', 'Morales', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 18:07:30', 1, '2024-10-10 18:07:30', 1, NULL, NULL),
+	(4, 'Wilmer', 'Contreras', '2020-08-09', 'Masculino', 'Guatemala', '5856889', 'goeodoellde', '2024-10-10 18:54:13', 1, '2024-10-10 18:54:13', 1, NULL, NULL),
+	(5, 'Wilmer', 'Contreras', '2020-08-09', 'Masculino', 'Guatemala', '5856889', 'goeodoellde', '2024-10-10 18:55:16', 1, '2024-10-13 09:09:18', 1, '2024-10-13 09:09:18', 3),
+	(6, 'Pedro', 'Morales', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 19:18:28', 1, '2024-10-12 15:16:02', 1, '2024-10-12 15:16:02', 2),
+	(7, 'Juan', 'Morales', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 19:19:31', 1, '2024-10-10 19:19:31', 1, NULL, NULL),
+	(8, 'papa', 'Morales', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 20:00:43', 1, '2024-10-10 20:00:43', 1, NULL, NULL),
+	(9, 'Jonatan', 'Yat', '2024-10-07', 'Masculino', 'Ciudad', '52369878', 'jose@gmail.com', '2024-10-10 20:53:55', 1, '2024-10-10 20:53:55', 1, NULL, NULL),
+	(10, 'Jonatan', 'Yat', '2024-10-07', 'Masculino', 'Ciudad', '52369878', 'jose@gmail.com', '2024-10-10 21:00:40', 2, '2024-10-10 21:00:40', 2, NULL, NULL),
+	(11, 'dns', 'Hernandez', '1994-06-05', 'Femenino', 'Villa Lobos', '25523', 'prueba@gmail.com', '2024-10-10 21:02:11', 3, '2024-10-10 21:28:59', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.permission
+DROP TABLE IF EXISTS `permission`;
 CREATE TABLE IF NOT EXISTS `permission` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int unsigned NOT NULL,
   `module_id` int unsigned NOT NULL,
-  `create_operation` int unsigned NOT NULL,
-  `update_operation` int unsigned NOT NULL,
-  `delete_operation` int unsigned NOT NULL,
+  `show_operation` int unsigned NOT NULL DEFAULT '0',
+  `create_operation` int unsigned NOT NULL DEFAULT '0',
+  `update_operation` int unsigned NOT NULL DEFAULT '0',
+  `delete_operation` int unsigned NOT NULL DEFAULT '0',
+  `cud_operation` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
   `created_by` int NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
@@ -60,19 +135,49 @@ CREATE TABLE IF NOT EXISTS `permission` (
   KEY `fk_permission_module` (`module_id`),
   CONSTRAINT `fk_permission_module` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_permission_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.permission: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.permission: ~8 rows (aproximadamente)
 DELETE FROM `permission`;
-INSERT INTO `permission` (`id`, `role_id`, `module_id`, `create_operation`, `update_operation`, `delete_operation`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 1, 1, 1, 1, 1, '2024-10-06 17:20:19', 1, '2024-10-06 22:05:06', 1, NULL, NULL),
-	(2, 1, 2, 1, 1, 1, '2024-10-06 19:50:27', 1, '2024-10-06 20:07:55', 1, NULL, NULL);
+INSERT INTO `permission` (`id`, `role_id`, `module_id`, `show_operation`, `create_operation`, `update_operation`, `delete_operation`, `cud_operation`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 1, 1, 1, 0, 0, 0, 0, '2024-10-06 17:20:19', 2, '2024-10-16 22:20:53', 2, NULL, NULL),
+	(2, 1, 2, 1, 1, 1, 1, 1, '2024-10-06 19:50:27', 2, '2024-10-16 22:37:42', 2, NULL, NULL),
+	(3, 1, 3, 1, 1, 1, 1, 1, '2024-10-11 22:35:47', 2, '2024-10-16 22:01:59', 2, NULL, NULL),
+	(4, 1, 4, 1, 0, 0, 0, 1, '2024-10-12 19:31:52', 2, '2024-10-16 22:01:59', 2, NULL, NULL),
+	(5, 2, 3, 1, 0, 0, 0, 1, '2024-10-12 21:42:34', 2, '2024-10-13 00:16:51', 2, NULL, NULL),
+	(6, 2, 2, 1, 0, 0, 0, 1, '2024-10-12 21:42:34', 2, '2024-10-12 22:02:17', 2, NULL, NULL),
+	(7, 2, 4, 1, 1, 0, 0, 1, '2024-10-12 21:42:34', 2, '2024-10-16 19:52:12', 2, NULL, NULL),
+	(8, 2, 1, 1, 0, 0, 0, 1, '2024-10-12 21:42:34', 2, '2024-10-12 21:49:59', 2, NULL, NULL);
 
--- Volcando estructura para tabla clinica.product
-CREATE TABLE IF NOT EXISTS `product` (
+-- Volcando estructura para tabla clinica.position
+DROP TABLE IF EXISTS `position`;
+CREATE TABLE IF NOT EXISTS `position` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `active` int NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT (now()),
+  `created_by` int NOT NULL DEFAULT '1',
+  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+  `updated_by` int NOT NULL DEFAULT '1',
+  `deleted_at` datetime DEFAULT NULL,
+  `deleted_by` int DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Volcando datos para la tabla clinica.position: ~3 rows (aproximadamente)
+DELETE FROM `position`;
+INSERT INTO `position` (`id`, `name`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 'Doctor', 1, '2024-10-13 12:58:21', 1, '2024-10-16 19:53:45', 3, NULL, NULL),
+	(2, 'Enfermera', 1, '2024-10-16 18:49:33', 2, '2024-10-16 18:49:33', 2, NULL, NULL),
+	(3, 'Prueba', 0, '2024-10-16 18:57:31', 2, '2024-10-16 19:18:32', 1, NULL, NULL);
+
+-- Volcando estructura para tabla clinica.role
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE IF NOT EXISTS `role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `active` int unsigned NOT NULL DEFAULT '1',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `active` int NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT (now()),
   `created_by` int NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
@@ -82,110 +187,15 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.product: ~3 rows (aproximadamente)
-DELETE FROM `product`;
-INSERT INTO `product` (`id`, `name`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'GPS3G', 1, '2024-05-29 10:37:49', 1, '2024-05-29 10:37:49', 1, NULL, NULL),
-	(2, 'GPS4G', 1, '2024-05-29 10:37:58', 1, '2024-05-29 10:37:58', 1, NULL, NULL),
-	(3, 'GPS4G Motocicleta', 1, '2024-05-29 10:38:14', 1, '2024-05-29 10:38:14', 1, NULL, NULL);
-
--- Volcando estructura para tabla clinica.reservation
-CREATE TABLE IF NOT EXISTS `reservation` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `phone_number` int unsigned NOT NULL,
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `product_id` int unsigned NOT NULL,
-  `product_quantity` int unsigned NOT NULL,
-  `reservation_hour_id` int unsigned DEFAULT NULL,
-  `reservation_date` date NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
-  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
-  `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_reservation_product` (`product_id`),
-  CONSTRAINT `fk_reservation_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Volcando datos para la tabla clinica.reservation: ~26 rows (aproximadamente)
-DELETE FROM `reservation`;
-INSERT INTO `reservation` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `address`, `product_id`, `product_quantity`, `reservation_hour_id`, `reservation_date`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, '2 Calle 1-25 Zona 8, San Miguel Petapa, Guatemala', 1, 1, 1, '2024-05-30', '2024-05-30 18:37:19', 1, '2024-05-30 18:37:19', 1, NULL, NULL),
-	(2, 'Henry', 'Rodriguez', 'hrodriguezhenry@gmail.com', 54573864, 'Lote 144 La Linea', 1, 2, 2, '2024-05-31', '2024-05-30 18:49:36', 1, '2024-05-30 18:49:36', 1, NULL, NULL),
-	(3, 'Henry', 'Rodriguez', 'hrodriguezhenry@gmail.com', 54573864, 'Lote 144 La Linea', 2, 4, 2, '2024-05-30', '2024-05-30 18:56:15', 1, '2024-05-30 18:56:15', 1, NULL, NULL),
-	(4, 'Javier', 'Rodríguez', 'henry@gmail.com', 54573864, '2 Calle 1-25 Zona 8, San Miguel Petapa, Guatemala', 3, 5, 1, '2024-06-01', '2024-05-30 18:57:51', 1, '2024-06-01 23:53:03', 1, '2024-06-01 23:53:03', 1),
-	(5, 'Juan', 'Perez', 'jperez@gmail.com', 54573864, '2 Calle 1-25 Zona 8, San Miguel Petapa, Guatemala', 3, 5, 2, '2024-06-01', '2024-05-30 18:58:00', 1, '2024-06-01 23:53:51', 1, '2024-06-01 23:53:51', 1),
-	(6, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 3, 5, 1, '2024-06-15', '2024-05-30 18:58:00', 1, '2024-06-02 01:13:10', 1, NULL, NULL),
-	(7, 'Carlos', 'Lopez', 'clopez@gmail.com', 87654567, 'San Miguel Petapa, Guatemala', 3, 5, 4, '2024-06-01', '2024-05-30 18:58:00', 1, '2024-06-01 23:57:01', 1, NULL, NULL),
-	(8, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, '2 Calle 1-25 Zona 8, San Miguel Petapa, Guatemala', 3, 5, 5, '2024-06-01', '2024-05-30 18:58:00', 1, '2024-05-30 21:45:58', 1, NULL, NULL),
-	(9, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 3, 3, 1, '2024-06-02', '2024-06-01 14:48:32', 1, '2024-06-02 01:13:30', 1, '2024-06-02 01:13:30', 1),
-	(10, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 2, 3, 2, '2024-06-02', '2024-06-01 14:50:23', 1, '2024-06-02 01:13:34', 1, '2024-06-02 01:13:34', 1),
-	(11, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 3, 4, 3, '2024-06-02', '2024-06-01 15:24:56', 1, '2024-06-02 01:51:19', 1, NULL, NULL),
-	(12, 'Javier', 'Geronimo', 'hrodriguezhenry@gmail.com', 54573864, 'Lote 144 La Linea', 2, 3, 5, '2024-06-03', '2024-06-01 16:29:19', 1, '2024-06-01 16:29:19', 1, NULL, NULL),
-	(13, 'Henry', 'Rodriguez', 'hrodriguezhenrys@gmail.com', 54573864, 'Lote 144 La Linea', 2, 3, 1, '2024-06-03', '2024-06-01 16:34:38', 1, '2024-06-01 16:34:38', 1, NULL, NULL),
-	(14, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 3, 3, 1, '2024-06-14', '2024-06-01 16:49:11', 1, '2024-06-01 16:49:11', 1, NULL, NULL),
-	(16, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Boca del monte', 3, 5, 5, '2024-06-02', '2024-06-01 20:31:48', 1, '2024-06-02 00:00:44', 1, NULL, NULL),
-	(19, 'Henry', 'Rodríguez', 'hrodriguezhenry@gmail.com', 54573864, 'Villa Canales', 2, 1, 4, '2024-06-02', '2024-06-01 21:46:50', 1, '2024-06-02 01:55:26', 1, '2024-06-02 01:55:26', 1),
-	(20, 'Carlos', 'Dominguez', 'cdominguez@gmail.com', 2541123, 'Villa Nueva', 2, 1, 1, '2024-06-04', '2024-06-01 21:54:36', 1, '2024-06-01 21:54:36', 1, NULL, NULL),
-	(21, 'Juan', 'Perez', 'jperez@gmail.com', 23658456, 'Petapa', 2, 1, 4, '2024-06-04', '2024-06-01 21:55:23', 1, '2024-06-01 21:55:23', 1, NULL, NULL),
-	(22, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 1, 1, 1, '2024-09-09', '2024-09-09 10:48:39', 1, '2024-10-03 20:12:19', 1, '2024-10-03 20:12:19', 1),
-	(23, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 1, 2, 2, '2024-09-09', '2024-09-09 10:48:52', 1, '2024-09-09 10:48:52', 1, NULL, NULL),
-	(24, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 1, 1, 1, '2024-09-16', '2024-09-16 13:48:41', 1, '2024-09-16 13:48:41', 1, NULL, NULL),
-	(25, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 2, 2, 1, '2024-09-18', '2024-09-18 13:22:10', 1, '2024-09-18 13:22:10', 1, NULL, NULL),
-	(26, 'Juan', 'Morales', 'jmorales@gmail.com', 25233625, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 2, 1, 2, '2024-09-23', '2024-09-23 13:47:56', 1, '2024-09-23 13:49:22', 5, NULL, NULL),
-	(27, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 2, 3, 3, '2024-09-24', '2024-09-24 13:28:43', 1, '2024-09-24 13:28:43', 1, NULL, NULL),
-	(28, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 2, 3, 2, '2024-09-24', '2024-09-24 13:28:55', 1, '2024-09-24 13:28:55', 1, NULL, NULL),
-	(29, 'Henry', 'Rodriguez', 'hrodriguez@tata.com.gt', 54573864, 'Granjas Gerona, 2 Calle 1-25 Zona 8', 1, 3, 4, '2024-09-25', '2024-09-25 13:31:24', 1, '2024-09-25 13:31:24', 1, NULL, NULL);
-
--- Volcando estructura para tabla clinica.reservation_hour
-CREATE TABLE IF NOT EXISTS `reservation_hour` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `hour_order` int unsigned DEFAULT '0',
-  `active` int unsigned NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int unsigned NOT NULL DEFAULT '1',
-  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int unsigned NOT NULL DEFAULT '1',
-  `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Volcando datos para la tabla clinica.reservation_hour: ~5 rows (aproximadamente)
-DELETE FROM `reservation_hour`;
-INSERT INTO `reservation_hour` (`id`, `name`, `hour_order`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, '10:00am', 1, 1, '2024-05-30 17:29:44', 1, '2024-05-31 13:41:03', 1, NULL, NULL),
-	(2, '11:30am', 2, 1, '2024-05-30 17:29:44', 1, '2024-05-31 13:41:04', 1, NULL, NULL),
-	(3, '01:00pm', 3, 1, '2024-05-30 17:29:44', 1, '2024-05-31 13:41:04', 1, NULL, NULL),
-	(4, '02:30pm', 4, 1, '2024-05-30 17:29:44', 1, '2024-05-31 13:41:05', 1, NULL, NULL),
-	(5, '04:00pm', 5, 1, '2024-05-30 17:29:44', 1, '2024-05-31 13:41:07', 1, NULL, NULL);
-
--- Volcando estructura para tabla clinica.role
-CREATE TABLE IF NOT EXISTS `role` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
-  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
-  `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Volcando datos para la tabla clinica.role: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.role: ~3 rows (aproximadamente)
 DELETE FROM `role`;
-INSERT INTO `role` (`id`, `name`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Administrador', '2024-05-21 19:00:41', 1, '2024-06-02 00:59:28', 1, NULL, NULL),
-	(2, 'Doctor', '2024-05-23 18:05:01', 1, '2024-10-05 15:11:24', 1, NULL, NULL);
+INSERT INTO `role` (`id`, `name`, `description`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 'Administrador', 'Administrador del sistema', 1, '2024-05-21 19:00:41', 1, '2024-10-16 22:37:51', 2, NULL, NULL),
+	(2, 'Doctor', 'Doctores de la clínica', 1, '2024-05-23 18:05:01', 1, '2024-10-17 19:19:35', 1, NULL, NULL),
+	(3, 'Doctores', 'Doctor de la cíe', 0, '2024-10-17 19:02:57', 2, '2024-10-17 19:03:02', 2, '2024-10-17 19:03:02', 2);
 
 -- Volcando estructura para tabla clinica.session_tokens
+DROP TABLE IF EXISTS `session_tokens`;
 CREATE TABLE IF NOT EXISTS `session_tokens` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -200,12 +210,11 @@ CREATE TABLE IF NOT EXISTS `session_tokens` (
   `deleted_at` datetime DEFAULT NULL,
   `deleted_by` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`),
   KEY `fk_session_tokens_user` (`user_id`),
   CONSTRAINT `fk_session_tokens_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.session_tokens: ~60 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.session_tokens: ~245 rows (aproximadamente)
 DELETE FROM `session_tokens`;
 INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_address`, `user_agent`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, '2757ca582a84bb1e24ed9e46d4a914220a0022a22e5ce2c8c7ee71b755d29687', '2024-09-25 15:07:01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-09-25 14:07:01', 1, '2024-10-03 13:36:28', 1, '2024-10-03 00:00:00', 1),
@@ -269,9 +278,193 @@ INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_addres
 	(59, 2, 'eb1fba9b67d465f9d4f0543a79cab5ce9fb2dc0633ffeef5e2a61f00851b2a3d', '2024-10-06 22:46:05', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-06 21:46:05', 2, '2024-10-06 21:53:25', 2, '2024-10-06 21:53:12', 2),
 	(60, 2, '085e7dd59129e59cb8be4872f54bff54a66f20e39455f947ca0a710330cbe2a6', '2024-10-06 22:46:05', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-06 21:46:05', 2, '2024-10-06 21:53:26', 2, '2024-10-06 21:53:16', 2),
 	(61, 2, '25c8a7354378a3e1d39881e2e3ec2932cac0d0fee85d9496bfe5ae673dcf8ea0', '2024-10-06 22:54:55', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-06 21:54:55', 2, '2024-10-06 21:57:33', 2, '2024-10-06 00:00:00', 2),
-	(62, 2, 'e12eaaa7b66bbfee55b25f71d40953827c93d9a121c554f44da8321f1ec1bf4d', '2024-10-06 22:57:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-06 21:57:33', 2, '2024-10-06 21:57:33', 2, NULL, NULL);
+	(62, 2, 'e12eaaa7b66bbfee55b25f71d40953827c93d9a121c554f44da8321f1ec1bf4d', '2024-10-06 22:57:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-06 21:57:33', 2, '2024-10-07 17:33:45', 2, '2024-10-07 00:00:00', 2),
+	(63, 2, '99b9f281feac390f579689ab782d75383599e3a3e4b03d670d1c6f63af7db0e2', '2024-10-07 18:33:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 17:33:45', 2, '2024-10-07 17:33:45', 2, '2024-10-07 00:00:00', 2),
+	(64, 2, '448d472194e2447e682e34f894ddc9430eccebc7700333c8f1ff10ea103ef802', '2024-10-07 18:33:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 17:33:45', 2, '2024-10-07 17:34:32', 2, '2024-10-07 00:00:00', 2),
+	(65, 2, '789cb28808543ca48a330399ef9f2ffb8ecc4d485fb3f16ed69b4d20934646f5', '2024-10-07 18:34:32', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 17:34:32', 2, '2024-10-07 17:57:22', 2, '2024-10-07 00:00:00', 2),
+	(66, 2, '9ca9f074f1fc22cded116543b9452412b0b3529cfdb6a7bd4008eeba8681c030', '2024-10-07 18:57:22', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 17:57:22', 2, '2024-10-07 17:59:18', 2, '2024-10-07 00:00:00', 2),
+	(67, 2, '2057f8d3bb85282edca757e71ed67bb8e2598dcde131ed95f2301fb6940c58ec', '2024-10-07 18:59:18', '::1', 'PostmanRuntime/7.42.0', '2024-10-07 17:59:18', 2, '2024-10-07 18:35:00', 2, '2024-10-07 00:00:00', 2),
+	(68, 2, 'b5d9583ae74c87ea2cb910667a6ebd84ceca14cdd3814e61e21db2283ace4c80', '2024-10-07 19:35:00', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 18:35:00', 2, '2024-10-07 18:35:44', 2, '2024-10-07 00:00:00', 2),
+	(69, 2, '65e31cf13794b0a2fa844f6a1e7b96504ee41ec6fc01a671a223208f8c368675', '2024-10-07 19:35:44', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 18:35:44', 2, '2024-10-07 18:52:59', 2, '2024-10-07 00:00:00', 2),
+	(70, 2, '94acd5951041e3475ebfa802bf9a8ebb65d39eaa5cef05e7156558970d922d05', '2024-10-07 19:52:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 18:52:59', 2, '2024-10-07 19:00:36', 2, '2024-10-07 00:00:00', 2),
+	(71, 2, 'fe5b32154e8a7ad5aade116fe1b6e1001189d4d54ed1f8d5cc19dd33f8f0c9ad', '2024-10-07 20:00:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 19:00:36', 2, '2024-10-07 19:01:42', 2, '2024-10-07 00:00:00', 2),
+	(72, 2, '38348d1253e772b4b9ced8d00c9e214a82fc40206593ef4d2b7afe9ff9c54516', '2024-10-07 20:01:42', '::1', 'PostmanRuntime/7.42.0', '2024-10-07 19:01:42', 2, '2024-10-07 19:13:04', 2, '2024-10-07 00:00:00', 2),
+	(73, 2, '9b1708d6392cf2664f70a6ea093497ec0a1afe7eea0c48b0ffca82eddb7a662e', '2024-10-07 20:13:04', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 19:13:04', 2, '2024-10-07 20:44:41', 2, '2024-10-07 00:00:00', 2),
+	(74, 2, '3f4af68ba1caee9ea5b3f88216fb7bedcb0c87123a83b4b05246df7527b19fc7', '2024-10-07 21:44:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:41', 2, '2024-10-07 20:44:42', 2, '2024-10-07 00:00:00', 2),
+	(75, 2, 'c78b29efb31d6e0374a9a961471c135e77aaf69b5b810a8a6a6c823b25e26b34', '2024-10-07 21:44:42', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:42', 2, '2024-10-07 20:44:42', 2, '2024-10-07 00:00:00', 2),
+	(76, 2, '8e59ebc758d502241b89a5efc1080f5abb9d5a46bdda25e5dea83604f8db5f26', '2024-10-07 21:44:42', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:42', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(77, 2, '2e1174ce6917e7e29071c8875f6478faae007c972be5ca6d0235e54b6b41fe8c', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:43', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(78, 2, '8197715bea30334a07eac3702572a61aefc66ff70f2c91c0857db1e88eef4062', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:43', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(79, 2, 'c3747262ff17aaf47d855c74f20ec0090e9ed976af3ac43f3bd2af3e98c361c2', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:43', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(80, 2, 'd186a59240c15d6bd7cfc362f58b2f8cc4ccd4853b800e8599b91f16566c036c', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:43', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(81, 2, '9f4347bf971bdc8bba5de423e279ca1e382451d7330272dc2c91f3943a4d28e4', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:43', 2, '2024-10-07 20:44:43', 2, '2024-10-07 00:00:00', 2),
+	(82, 2, '0e1e27fa63e8d657cdb35066ca2d073de34c91e79c94922ba5ae37acdfa4966f', '2024-10-07 21:44:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:44:44', 2, '2024-10-07 20:44:58', 2, '2024-10-07 00:00:00', 2),
+	(83, 2, 'd87e1ed856563d3b17a020108184620c60883d8463ec2e182bf241ef9b7a96bb', '2024-10-07 21:44:58', '::1', 'PostmanRuntime/7.42.0', '2024-10-07 20:44:58', 2, '2024-10-07 20:45:00', 2, '2024-10-07 00:00:00', 2),
+	(84, 2, '9eded0838a02e20e51ecfb353973065ab383e9c18a41eb0b92a4d9ced60279b6', '2024-10-07 21:45:00', '::1', 'PostmanRuntime/7.42.0', '2024-10-07 20:45:00', 2, '2024-10-07 20:45:52', 2, '2024-10-07 00:00:00', 2),
+	(85, 2, '078ff9a5e23f42a51de5d73bf7943192326a3cd432ddd7c13e432f04abfd16ca', '2024-10-07 21:45:52', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:45:52', 2, '2024-10-07 20:45:53', 2, '2024-10-07 00:00:00', 2),
+	(86, 2, 'c4fa207f80249d6c124ecd5c6067be6cd0fd4796174698b0f1fe1606128f02ad', '2024-10-07 21:45:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:45:53', 2, '2024-10-07 20:45:53', 2, '2024-10-07 00:00:00', 2),
+	(87, 2, 'c8f0eda6748b81e87ff15a47978d2a59f43586700e4d0b59b90fdc43ba88a757', '2024-10-07 21:45:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:45:53', 2, '2024-10-07 20:45:53', 2, '2024-10-07 00:00:00', 2),
+	(88, 2, '0f02f8fce085443cac4e254acb08b933463ed08cbdc5d91807922ce2f93e6515', '2024-10-07 21:45:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:45:53', 2, '2024-10-07 20:46:32', 2, '2024-10-07 00:00:00', 2),
+	(89, 2, 'e0961f9e899b9a4786c6aebec3985b004ef363ab3af78812406119ff5c9a0af6', '2024-10-07 21:46:32', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:46:32', 2, '2024-10-07 20:46:48', 2, '2024-10-07 00:00:00', 2),
+	(90, 2, 'fa06a9bb20d2ec2e6627978449a47b16740f9319dc0cb60d084b4f67b43f9b2c', '2024-10-07 21:46:48', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:46:48', 2, '2024-10-07 20:47:31', 2, '2024-10-07 00:00:00', 2),
+	(91, 2, '03b1c611ff5491571cdca125ab71488978f460d17811459faff00f5cf1605c11', '2024-10-07 21:47:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:47:31', 2, '2024-10-07 20:48:01', 2, '2024-10-07 00:00:00', 2),
+	(92, 2, '74ba2717759526f71ad5c9fb522b55148fcdd79564ff1cf6021c63bd0dc0a3d8', '2024-10-07 21:48:01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:48:01', 2, '2024-10-07 20:48:17', 2, '2024-10-07 00:00:00', 2),
+	(93, 2, '66c511313d82d7c9cbd96e3d92a6cca9ef8f279aa942e70b40413bafe3e909f0', '2024-10-07 21:48:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:48:17', 2, '2024-10-07 20:48:27', 2, '2024-10-07 00:00:00', 2),
+	(94, 2, 'df024f117f93f456a75c8b449b6d90ad0dd5807d255cb25166005695fd709ffd', '2024-10-07 21:48:27', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:48:27', 2, '2024-10-07 20:49:47', 2, '2024-10-07 00:00:00', 2),
+	(95, 2, '3f41d97743831de998cfb5cdbebd058f7ae86cc53b8e8bbfc1abadad6def842e', '2024-10-07 21:49:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:49:47', 2, '2024-10-07 20:52:59', 2, '2024-10-07 00:00:00', 2),
+	(96, 2, '820e9d0edcef9ad18dcfeea0cd316db3604451e6b053580ced8ba4d4d4dac9f0', '2024-10-07 21:52:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:52:59', 2, '2024-10-07 20:53:30', 2, '2024-10-07 00:00:00', 2),
+	(97, 2, '966b704ae7c10c859fe1ae93f41dd114e648d920ea603583cf88e4781103e2c5', '2024-10-07 20:53:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:53:30', 2, '2024-10-07 20:54:12', 2, '2024-10-07 00:00:00', 2),
+	(98, 2, '669a1b6386b470bc139d2d368f558afe2aaddb85029c13ea44b84d12721e7460', '2024-10-07 21:54:12', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:54:12', 2, '2024-10-07 20:58:30', 2, '2024-10-07 00:00:00', 2),
+	(99, 2, '16279a6d4a3bb364bcb642b068a52db5abdfcfab121207fce3d9ca7b8e73a897', '2024-10-07 22:58:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 20:58:30', 2, '2024-10-07 22:50:21', 2, '2024-10-07 00:00:00', 2),
+	(100, 5, 'abb3bba9d32173109a7e78ea613b544a7ebef12a251234a6f475cd31be4b6594', '2024-10-07 23:50:21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 22:50:21', 2, '2024-10-07 22:55:00', 2, '2024-10-07 22:54:52', 2),
+	(101, 5, '8feaeddcccaa33144296d3f398abe144f2d8585654ddb46fff1ba4952503f6d7', '2024-10-07 23:55:07', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 22:55:07', 2, '2024-10-07 23:54:09', 2, '2024-10-07 23:53:57', 1),
+	(102, 2, 'c8698d426a1026651d50390cb061eb5e701a844c4b6835f0514ddb1edc739eb8', '2024-10-08 00:53:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-07 23:53:37', 2, '2024-10-07 23:54:24', 2, '2024-10-07 23:54:16', 1),
+	(103, 2, 'a04c84af3c27076d236e54121836841258321932f3004a8d4370acca48a68dcc', '2024-10-08 01:30:49', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:30:49', 2, '2024-10-08 00:53:32', 2, '2024-10-08 00:31:11', 1),
+	(104, 2, '18455d5638f9072992c8963df83f17fc747ba9f743e168d7629fb23d537c662c', '2024-10-08 01:34:35', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:34:35', 2, '2024-10-08 00:53:33', 2, '2024-10-08 00:34:46', 1),
+	(105, 2, '017540e17bf97594595816f5fc1c5111cfd61c00171ba6a84bd030a4878ab724', '2024-10-08 01:45:23', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:45:23', 2, '2024-10-08 00:46:17', 2, '2024-10-08 00:00:00', 2),
+	(106, 2, 'a3e69b6d56294732ea93560907c14a8cb93287838672628efef45418dd5471e9', '2024-10-08 01:46:17', '::1', 'PostmanRuntime/7.42.0', '2024-10-08 00:46:17', 2, '2024-10-08 00:49:23', 2, '2024-10-08 00:00:00', 2),
+	(107, 5, 'a50311f95466a257b266961e49e88fc136b41d306f91d5689c26c516de01b9ff', '2024-10-08 01:49:23', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:49:23', 2, '2024-10-08 00:53:34', 2, '2024-10-08 00:53:27', 1),
+	(108, 2, 'bac95ef20919db5543f69842dc370788748685027f81e509a22802751c7319f8', '2024-10-08 01:53:16', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:53:16', 2, '2024-10-08 00:53:51', 2, '2024-10-08 00:53:46', 1),
+	(109, 2, '37cffa64ba647c3da91601d8a346f93e2a011a8b057ddc0f370fc89d9b6d4ceb', '2024-10-08 01:55:52', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:55:52', 2, '2024-10-08 00:56:05', 2, '2024-10-08 00:56:02', 1),
+	(110, 2, '5eeeeaea5fa9f130a1188f145b707cc2ce53e9a05a61dcde3f2fff9c184b1fb8', '2024-10-08 01:56:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:56:31', 2, '2024-10-08 00:56:43', 2, '2024-10-08 00:56:40', 1),
+	(111, 2, '1d4a39ca991cacf081f92a5f254237ffc9235a672d2b33286558b82695644f52', '2024-10-08 01:59:13', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:59:13', 2, '2024-10-08 00:59:25', 2, '2024-10-08 00:59:23', 1),
+	(112, 2, '319e039c803339a385beb216b2c81dc4774f436c9c30823169b8d677ac4ac2d2', '2024-10-08 01:59:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 00:59:57', 2, '2024-10-08 01:00:03', 2, '2024-10-08 01:00:02', 1),
+	(113, 2, 'a708e3dede0f16d986c933c762e937c73e4df1b529ef6273b38092a5bb1fa665', '2024-10-08 02:03:38', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 01:03:38', 2, '2024-10-08 01:08:52', 2, '2024-10-08 00:00:00', 2),
+	(114, 2, '63b691c560c520be36e47d00aa2da135523c4bf6c6dd2231773a56379839973f', '2024-10-08 02:08:52', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 01:08:52', 2, '2024-10-08 01:15:40', 2, '2024-10-08 00:00:00', 2),
+	(115, 2, '47eb9ebc35a0b7d0181feb950a63d7a299cad928e11e49f01331b3b426e13daf', '2024-10-08 02:15:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 01:15:40', 2, '2024-10-08 01:15:49', 2, '2024-10-08 01:15:47', 1),
+	(116, 5, '9582a52d516cd2854a9542b81708781d7c54519afeafc24b2742357217fbfe2b', '2024-10-08 02:15:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 01:15:59', 2, '2024-10-08 02:14:29', 2, '2024-10-08 02:14:26', 1),
+	(117, 2, '83660f9db88bc0cd956142af47411c3386ba105f0191f3243ebc99d58642b6f2', '2024-10-08 02:18:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 01:18:31', 2, '2024-10-08 02:05:27', 2, '2024-10-08 00:00:00', 2),
+	(118, 2, '80c3b2edd0196a121fce6929c8af8e348178b561d41835ec33145af5c4526107', '2024-10-08 03:05:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 02:05:41', 2, '2024-10-08 02:05:44', 2, '2024-10-08 00:00:00', 2),
+	(119, 2, 'e22f1bfd287a80454abec308dd1019c3c13fc11532c7732a1be4592411158995', '2024-10-08 03:06:19', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 02:06:19', 2, '2024-10-08 02:06:39', 2, '2024-10-08 00:00:00', 2),
+	(120, 2, '128c69543de708adb7cb0894b89a5946fc543970d9f83a1faad68678a216e23f', '2024-10-08 03:17:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 02:14:49', 2, '2024-10-08 02:17:29', 2, '2024-10-08 00:00:00', 2),
+	(121, 2, 'd92b349a9f83a34375d1f719001eb67b54ede1a75b8efe7c0538e615f1a9db90', '2024-10-08 03:19:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 02:19:31', 2, '2024-10-08 19:10:37', 2, '2024-10-08 00:00:00', 2),
+	(122, 2, 'ba683ad6855ef828f367a51d1c8f4f06e1aa42295e6e75ef0f69f62d927e5251', '2024-10-08 20:11:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 19:10:37', 2, '2024-10-08 19:11:26', 2, '2024-10-08 00:00:00', 2),
+	(123, 2, 'f81b9f419882aab2aa510ca78d8381e6921fc6bc6f51cf3c1ab1fdeeb2729a66', '2024-10-08 20:52:52', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 19:11:34', 2, '2024-10-08 20:29:46', 2, '2024-10-08 00:00:00', 2),
+	(124, 1, '4bb7ee6c3c81da8932096187fe486b447b414e5149ded17fcab48b4ddced31a5', '2024-10-08 21:03:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-08 20:31:15', 1, '2024-10-09 14:22:11', 1, '2024-10-09 00:00:00', 1),
+	(125, 2, '7231ca70447453525aaa8f0e5e60e8aff309cfc4ea3f1c6a093d930773749886', '2024-10-09 12:46:29', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 14:15:09', 2, '2024-10-09 14:29:46', 2, '2024-10-09 00:00:00', 2),
+	(126, 1, 'd0580f01d10dd9a7056bc8fd7eb9eca1a8ab47b285b3e4ece13f82bd95f9135d', '2024-10-09 14:59:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 14:22:11', 1, '2024-10-09 14:29:39', 1, '2024-10-09 00:00:00', 1),
+	(127, 2, '5b029aa2bb32437615edb6e2588199b3254edb50beacee233105e4ce39e792f4', '2024-10-09 14:02:16', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 14:29:46', 2, '2024-10-09 14:47:47', 2, '2024-10-09 00:00:00', 2),
+	(128, 2, '4bd3d398eef379a1fd35d8dcfd606110f8199ded4ee21ddc24a24571c37fb901', '2024-10-09 15:17:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 14:47:47', 2, '2024-10-09 14:47:51', 2, '2024-10-09 00:00:00', 2),
+	(129, 2, '1328ebc5fc9ec503290caded463f1b850654f0507b4c306d9c9d419942bfbb80', '2024-10-09 15:17:54', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 14:47:54', 2, '2024-10-09 14:49:57', 2, '2024-10-09 00:00:00', 2),
+	(130, 2, '7824e8f57f45735fe6933823917f6df2aac89ac60905d727fd840209e508ed2f', '2024-10-10 20:51:05', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-09 18:32:35', 2, '2024-10-10 21:43:17', 2, '2024-10-10 00:00:00', 2),
+	(131, 2, 'e08540211ca6988076289a39894b6e01462c6fe7cb2227396d158e312fff7cdf', '2024-10-10 22:23:06', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 21:43:17', 2, '2024-10-10 21:53:09', 2, '2024-10-10 00:00:00', 2),
+	(132, 2, '920108a04da8b0a8d0c6054f61b399aa1342bfddc94a65bb83b41cf5121920a4', '2024-10-10 23:41:00', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 23:10:58', 2, '2024-10-10 23:11:12', 2, '2024-10-10 00:00:00', 2),
+	(133, 3, '2e70662a30416cecf7b35ec67149890869311910cf14b6a461794d191bd4683e', '2024-10-10 23:41:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 23:11:44', 3, '2024-10-10 23:11:48', 3, '2024-10-10 00:00:00', 3),
+	(134, 2, '555711f53aba17e126155fe7b888518f61b5408c87540d21e04eb3f928b88cf4', '2024-10-10 23:42:08', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 23:12:07', 2, '2024-10-10 23:12:09', 2, '2024-10-10 00:00:00', 2),
+	(135, 4, 'feb2c8f7423b428b3fbe3432a1a1148da25563152eacc89ca0f9de446dc3a369', '2024-10-10 23:42:20', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 23:12:20', 4, '2024-10-11 22:08:03', 4, '2024-10-11 00:00:00', 4),
+	(136, 2, 'e3d9787ebd59911ae95d6dcc2a97474e39b709071ec59a88f71ea91f1067cf3f', '2024-10-11 00:42:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-10 23:18:18', 2, '2024-10-11 11:25:25', 2, '2024-10-11 00:00:00', 2),
+	(137, 2, 'ec6cf843b3f507c16df97fcab7c2e21c1a71612e9e9779011fee1ff774e621fa', '2024-10-11 11:55:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 11:25:25', 2, '2024-10-11 11:25:28', 2, '2024-10-11 00:00:00', 2),
+	(138, 2, 'f497f898297b72c0b93ab898c2fcae7e4f98b706013d03ccf3cca6fb67846fed', '2024-10-11 11:55:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 11:25:35', 2, '2024-10-11 13:25:52', 2, '2024-10-11 00:00:00', 2),
+	(139, 2, '32027f6377265fa525a817997e5fe20bd4e51d6490820ea4dc22a279567d739f', '2024-10-11 15:28:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 13:25:52', 2, '2024-10-11 17:14:53', 2, '2024-10-11 00:00:00', 2),
+	(140, 1, '9574dee10531ff3218ee19f7ea09b9ea69f3382456a7f1f7d500c16a724b70ca', '2024-10-11 18:02:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 15:38:46', 1, '2024-10-11 20:00:16', 1, '2024-10-11 00:00:00', 1),
+	(141, 2, 'f88eab5879fc7dfd329e5038012b5662b33054c38e3b0b8d6c745c6aab76ab76', '2024-10-11 17:44:53', '192.168.1.69', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36', '2024-10-11 17:14:53', 2, '2024-10-11 17:14:54', 2, '2024-10-11 00:00:00', 2),
+	(142, 2, 'd2a7d2acd951be6257e8a7797eb3404b100dda682bcacce1b3e289dcae5cf334', '2024-10-11 17:45:05', '192.168.1.69', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36', '2024-10-11 17:14:54', 2, '2024-10-11 21:41:46', 2, '2024-10-11 00:00:00', 2),
+	(143, 1, '45b79b323117226b8a4f4b0967face21f82ad0876f025acf62749c28e6ea9c6d', '2024-10-11 21:10:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 20:00:16', 1, '2024-10-11 21:32:28', 1, '2024-10-11 00:00:00', 1),
+	(144, 1, '093d66bd31ed229e511a39a4ce9ae2e82c8a21650d19df023787cda8035a19e8', '2024-10-11 22:06:21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:32:28', 1, '2024-10-11 21:37:31', 1, '2024-10-11 00:00:00', 1),
+	(145, 1, 'c7424a27eaace4a18d80f946611657170d3c7f8498fefa65095fee4825198695', '2024-10-11 22:09:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:37:31', 1, '2024-10-11 21:40:06', 1, '2024-10-11 00:00:00', 1),
+	(146, 1, '6a6489254ed62f57011e68d8f76b37b2283913eb6fc6bde9494b6cdddc99b8d2', '2024-10-11 22:10:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:40:06', 1, '2024-10-11 21:40:20', 1, '2024-10-11 00:00:00', 1),
+	(147, 1, '9dcfa7e22344c9ef03eeee4a61fe4a1b2e17c4932def9f758fd748062d9aa66d', '2024-10-11 22:10:35', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:40:25', 1, '2024-10-11 21:40:36', 1, '2024-10-11 00:00:00', 1),
+	(148, 1, 'fa69546b8d3725aaa265270f49723bd5ccd66db06e3973a7564bc7dfd85086b4', '2024-10-11 22:10:42', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:40:42', 1, '2024-10-11 21:41:03', 1, '2024-10-11 00:00:00', 1),
+	(149, 1, '89d77fd2402ac17b341d4d28acdfd17366ea998ed52b5ea412e616aec522af20', '2024-10-11 22:11:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:41:03', 1, '2024-10-11 21:41:21', 1, '2024-10-11 00:00:00', 1),
+	(150, 1, '7adc28397c42ce7941e3e8ea8c975c45815cefe42c9515405db3c1ef6e56ccc9', '2024-10-11 22:11:22', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:41:21', 1, '2024-10-11 21:41:36', 1, '2024-10-11 00:00:00', 1),
+	(151, 1, '18ba896be953e37866c4d25b6841f398b06c1fcbd177ec9b31d8dc677adcab22', '2024-10-11 22:11:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 21:41:36', 1, '2024-10-11 21:41:38', 1, '2024-10-11 00:00:00', 1),
+	(152, 2, '77f0e4f842550f1eae181cb42b02bf81b0b5a557a2b379b9bc98f04bf9599927', '2024-10-11 22:11:46', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 21:41:46', 2, '2024-10-11 21:41:54', 2, '2024-10-11 00:00:00', 2),
+	(153, 2, 'b3b32600281affbedd5426711acb2dda0d2b4454c6a18929c57d497a41f5d426', '2024-10-11 22:11:54', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 21:41:54', 2, '2024-10-11 21:42:22', 2, '2024-10-11 00:00:00', 2),
+	(154, 1, 'da39c254094fd74a1e20a682284ea851bc88719998b56292b00e04a7a3036bad', '2024-10-11 22:12:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 21:42:26', 1, '2024-10-11 21:46:39', 1, '2024-10-11 00:00:00', 1),
+	(155, 1, 'e4d6f8ac6b1956169361e0b733be04620c8e8af8c48f22f3a3788a00b9917c2f', '2024-10-11 22:16:39', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:46:39', 1, '2024-10-11 21:46:45', 1, '2024-10-11 00:00:00', 1),
+	(156, 1, '26247fcd0a09789a05510e903775f31a309b87cd8dfa3a3bb27e8a70acc0b5e4', '2024-10-11 22:17:15', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:47:15', 1, '2024-10-11 21:47:24', 1, '2024-10-11 00:00:00', 1),
+	(157, 1, 'b201b2b2e0087a470e15a2f5a02d075402fdafc463681d0c949e7320112c145d', '2024-10-11 22:17:24', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:47:24', 1, '2024-10-11 21:47:45', 1, '2024-10-11 00:00:00', 1),
+	(158, 1, '9ba5db39026285142137447243ae2b9c8166b648ee85a658145b867fa39b2053', '2024-10-11 22:18:20', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:47:45', 1, '2024-10-11 21:48:24', 1, '2024-10-11 00:00:00', 1),
+	(159, 1, '2bf5f39376df9a8387ee9bb67f5b9faddd95d3155fd2365995ade1d05b3a8146', '2024-10-11 22:18:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:48:47', 1, '2024-10-11 21:49:56', 1, '2024-10-11 00:00:00', 1),
+	(160, 1, '9227d95acb19f5fc6838c59e0a099861d1713e389a0082665c36ae2390347d84', '2024-10-11 22:19:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:49:56', 1, '2024-10-11 21:50:04', 1, '2024-10-11 00:00:00', 1),
+	(161, 1, 'e6d853407d380811bbf89acfc26e434b0763103f53328b790512e487e698acfd', '2024-10-11 22:20:08', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:50:07', 1, '2024-10-11 21:50:25', 1, '2024-10-11 00:00:00', 1),
+	(162, 1, 'ffd0ea3feb884c076b8c346e3829d9f39746019accc4e88fecdb7b4b010b10ac', '2024-10-11 22:20:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 21:50:25', 1, '2024-10-11 21:53:46', 1, '2024-10-11 00:00:00', 1),
+	(163, 1, '0a26cf971b8ba0eea526067d42e556f538f483c492c12af49edf7f4c3d97b543', '2024-10-11 22:23:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:53:46', 1, '2024-10-11 21:53:55', 1, '2024-10-11 00:00:00', 1),
+	(164, 1, '58ea9e159874813528041f9d69a0e4a7ba722fb01f10b3d41d6f574c8cf8556e', '2024-10-11 22:23:58', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:53:57', 1, '2024-10-11 21:54:04', 1, '2024-10-11 00:00:00', 1),
+	(165, 2, '1d62f20c338e15ffd4af5d38f8b27a83a50c5c35b26d5dbf2f8c6e9bce7ea7d6', '2024-10-11 22:25:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:54:13', 2, '2024-10-11 21:55:11', 2, '2024-10-11 00:00:00', 2),
+	(166, 1, '462c6eb2d378cc9bb4cfadee6cf694f8b65d45fd60900d4bb47a874e90babd2a', '2024-10-11 22:25:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:55:17', 1, '2024-10-11 21:55:20', 1, '2024-10-11 00:00:00', 1),
+	(167, 2, '7fa977722260ec645961299db6bd0b5491f46370304cdc69d85b1c1c439280f7', '2024-10-11 22:28:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:55:31', 2, '2024-10-11 21:58:31', 2, '2024-10-11 00:00:00', 2),
+	(168, 1, '5de512d81175640fd5bb161e8192d5eea598878be63f52cad5f2e9f0d1996d3c', '2024-10-11 22:29:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:59:36', 1, '2024-10-11 21:59:40', 1, '2024-10-11 00:00:00', 1),
+	(169, 2, '5c7871bd663b0774c22bb1bff64d9d4787f7aeea7d97ce6170244a6a381dd8f2', '2024-10-11 22:29:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 21:59:57', 2, '2024-10-11 22:00:05', 2, '2024-10-11 00:00:00', 2),
+	(170, 4, 'bc8ffc8818f141ec1bd4c3cee03f290fcfe725b20db28a2ca72bdd3ad60b5569', '2024-10-11 22:38:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 22:08:03', 4, '2024-10-15 21:42:07', 4, '2024-10-15 00:00:00', 4),
+	(171, 2, 'fccf4c1e944de78b74e1da020dda4ab36c2d96f7da3f97998452d57297e8b4f0', '2024-10-11 22:40:16', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 22:10:16', 2, '2024-10-11 22:11:50', 2, '2024-10-11 00:00:00', 2),
+	(172, 2, '3925261bdb6fe465f038dd24e3c04c3b8b21ba9b4255309d1b7c1ee15e9a2e88', '2024-10-11 22:41:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 22:11:50', 2, '2024-10-11 22:12:05', 2, '2024-10-11 00:00:00', 2),
+	(173, 2, '460ff13c0998469821e9c128bbda503e73a6a35a5108979cedb27bd036cf93e1', '2024-10-11 22:42:09', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 22:12:09', 2, '2024-10-11 22:13:43', 2, '2024-10-11 00:00:00', 2),
+	(174, 2, 'ccd66fb7470795de951321a07c094a3eb722214942b01a72c06ee972ad13477c', '2024-10-11 22:43:43', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 22:13:43', 2, '2024-10-11 22:13:45', 2, '2024-10-11 00:00:00', 2),
+	(175, 1, 'f23eaaf60106416f5796e092ad85d9e62156300337d24ffa5f8566ec864bed8c', '2024-10-11 22:44:00', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 22:14:00', 1, '2024-10-11 22:14:14', 1, '2024-10-11 00:00:00', 1),
+	(176, 1, 'f68d88613a425e833272f318b4043a664c185e40f2ccabb669569abf67405614', '2024-10-11 22:44:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 22:14:30', 1, '2024-10-11 22:14:33', 1, '2024-10-11 00:00:00', 1),
+	(177, 1, '25582b7826913a404a7ed530e9924b3c9ff60829d87c0a5dd27e0aa2596bc51c', '2024-10-11 23:20:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-11 22:14:36', 1, '2024-10-12 19:00:45', 1, '2024-10-12 00:00:00', 1),
+	(178, 2, '379c0bdd33e0419ed5baac733636e873cb4b6780e3b6dfed4a452023aa8aa63d', '2024-10-11 23:54:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 22:35:14', 2, '2024-10-11 23:25:00', 2, '2024-10-11 00:00:00', 2),
+	(179, 2, '249eb4780e79577ec31d61712c83e4d12a7d7c7e910f2c3180a6a4c62d221218', '2024-10-11 23:58:42', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:25:09', 2, '2024-10-11 23:29:12', 2, '2024-10-11 00:00:00', 2),
+	(180, 2, '2048447c5dd889c41bcddcf53bd0f4e59a6e48b479fbc6b4fbc4620df7a134fb', '2024-10-12 00:02:27', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:29:12', 2, '2024-10-11 23:33:18', 2, '2024-10-11 00:00:00', 2),
+	(181, 2, 'a8cff2a03eee6b9d15f55ede77be16046f025ed1f92d323fa7688fbe22da5275', '2024-10-12 00:04:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:33:18', 2, '2024-10-11 23:34:59', 2, '2024-10-11 00:00:00', 2),
+	(182, 2, 'f9ab3a722ad851280ef073764f373b21ea17af0c6d4ed307529f666a5d415e73', '2024-10-12 00:05:04', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:35:04', 2, '2024-10-11 23:35:07', 2, '2024-10-11 00:00:00', 2),
+	(183, 2, 'e128e644c340729b3556d2c2ceae9be7f9c829a63ac2e41a6beca62dd6587fca', '2024-10-12 00:08:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:37:09', 2, '2024-10-11 23:39:01', 2, '2024-10-11 00:00:00', 2),
+	(184, 2, 'c59851f113419534e94ff0f44ac19a81555947d2666842dc39c50cc3f3a8db0e', '2024-10-12 00:36:59', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-11 23:39:06', 2, '2024-10-12 08:27:20', 2, '2024-10-12 00:00:00', 2),
+	(185, 2, 'ce4ec1379fc384ae6de346a450104f4af416261aab93998e293695f86a1b3afc', '2024-10-12 10:01:58', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 08:27:20', 2, '2024-10-12 09:32:20', 2, '2024-10-12 00:00:00', 2),
+	(186, 2, '25efd92d3c730edc52cd371a88600a4374cf48ccd253b77af428acc17cc843f5', '2024-10-12 10:03:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 09:32:20', 2, '2024-10-12 09:37:04', 2, '2024-10-12 00:00:00', 2),
+	(187, 2, '39bc930a3cbad75730ea22e4b16f24cd134b463644f323c6a2906e6b68af6de3', '2024-10-12 13:27:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 09:37:04', 2, '2024-10-12 14:14:30', 2, '2024-10-12 00:00:00', 2),
+	(188, 2, 'ca41251607775f74132fd7004b94e0700859d7a0aa8bc4b844b845c15243f8fc', '2024-10-12 15:11:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 14:14:30', 2, '2024-10-12 15:31:03', 2, '2024-10-12 00:00:00', 2),
+	(189, 2, '0440e2867e1748fffcc065bad2568aec25527a20a66dbda31b41336cf9fd86da', '2024-10-12 18:03:09', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 15:31:03', 2, '2024-10-12 17:33:25', 2, '2024-10-12 00:00:00', 2),
+	(190, 2, 'f771667a371b9934a1f8d6125f4751a04fe510013fc0b36e99413635aa831bad', '2024-10-12 18:03:32', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0', '2024-10-12 17:33:25', 2, '2024-10-12 17:33:47', 2, '2024-10-12 00:00:00', 2),
+	(191, 2, 'fa9cf55ba91a2b2fd9d6e175bdd7a16243ef2fc042c0b7fcf7ca24ea199d7a4f', '2024-10-12 18:43:19', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 17:33:47', 2, '2024-10-12 19:13:35', 2, '2024-10-12 00:00:00', 2),
+	(192, 1, '79e2712d299d04140093ef8423eb63bc559ca69af4d9e9cc94f8403afbe0ac88', '2024-10-12 19:30:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 19:00:45', 1, '2024-10-12 19:00:53', 1, '2024-10-12 00:00:00', 1),
+	(193, 2, '053ea189c6aae6e6a30a52e9a59ac396f6f0fa901a3b4f31f6d7423708d6432d', '2024-10-12 23:50:07', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 19:13:35', 2, '2024-10-12 23:25:27', 2, '2024-10-12 00:00:00', 2),
+	(194, 2, 'f8eafc041cdfe8dedcd5282488d7a07075df0a4ee7888403995859d5473839be', '2024-10-12 22:54:15', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 23:20:37', 2, '2024-10-12 23:27:53', 2, '2024-10-12 00:00:00', 2),
+	(195, 2, '8d3d79b95a9b8c985b050bff43c700ac23ddffe4d64a02027350666feb3cba18', '2024-10-12 00:11:11', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 23:27:53', 2, '2024-10-12 23:58:32', 2, '2024-10-12 00:00:00', 2),
+	(196, 2, '00c6adf4980ca6ccabea33253f32c7ee70f72f80213a743d98a1cfb2b6691e62', '2024-10-13 00:57:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-12 23:58:32', 2, '2024-10-13 08:25:28', 2, '2024-10-13 00:00:00', 2),
+	(197, 2, '13b29e76330e6354f2840f301f5d67d3afc73d08347627e310d1fd421df5cbbe', '2024-10-13 09:16:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-13 08:25:28', 2, '2024-10-13 08:47:53', 2, '2024-10-13 00:00:00', 2),
+	(198, 2, 'c5a1cd8f006efbd508b342b126cc3e407bd16cdbd60cb18164255acde83fae79', '2024-10-13 12:10:01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-13 08:48:02', 2, '2024-10-13 12:59:02', 2, '2024-10-13 00:00:00', 2),
+	(199, 2, 'e4ce37291813984080f4504da4aeeb900589c496d4459ada0ec304de27cf6a31', '2024-10-13 17:45:22', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-13 12:59:02', 2, '2024-10-13 21:17:37', 2, '2024-10-13 00:00:00', 2),
+	(200, 2, '1df9c99598e0fa12e913884ad51d02f53cd4e561770d3f1f47b0b7c6ec3515d9', '2024-10-13 23:16:21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-13 21:17:37', 2, '2024-10-15 13:11:18', 2, '2024-10-15 00:00:00', 2),
+	(201, 2, '78896e706b937a93c8bd268497736d7a5fedec11a80198e94ea4eda8ce0e6f59', '2024-10-15 13:44:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 13:11:18', 2, '2024-10-15 18:44:33', 2, '2024-10-15 00:00:00', 2),
+	(202, 2, '43dd7b01a3daef8b1fe3e5ac877f04d1a459916912d7e1a281e336f73f22ed97', '2024-10-15 19:14:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 18:44:33', 2, '2024-10-15 18:56:40', 2, '2024-10-15 00:00:00', 2),
+	(203, 2, 'd625e9c95ceba41f5f383f2c9b65a1487dc8686b60fa4877ade225b57bc226ad', '2024-10-15 19:26:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 18:56:40', 2, '2024-10-15 18:57:16', 2, '2024-10-15 00:00:00', 2),
+	(204, 2, 'a73480d9f8f961ada0e9236acfa2486cf20afffb4a4764e549b6468e9e0ba7a8', '2024-10-15 20:10:29', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 18:57:16', 2, '2024-10-15 20:00:22', 2, '2024-10-15 00:00:00', 2),
+	(205, 2, 'd77de68a5fc599e7b0b60d934a45890975811cb8f52da7b87aea0dda203302f2', '2024-10-15 20:53:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 20:23:09', 2, '2024-10-15 21:21:51', 2, '2024-10-15 00:00:00', 2),
+	(206, 2, '4dcfc572586d71da1baace00188843e90544ee487efd52efc35b232d66b5b348', '2024-10-15 21:51:58', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:21:51', 2, '2024-10-15 21:23:04', 2, '2024-10-15 00:00:00', 2),
+	(207, 2, '4642ca08f946bf78b4c155fec0bd9f1d9bb2c9c93ae1bcce370ccc56d4211337', '2024-10-15 21:53:08', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:23:05', 2, '2024-10-15 21:23:43', 2, '2024-10-15 00:00:00', 2),
+	(208, 2, 'ba876e8c31788e0ff27ab1ad1e995e5779a7321a9087b1b02a3184663c2606bb', '2024-10-15 21:54:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:23:43', 2, '2024-10-15 21:25:37', 2, '2024-10-15 00:00:00', 2),
+	(209, 2, '8dfeafac25cce34b2bcf96f51543d5e2956d148c850161d99b948f8fc734f7af', '2024-10-15 21:55:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:25:37', 2, '2024-10-15 21:27:13', 2, '2024-10-15 00:00:00', 2),
+	(210, 2, 'b4793339f88c0e312ce8aa4cd8d9ca5aa4d4a48fdd43db5e99a22eec9f614f70', '2024-10-15 21:57:14', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:27:13', 2, '2024-10-15 21:27:17', 2, '2024-10-15 00:00:00', 2),
+	(211, 2, '87548282e4ed5d04a0799e4fb28b5737de842fa061ffcb3f71d7d9302968d855', '2024-10-15 21:57:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:27:23', 2, '2024-10-15 21:28:44', 2, '2024-10-15 00:00:00', 2),
+	(212, 2, 'e682784e34bc1bc44451e7b3c039c0b7540960be7062f6684a598b20366d8f35', '2024-10-15 21:58:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:28:44', 2, '2024-10-15 21:28:47', 2, '2024-10-15 00:00:00', 2),
+	(213, 2, 'a16b880e8b6245077f527b176f80bf0713813048630a1d82de33859fbdb90f17', '2024-10-15 21:59:06', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:29:04', 2, '2024-10-15 21:29:26', 2, '2024-10-15 00:00:00', 2),
+	(214, 2, '9fd66156bf407ca6aa547fe6b348d64c4ba6426e9f94a47d01e82303380c6255', '2024-10-15 21:59:28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:29:26', 2, '2024-10-15 21:30:23', 2, '2024-10-15 00:00:00', 2),
+	(215, 2, '1f48d298f184d85165472f16922660b649e3d85cd9d8a72f05f85d67f36d629b', '2024-10-15 22:07:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:30:23', 2, '2024-10-15 21:37:27', 2, '2024-10-15 00:00:00', 2),
+	(216, 2, '24030d2d56448823185a2ced5a9e176eee56b6a9fa41cd6d65b6434d2f5d254e', '2024-10-15 22:07:39', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:37:39', 2, '2024-10-15 21:37:47', 2, '2024-10-15 00:00:00', 2),
+	(217, 2, '062ca28dde035def1b606ac246a389a64866bbeef527daf0f690108d1e54ab0a', '2024-10-15 22:07:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:37:47', 2, '2024-10-15 21:39:18', 2, '2024-10-15 00:00:00', 2),
+	(218, 2, '21ae9ca6a179cc81d20798939aa98c959ebae4ee8d15a8fa6dd5dc8049b0f786', '2024-10-15 22:09:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:39:18', 2, '2024-10-15 21:39:26', 2, '2024-10-15 00:00:00', 2),
+	(219, 2, '75587792367011822535dfcf18466687ed5f41e002aafb77c10f2452800541ba', '2024-10-15 22:09:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:39:26', 2, '2024-10-15 21:39:33', 2, '2024-10-15 00:00:00', 2),
+	(220, 2, '394463ab292fc54a4ea13be028a7aab75b5d216f9f039dd2b6729ddaaa79158a', '2024-10-15 22:09:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:39:33', 2, '2024-10-15 21:40:40', 2, '2024-10-15 00:00:00', 2),
+	(221, 2, '9fceaa7448edddbd79645b4c47c4fc8afd25ebf1a025b2281a2db58d963cc014', '2024-10-15 22:10:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:40:40', 2, '2024-10-15 21:40:57', 2, '2024-10-15 00:00:00', 2),
+	(222, 4, 'c3959498ae838dd03f69b609db7a3d2c0f1440b637114f1eb2e8f19b958caa5e', '2024-10-15 22:12:07', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:42:07', 4, '2024-10-15 21:42:12', 4, '2024-10-15 00:00:00', 4),
+	(223, 4, 'c391bcbbc0580abd0fd944c55ef757951b0dd2d541e948cd9345a192a407461b', '2024-10-15 22:12:12', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:42:12', 4, '2024-10-15 21:42:16', 4, '2024-10-15 00:00:00', 4),
+	(224, 4, '7653d1f663c08752cdf73ff01e3adef24990007a7402c85996b11eb8bdc81fe0', '2024-10-15 22:12:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:42:16', 4, '2024-10-15 21:42:28', 4, '2024-10-15 00:00:00', 4),
+	(225, 4, '7ba333ebe473b2dedbf06f04113b2765f6ba2546aac88b370a7f2f45774e2302', '2024-10-15 22:12:28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:42:28', 4, '2024-10-15 21:42:28', 4, NULL, NULL),
+	(226, 2, '42a392e8af41fb08e557cbd7b1840c6329a6ea8a1168a07986e92105ec9d950d', '2024-10-15 22:22:31', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-15 21:42:33', 2, '2024-10-16 19:10:23', 2, '2024-10-16 00:00:00', 2),
+	(227, 2, '78d9745706424e0c9d3e09105d4f6665e39403d36071e48ec900352d5497ef5c', '2024-10-16 19:54:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 19:10:23', 2, '2024-10-16 19:24:20', 2, '2024-10-16 00:00:00', 2),
+	(228, 2, '46e4ade996c00c978f9b5cc70bcdb4f7c8ddfc12be5fd8c85dc52f4d7560b414', '2024-10-16 19:54:27', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 19:24:27', 2, '2024-10-16 19:24:28', 2, '2024-10-16 00:00:00', 2),
+	(229, 2, '1566475c34d3b723c0935a545e6c6e79ad3b9ffaeebe3a598a44ef4a7cbd465b', '2024-10-16 19:54:28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 19:24:28', 2, '2024-10-16 19:24:37', 2, '2024-10-16 00:00:00', 2),
+	(230, 2, '05d885b93b0fb0d25d12dcbd69e357be3c79249b30c7b8b39b21f4424ac4d9cb', '2024-10-16 20:51:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 19:24:37', 2, '2024-10-16 20:21:48', 2, '2024-10-16 00:00:00', 2),
+	(231, 2, 'b51c67014fce4d69679d1aafd165e7996a59c673ed7537039030da3a3e33157a', '2024-10-16 20:52:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 20:21:48', 2, '2024-10-16 20:23:11', 2, '2024-10-16 00:00:00', 2),
+	(232, 2, 'a7efdec14bdfb480faffead2e4c9f2e5be26af260bff39680fb5547c8ee482b2', '2024-10-16 21:07:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 20:23:11', 2, '2024-10-16 20:38:08', 2, '2024-10-16 00:00:00', 2),
+	(233, 2, '8225c925404b17eeaefb090361ce3fc9c7ee41373f983dc92853ef2d9602b506', '2024-10-16 21:13:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 20:38:17', 2, '2024-10-16 21:32:14', 2, '2024-10-16 00:00:00', 2),
+	(234, 1, 'dd184da633c3bd1e4cb697d576528836453afe574164cce6b81b78786c11e3b9', '2024-10-16 21:13:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 20:43:40', 1, '2024-10-16 20:44:00', 1, '2024-10-16 00:00:00', 1),
+	(235, 1, 'd4298d84bccbda4f5b03ca4f8b6114031839e593d9b87700cd06c53416ca2802', '2024-10-16 22:02:00', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 20:44:00', 1, '2024-10-16 21:32:08', 1, '2024-10-16 00:00:00', 1),
+	(236, 2, '9c973c821aa5869b2ea2119981fe45a361dbb2f321a22deb5be100263ee0035f', '2024-10-16 23:14:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-16 21:32:14', 2, '2024-10-17 18:42:10', 2, '2024-10-17 00:00:00', 2),
+	(237, 2, 'e98493871eed605f6893583e70ebabb1ec27817c5230d88b49f07011a5db46e2', '2024-10-17 19:49:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 18:42:10', 2, '2024-10-17 20:00:37', 2, '2024-10-17 00:00:00', 2),
+	(238, 1, '577d7aba859822b6c197a58fdf150a531309a14dc2bc81bff176bd9db1ceb963', '2024-10-17 20:26:25', '::1', 'PostmanRuntime/7.42.0', '2024-10-17 18:52:15', 1, '2024-10-17 19:56:25', 1, NULL, NULL),
+	(239, 2, '6986093792840c30ab85998ec28703cad78b736b445629a95f2e6f69a5e06133', '2024-10-17 19:30:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 20:00:37', 2, '2024-10-17 21:27:36', 2, '2024-10-17 00:00:00', 2),
+	(240, 2, '67db021804a0bc7fae0857a919256ec41177589959b9911b237136cb4e4ec6e2', '2024-10-17 21:57:36', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:36', 2, '2024-10-17 21:27:38', 2, '2024-10-17 00:00:00', 2),
+	(241, 2, '7897649698f97ab1ae77beb848d6045c8201dec197c414355d680f34fbcdeaad', '2024-10-17 21:57:38', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:38', 2, '2024-10-17 21:27:38', 2, '2024-10-17 00:00:00', 2),
+	(242, 2, '02e2d9c5e74e987d6a5a8941deba1d2fe7eb79451243ab3c216dd6c8d1c707e5', '2024-10-17 21:57:38', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:38', 2, '2024-10-17 21:27:39', 2, '2024-10-17 00:00:00', 2),
+	(243, 2, '56cb1aa937c2062b3fb8192722b36a5b23b4b2f98b66ad1ea763eb66bdc957d1', '2024-10-17 21:57:39', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:39', 2, '2024-10-17 21:27:39', 2, '2024-10-17 00:00:00', 2),
+	(244, 2, 'fede916e3c7b083a95e2fbf6679c4f72fa087f65127eaf6e4b360028a8023b1e', '2024-10-17 21:57:39', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:39', 2, '2024-10-17 21:27:58', 2, '2024-10-17 00:00:00', 2),
+	(245, 2, 'b51c4b229844917cbfe57756d8e3c51d7c0f8f3eff4651a64bb73ad45947fdcd', '2024-10-17 21:58:49', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-10-17 21:27:58', 2, '2024-10-17 21:28:49', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int unsigned NOT NULL,
@@ -279,6 +472,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `active` int NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT (now()),
   `created_by` int NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
@@ -286,38 +480,20 @@ CREATE TABLE IF NOT EXISTS `user` (
   `deleted_at` datetime DEFAULT NULL,
   `deleted_by` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_username` (`username`) USING BTREE,
   KEY `fk_user_role` (`role_id`) USING BTREE,
   CONSTRAINT `fk_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.user: ~5 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.user: ~6 rows (aproximadamente)
 DELETE FROM `user`;
-INSERT INTO `user` (`id`, `role_id`, `first_name`, `last_name`, `username`, `password`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 1, 'Administrador', '', 'admin@gpsgt', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', '2024-05-21 19:02:10', 1, '2024-06-02 01:54:32', 1, NULL, NULL),
-	(2, 1, 'Henry', 'Rodríguez', 'hrodriguez', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', '2024-05-23 19:42:32', 1, '2024-10-06 17:19:57', 1, NULL, NULL),
-	(3, 2, 'Juan', 'Yat', 'jyat', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', '2024-06-01 16:33:38', 1, '2024-10-05 15:01:47', 1, NULL, NULL),
-	(4, 2, 'Wilmer', 'Contreras', 'wcontreras', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', '2024-06-01 17:04:25', 1, '2024-10-05 15:01:59', 1, '2024-06-02 01:55:22', 1),
-	(5, 1, 'Jonatan', 'Torres', 'jtorrez', '201bce2458f00a54130c695ca8d1658319b32206d495adf175847b57bd4a4151', '2024-06-01 21:51:02', 1, '2024-10-05 15:02:16', 1, NULL, NULL);
-
--- Volcando estructura para tabla clinica.view
-CREATE TABLE IF NOT EXISTS `view` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `active` int NOT NULL DEFAULT '1',
-  `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
-  `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
-  `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Volcando datos para la tabla clinica.view: ~2 rows (aproximadamente)
-DELETE FROM `view`;
-INSERT INTO `view` (`id`, `name`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'paciente', 1, '2024-05-21 18:59:55', 1, '2024-10-03 19:57:42', 1, NULL, NULL),
-	(2, 'usuario', 1, '2024-05-23 18:04:24', 1, '2024-05-23 18:04:24', 1, NULL, NULL);
+INSERT INTO `user` (`id`, `role_id`, `first_name`, `last_name`, `username`, `password`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
+	(1, 1, 'Administrador', '', 'admin', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', 1, '2024-05-21 19:02:10', 1, '2024-10-11 20:43:18', 1, NULL, NULL),
+	(2, 1, 'Henry', 'Rodríguez', 'hrodriguez', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', 1, '2024-05-23 19:42:32', 1, '2024-10-11 20:43:18', 1, NULL, NULL),
+	(3, 1, 'Juan', 'Yat', 'jyat', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', 1, '2024-06-01 16:33:38', 1, '2024-10-11 20:43:19', 1, NULL, NULL),
+	(4, 2, 'Wilmer', 'Contreras', 'wcontreras', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', 1, '2024-06-01 17:04:25', 1, '2024-10-15 21:42:06', 1, NULL, NULL),
+	(5, 2, 'Jonatan', 'Torres', 'jtorrez', '487edeab14b06207ea401d488a42a9d8c4f58b5661e43ff4f7630ef266f3452e', 1, '2024-06-01 21:51:02', 1, '2024-10-15 21:42:05', 1, NULL, NULL),
+	(6, 2, 'Pedro', 'Martínez', 'pmartinez', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, '2024-10-17 19:05:51', 1, '2024-10-17 19:56:25', 1, '2024-10-17 19:56:25', 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
