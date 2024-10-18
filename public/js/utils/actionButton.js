@@ -26,10 +26,11 @@ export async function assignModalEvent(selector, handler, module) {
     document.querySelectorAll(selector).forEach(newButtonElement => {
         // Asignar el nuevo evento de click
         newButtonElement.addEventListener('click', async () => {
-            const url = `${urlBase}/${module}/token`;
+            const url = `${urlBase}/login/token`;
             const data = await apiService.fetchData(url, 'GET');
 
             if (!data) {
+                localStorage.setItem('tokenExpired', 'true');
                 window.location.href = urlBase;
                 return;
             }
@@ -55,10 +56,11 @@ export async function assignFormSubmitEvent(id, handler, module) {
         // Asignar el nuevo evento de submit
         newFormElement.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const url = `${urlBase}/${module}/token`;
+            const url = `${urlBase}/login/token`;
             const data = await apiService.fetchData(url, 'GET');
 
             if (!data) {
+                localStorage.setItem('tokenExpired', 'true');
                 window.location.href = urlBase;
                 return;
             }

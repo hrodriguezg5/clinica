@@ -38,7 +38,7 @@ class RoleController extends Controllers {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
             $input = json_decode(file_get_contents("php://input"), true);
-            $role_id = filter_var($input['role_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null;
+            $role_id = filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null;
             $role = $this->model->filterRole(['role_id' => $role_id]);
             if ($role) {
                 $response = [
