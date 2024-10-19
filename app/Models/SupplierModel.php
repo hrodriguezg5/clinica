@@ -26,9 +26,10 @@ class SupplierModel{
         return $row;
     }
 
-    public function getsuppliers(){
+    public function getSuppliers(){
         $this->db->query(
             "SELECT 
+                s.id,
                 s.`name`,
                 s.phone,
                 s.address
@@ -40,22 +41,25 @@ class SupplierModel{
         return $row;
     }
 
-    public function insertPositions($data){
+    public function insertSuppliers($data){
         $this->db->query(
-            "INSERT INTO position 
-             (name, 
-              active, 
+            "INSERT INTO supplier 
+             (`name`, 
+              phone,
+			  address, 
               created_by,
               updated_by)
              VALUES
              (:name, 
-              :active,
+              :phone,
+              :address,
 			  :created_by,
 			  :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
-        $this->db->bind(":active", $data["active"]);
+        $this->db->bind(":phone", $data["phone"]);
+        $this->db->bind(":address", $data["address"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -66,11 +70,12 @@ class SupplierModel{
         }
     }
 
-    public function updatePositions($data){
+    public function updateSuppliers($data){
         $this->db->query(
-            "UPDATE position
-            SET NAME = :name,
-            active = :active,
+            "UPDATE supplier
+            SET `name` = :name,
+            phone = :phone,
+            address = :address,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
@@ -78,7 +83,8 @@ class SupplierModel{
 
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
-        $this->db->bind(":active", $data["active"]);
+        $this->db->bind(":phone", $data["phone"]);
+        $this->db->bind(":address", $data["address"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -87,9 +93,9 @@ class SupplierModel{
         }
     }
 
-    public function deletePositions($data){
+    public function deleteSuppliers($data){
         $this->db->query(
-            "UPDATE position
+            "UPDATE supplier
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -105,14 +111,16 @@ class SupplierModel{
         }
     }
 
-    public function fileterPositions($id){
+    public function fileterSuppliers($id){
         $this->db->query(
-            "SELECT p.id,
-                    p.name,
-                    p.active
-                FROM position AS p
-                WHERE p.id = :id
-                AND p.deleted_at IS NULL;");
+            "SELECT 
+                s.id,
+                s.`name`,
+                s.phone,
+                s.address
+            FROM supplier AS s
+            WHERE id = :id
+            AND s.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 

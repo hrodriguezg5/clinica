@@ -17,7 +17,7 @@ class SupplierController extends Controllers {
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $suppliers = $this->model->getsuppliers();
+            $suppliers = $this->model->getSuppliers();
         
             if ($suppliers) {
                 foreach ($suppliers as $supplier){
@@ -43,12 +43,13 @@ class SupplierController extends Controllers {
     
             $data = [
                 "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
     
-            if ($this->model->insertPositions($data)) {
+            if ($this->model->insertSuppliers($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -70,11 +71,12 @@ class SupplierController extends Controllers {
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
             ];
             
-            if ($this->model->updatePositions($data)) {
+            if ($this->model->updateSuppliers($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -97,7 +99,7 @@ class SupplierController extends Controllers {
             ];
     
     
-            if ($this->model->deletePositions($data)) {
+            if ($this->model->deleteSuppliers($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -112,14 +114,15 @@ class SupplierController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $positions = $this->model->fileterPositions($id);
+            $suppliers = $this->model->fileterSuppliers($id);
     
-            if ($positions) {
-                foreach ($positions as $position){
+            if ($suppliers) {
+                foreach ($suppliers as $supplier){
                     $response = [
-                        'id' => $position->id,
-                        'name' =>$position->name,
-                        'active' =>$position->active
+                        'id' => $supplier->id,
+                        'name' =>$supplier->name,
+                        'phone' =>$supplier->phone,
+                        'address' =>$supplier->address
                     ];
                 
                 }   
