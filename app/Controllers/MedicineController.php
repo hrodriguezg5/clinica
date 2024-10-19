@@ -46,12 +46,16 @@ class MedicineController extends Controllers {
     
             $data = [
                 "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "description" => isset($decodedData['description']) ? filter_var($decodedData['description'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "price" => isset($decodedData['price']) ? filter_var($decodedData['price'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "brand" => isset($decodedData['brand']) ? filter_var($decodedData['brand'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
     
-            if ($this->model->insertPositions($data)) {
+            if ($this->model->insertMedicines($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);

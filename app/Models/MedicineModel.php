@@ -43,37 +43,34 @@ class MedicineModel{
         return $row;
     }
 
-    public function insertPatient($data){
+    public function insertMedicines($data){
         $this->db->query(
-            "INSERT INTO patient
-             (first_name, 
-              last_name, 
-              birth_date, 
-              gender, 
-              address,
-              phone,
-              email,
+            "INSERT INTO medicine
+             (`name`, 
+              description, 
+              price, 
+              brand, 
+              quantity_available,
+              expiration_date,
               created_by,
               updated_by)
              VALUES
-             (:first_name, 
-              :last_name, 
-              :birth_date, 
-              :gender, 
-              :address, 
-              :phone, 
-              :email,
-              :created_by,
-              :updated_by);"
+             (:name, 
+             :description, 
+             :price, 
+             :brand, 
+             :quantity_available, 
+             :expiration_date,
+             :created_by,
+             :updated_by);"
         );
 
-        $this->db->bind(":first_name", $data["first_name"]);
-        $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":birth_date", $data["birth_date"]);
-        $this->db->bind(":gender", $data["gender"]);
-        $this->db->bind(":address", $data["address"]);
-        $this->db->bind(":phone", $data["phone"]);
-        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":price", $data["price"]);
+        $this->db->bind(":brand", $data["brand"]);
+        $this->db->bind(":quantity_available", $data["quantity_available"]);
+        $this->db->bind(":expiration_date", $data["expiration_date"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
