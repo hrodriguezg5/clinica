@@ -14,35 +14,34 @@ export function createButton(btnClass, title, dataInfo, targetModal, iconClass) 
     `;
 }
 
-export async function assignModalEvent(selector, handler, module) {
-    // Seleccionar todos los botones con el selector
+export async function assignModalEvent(selector, handler) {
     document.querySelectorAll(selector).forEach(button => {
-        // Reemplazar el contenido del botón por su HTML para eliminar eventos anteriores
         const newButton = button.outerHTML;
         button.outerHTML = newButton;
     });
 
-    // Seleccionar todos los nuevos botones nuevamente después de haber reemplazado su HTML
     document.querySelectorAll(selector).forEach(newButtonElement => {
-        // Asignar el nuevo evento de click
         newButtonElement.addEventListener('click', async () => {
             const url = `${urlBase}/login/token`;
-            const data = await apiService.fetchData(url, 'GET');
-
-            if (!data) {
-                localStorage.setItem('tokenExpired', 'true');
-                window.location.href = urlBase;
-                return;
-            }
             
-            const dataInfo = JSON.parse(newButtonElement.getAttribute('data-info'));
-            handler(dataInfo);
+            try {
+                await apiService.fetchData(url, 'GET');
+                const dataInfo = JSON.parse(newButtonElement.getAttribute('data-info'));
+                handler(dataInfo);
+            } catch (error) {
+                if (error.message.includes('401')) {
+                    localStorage.setItem('tokenExpired', 'true');
+                    window.location.href = urlBase;
+                } else {
+                    showAlert('Error de conexión.', 'danger');
+                }
+            }
         });
     });
 }
 
 
-export async function assignFormSubmitEvent(id, handler, module) {
+export async function assignFormSubmitEvent(id, handler) {
     const form = document.getElementById(id);
 
     if (form) {
@@ -57,15 +56,18 @@ export async function assignFormSubmitEvent(id, handler, module) {
         newFormElement.addEventListener('submit', async (event) => {
             event.preventDefault();
             const url = `${urlBase}/login/token`;
-            const data = await apiService.fetchData(url, 'GET');
 
-            if (!data) {
-                localStorage.setItem('tokenExpired', 'true');
-                window.location.href = urlBase;
-                return;
+            try {
+                await apiService.fetchData(url, 'GET');
+                handler();
+            } catch (error) {
+                if (error.message.includes('401')) {
+                    localStorage.setItem('tokenExpired', 'true');
+                    window.location.href = urlBase;
+                } else {
+                    showAlert('Error de conexión.', 'danger');
+                }
             }
-
-            handler();
         });
     }
 }
@@ -103,3 +105,33 @@ export const closeModal = (modalId) => {
         modalInstance.hide();
     }
 };
+
+export const resetModal = (modalId, formId) => {
+    const modalElement = document.getElementById(modalId);
+    const formElement = document.getElementById(formId);
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        formElement.reset();
+        formElement.querySelectorAll('.input-error').forEach(input => {
+            input.classList.remove('input-error');
+        });
+    });
+};
+
+export function togglePassword(toggleSelector, passwordInputId) {
+    const toggleButton = document.getElementById(toggleSelector);
+
+    toggleButton.addEventListener('click', function () {
+        const passwordInput = document.getElementById(passwordInputId);
+        const icon = toggleButton.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+}
