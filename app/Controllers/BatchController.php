@@ -44,13 +44,16 @@ class BatchController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
     
-            if ($this->model->insertPositions($data)) {
+            if ($this->model->insertLots($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -71,12 +74,15 @@ class BatchController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
             ];
             
-            if ($this->model->updatePositions($data)) {
+            if ($this->model->updateLots($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -99,7 +105,7 @@ class BatchController extends Controllers {
             ];
     
     
-            if ($this->model->deletePositions($data)) {
+            if ($this->model->deleteLots($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -114,14 +120,17 @@ class BatchController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $positions = $this->model->fileterPositions($id);
+            $lots = $this->model->fileterLots($id);
     
-            if ($positions) {
-                foreach ($positions as $position){
+            if ($lots) {
+                foreach ($lots as $batch){
                     $response = [
-                        'id' => $position->id,
-                        'name' =>$position->name,
-                        'active' =>$position->active
+                        'id' => $batch->id,
+                        'manufacture_date' => $batch->manufacture_date,
+                        'expiration_date' =>$batch->expiration_date,
+                        'initial_quantity' =>$batch->initial_quantity,
+                        'name_medicine' =>$batch->name_medicine,
+                        'name_supplier' =>$batch->name_supplier
                     ];
                 
                 }   
