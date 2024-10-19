@@ -75,13 +75,17 @@ class MedicineController extends Controllers {
             $decodedData = json_decode($json, true); // Decodifica el JSON en un array asociativo
     
             $data = [
-                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "description" => isset($decodedData['description']) ? filter_var($decodedData['description'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "price" => isset($decodedData['price']) ? filter_var($decodedData['price'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "brand" => isset($decodedData['brand']) ? filter_var($decodedData['brand'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
             ];
             
-            if ($this->model->updatePositions($data)) {
+            if ($this->model->updateMedicines($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -104,7 +108,7 @@ class MedicineController extends Controllers {
             ];
     
     
-            if ($this->model->deletePositions($data)) {
+            if ($this->model->deleteMedicines($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -119,14 +123,18 @@ class MedicineController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $positions = $this->model->fileterPositions($id);
+            $medicines = $this->model->fileterMedicines($id);
     
-            if ($positions) {
-                foreach ($positions as $position){
+            if ($medicines) {
+                foreach ($medicines as $medicine){
                     $response = [
-                        'id' => $position->id,
-                        'name' =>$position->name,
-                        'active' =>$position->active
+                        'id' => $medicine->id,
+                        'name' =>$medicine->name,
+                        'description' =>$medicine->description,
+                        'price' =>$medicine->price,
+                        'brand' =>$medicine->brand,
+                        'quantity_available' =>$medicine->quantity_available,
+                        'expiration_date' =>$medicine->expiration_date
                     ];
                 
                 }   

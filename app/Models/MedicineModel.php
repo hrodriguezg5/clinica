@@ -81,29 +81,27 @@ class MedicineModel{
         }
     }
 
-    public function updatePatient($data){
+    public function updateMedicines($data){
         $this->db->query(
-            "UPDATE patient
-            SET first_name = :first_name,
-            last_name = :last_name,
-            birth_date = :birth_date,
-            gender = :gender,
-            address = :address,
-            phone = :phone,
-            email = :email,
+            "UPDATE medicine
+            SET `name` = :name,
+            `description` = :description,
+            price = :price,
+            brand = :brand,
+            quantity_available = :quantity_available,
+            expiration_date = :expiration_date,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":first_name", $data["first_name"]);
-        $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":birth_date", $data["birth_date"]);
-        $this->db->bind(":gender", $data["gender"]);
-        $this->db->bind(":address", $data["address"]);
-        $this->db->bind(":phone", $data["phone"]);
-        $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":price", $data["price"]);
+        $this->db->bind(":brand", $data["brand"]);
+        $this->db->bind(":quantity_available", $data["quantity_available"]);
+        $this->db->bind(":expiration_date", $data["expiration_date"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -112,9 +110,9 @@ class MedicineModel{
         }
     }
 
-    public function deletePatient($data){
+    public function deleteMedicines($data){
         $this->db->query(
-            "UPDATE patient
+            "UPDATE medicine
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -130,47 +128,18 @@ class MedicineModel{
         }
     }
 
-    public function searchPatients($name){
+    public function fileterMedicines($id){
         $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE (p.first_name LIKE :name 
-				OR p.last_name LIKE :name 
-				OR p.birth_date LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.address LIKE :name 
-				OR p.phone LIKE :name 
-				OR p.email LIKE :name)
-            AND p.deleted_at IS NULL;"
-        );
-
-        $this->db->bind(':name', '%' . $name . '%');
-
-        $row = $this->db->records();
-        return $row;
-    }
-
-    public function fileterPatient($id){
-        $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE p.id = :id
-            AND p.deleted_at IS NULL;"
+            "SELECT m.id,
+            m.`name`,
+            m.`description`,
+            m.price,
+            m.brand,
+            m.quantity_available,
+            m.expiration_date
+        FROM medicine AS m
+        WHERE m.id = :id
+        AND m.deleted_at IS NULL;"
         );
 
         $this->db->bind(':id', $id);
