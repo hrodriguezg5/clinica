@@ -8,7 +8,8 @@ const ROUTE_MAP = [
     "permiso" => "PermissionController",
     "paciente" => "PatientController",
     "empleado" => "EmployeController",
-    "posicion" => "PositionController"
+    "posicion" => "PositionController",
+    "proveedor" => "SupplierController"
 ];
 
 //Rutas de métodos de español a inglés
