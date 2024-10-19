@@ -202,12 +202,21 @@ const updateModal = async (data) => {
     } catch (error) {
         console.error('Error:', error);
     }
+
+    resetModal('updateModal', 'updateForm');
 };
 
 
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
+    const password = document.getElementById('updModPassword');
+
+    if (!isValidPassword(password.value)) {
+        showAlert('La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.', 'danger');
+        password.classList.add('input-error');
+        return;
+    }
 
     const formData = () => ({
         role_id: Number(document.getElementById('updModRole').value) || null,
