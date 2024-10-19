@@ -9,6 +9,7 @@ const ROUTE_MAP = [
     "paciente" => "PatientController",
     "empleado" => "EmployeController",
     "posicion" => "PositionController",
+    "medicina" => "MedicineController",
     "proveedor" => "SupplierController"
 ];
 
