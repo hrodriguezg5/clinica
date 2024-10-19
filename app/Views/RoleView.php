@@ -2,7 +2,7 @@
             <!-- Contenido de la Página Inicio -->
             <div id="content">
                 <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionRoleModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
+                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -11,7 +11,7 @@
                             </div>
                             <div class="modal-body">
                                 <form id="permissionForm">
-                                    <div class="px-3">
+                                    <div class="table-responsive px-3">
                                         <table class="table table-bordered text-center align-middle">
                                             <thead>
                                                 <tr>
@@ -39,37 +39,37 @@
 
 
                 <!-- Modal de Insertar Rol Inicio -->
-                <div class="modal fade" id="insertRoleModal" tabindex="-1" aria-labelledby="insertRoleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertRoleTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Actualizar Rol</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="insertRoleForm" data-info="">
+                                <form id="insertForm" data-info="">
 
                                     <div class="row">
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModName" class="form-label mb-0">Nombre</label>
-                                            <input type="insModName" class="form-control" id="insModName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
                                             <select name="insModStatus" class="form-control" id="insModStatus" required>
-                                                <option>Activo</option>
-                                                <option>Inactivo</option>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
                                             </select>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="insertRoleForm">Guardar</button>
+                                <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
@@ -79,37 +79,37 @@
 
 
                 <!-- Modal de Actualizar Rol Inicio -->
-                <div class="modal fade" id="updateRoleModal" tabindex="-1" aria-labelledby="updateRoleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateRoleTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="updateRoleForm" data-info="">
+                                <form id="updateForm" data-info="">
 
                                     <div class="row">
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModName" class="form-label mb-0">Nombre</label>
-                                            <input type="updModName" class="form-control" id="updModName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
                                             <select name="updModStatus" class="form-control" id="updModStatus" required>
-                                                <option>Activo</option>
-                                                <option>Inactivo</option>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
                                             </select>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="updateRoleForm">Guardar</button>
+                                <button type="submit" class="btn btn-primary" form="updateForm">Guardar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
@@ -119,15 +119,15 @@
                 
                 
                 <!-- Modal de Eliminar Rol Inicio -->
-                <div class="modal fade" id="deleteRoleModal" tabindex="-1" aria-labelledby="deleteRoleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteRoleTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="deleteRoleForm">
+                                <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Nombre: </span><span id="delModName"></span>
@@ -142,7 +142,7 @@
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-danger" form="deleteRoleForm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" form="deleteForm">Eliminar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>

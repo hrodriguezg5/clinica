@@ -4,7 +4,8 @@ import {
     assignModalEvent, 
     assignFormSubmitEvent, 
     assignSearchEvent,
-    closeModal
+    closeModal,
+    resetModal
 } from '../utils/actionButton.js';
 
 let currentData;
@@ -29,7 +30,7 @@ export async function initModule(data, module) {
     if (canCreate) {
         addButton.innerHTML = `
             <div class="rounded ps-4">
-                <button type="button" class="btn btn-primary fw-bold btn-insert" data-bs-toggle="modal" data-bs-target="#insertRoleModal">Agregar</button>
+                <button type="button" class="btn btn-primary fw-bold btn-insert" data-bs-toggle="modal" data-bs-target="#insertModal">Agregar</button>
             </div>
         `;
     } else {
@@ -56,11 +57,11 @@ export async function initModule(data, module) {
         
         // Crear los botones de acuerdo a los permisos
         if (canUpdate) {
-            actionButtons += createButton('btn-secondary btn-permission', 'Permiso', dataInfo, 'permissionRoleModal', 'bi bi-key');
-            actionButtons += createButton('btn-primary btn-update', 'Editar', dataInfo, 'updateRoleModal', 'bi bi-pencil');
+            actionButtons += createButton('btn-secondary btn-permission', 'Permiso', dataInfo, 'permissionModal', 'bi bi-key');
+            actionButtons += createButton('btn-primary btn-update', 'Editar', dataInfo, 'updateModal', 'bi bi-pencil');
         }
         if (canDelete) {
-            actionButtons += createButton('btn-danger btn-delete', 'Borrar', dataInfo, 'deleteRoleModal', 'bi bi-trash-fill');
+            actionButtons += createButton('btn-danger btn-delete', 'Borrar', dataInfo, 'deleteModal', 'bi bi-trash-fill');
         }
 
         // Si existen acciones permitidas, agregamos el <td> de acciones
@@ -79,19 +80,20 @@ export async function initModule(data, module) {
     assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
 
     if (hasActions) {
-        assignModalEvent('.btn-permission', permissionRoleModal, 'permiso');
-        assignModalEvent('.btn-update', updateRoleModal, currentModule);
-        assignModalEvent('.btn-delete', deleteRoleModal, currentModule);
+        assignModalEvent('.btn-permission', permissionModal, 'permiso');
+        assignModalEvent('.btn-update', updateModal, currentModule);
+        assignModalEvent('.btn-delete', deleteModal, currentModule);
     }
 
     assignFormSubmitEvent('permissionForm', permissionFormSubmit, currentModule);
-    assignFormSubmitEvent('insertRoleForm', insertFormSubmit, currentModule);
-    assignFormSubmitEvent('updateRoleForm', updateFormSubmit, currentModule);
-    assignFormSubmitEvent('deleteRoleForm', deleteFormSubmit, currentModule);
+    assignFormSubmitEvent('insertForm', insertFormSubmit, currentModule);
+    assignFormSubmitEvent('updateForm', updateFormSubmit, currentModule);
+    assignFormSubmitEvent('deleteForm', deleteFormSubmit, currentModule);
 
+    resetModal('insertModal', 'insertForm');
 }
 
-const permissionRoleModal = async (data) => {
+const permissionModal = async (data) => {
     const url = `${urlBase}/permiso/filtrar`;
     const { role_id, role} = data;
 
@@ -127,7 +129,7 @@ const permissionRoleModal = async (data) => {
 };
 
 const permissionFormSubmit = async () => {
-    const modalElement = document.getElementById('permissionRoleModal');
+    const modalElement = document.getElementById('permissionModal');
     const modalInstance = bootstrap.Modal.getInstance(modalElement);
     const urlInsert = `${urlBase}/permiso/agregar`;
     const urlUpdate = `${urlBase}/permiso/actualizar`;
@@ -160,18 +162,16 @@ const permissionFormSubmit = async () => {
 
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
-    const status = document.getElementById('insModStatus').value === 'Activo' ? 1 : 0;
-    
     const formData = () => ({
-        name: document.getElementById('insModName').value || null,
-        description: document.getElementById('insModDescription').value || null,
-        active: status,
+        name: document.getElementById('insModName').value || '',
+        description: document.getElementById('insModDescription').value || '',
+        active: Number(document.getElementById('insModStatus').value) || null,
         user_id: currentData.user_id || null
     });
-    
+
     try {
         await apiService.fetchData(url, 'POST', formData());
-        closeModal('insertRoleModal');
+        closeModal('insertModal');
     } catch (error) {
         console.error('Error:', error);
     }
@@ -179,39 +179,37 @@ const insertFormSubmit = async () => {
     await initModule(currentData, currentModule);
 };
 
-const updateRoleModal = async (data) => {
+const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
     const role_id = data.role_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { role_id });
-        const status = response.active ? 'Activo' : 'Inactivo';
-        document.getElementById('updateRoleForm').setAttribute('data-info', dataInfo);
-        document.getElementById('updModName').value = response.role || null;
-        document.getElementById('updModDescription').innerText = response.description || null;
-        document.getElementById('updModStatus').value = status || null;
+        document.getElementById('updateForm').setAttribute('data-info', dataInfo);
+        document.getElementById('updModName').value = response.role || '';
+        document.getElementById('updModDescription').innerText = response.description || '';
+        document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
 const updateFormSubmit = async () => {
-    const url = `${urlBase}/rol/actualizar`;
-    const dataInfo = JSON.parse(document.getElementById('updateRoleForm').getAttribute('data-info'));
-    const status = document.getElementById('updModStatus').value === 'Activo' ? 1 : 0;
+    const url = `${urlBase}/${currentModule}/actualizar`;
+    const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
 
     const formData = () => ({
-        name: document.getElementById('updModName').value || null,
-        description: document.getElementById('updModDescription').value || null,
-        active: status,
+        name: document.getElementById('updModName').value || '',
+        description: document.getElementById('updModDescription').value || '',
+        active: Number(document.getElementById('updModStatus').value)  || null,
         user_id: currentData.user_id || null,
         role_id: dataInfo.role_id || null
     });
     
     try {
         await apiService.fetchData(url, 'POST', formData());
-        closeModal('updateRoleModal');
+        closeModal('updateModal');
     } catch (error) {
         console.error('Error:', error);
     }
@@ -219,7 +217,7 @@ const updateFormSubmit = async () => {
     await initModule(currentData, currentModule);
 };
 
-const deleteRoleModal = async (data) => {
+const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
     const role_id = data.role_id;
@@ -227,31 +225,27 @@ const deleteRoleModal = async (data) => {
     try {
         const response = await apiService.fetchData(url, 'POST', { role_id });
         const status = response.active ? 'Activo' : 'Inactivo';
-        document.getElementById('deleteRoleForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModName').innerText = response.role || null;
-        document.getElementById('delModDescription').innerText = response.description || null;
-        document.getElementById('delModStatus').innerText = status || null;
+        document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
+        document.getElementById('delModName').innerText = response.role || '';
+        document.getElementById('delModDescription').innerText = response.description || '';
+        document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
 const deleteFormSubmit = async () => {
-    const url = `${urlBase}/rol/eliminar`;
-    const dataInfo = JSON.parse(document.getElementById('deleteRoleForm').getAttribute('data-info'));
-    const status = document.getElementById('delModStatus').innerText === 'Activo' ? 1 : 0;
+    const url = `${urlBase}/${currentModule}/eliminar`;
+    const dataInfo = JSON.parse(document.getElementById('deleteForm').getAttribute('data-info'));
 
     const formData = () => ({
-        name: document.getElementById('delModName').innerText || null,
-        description: document.getElementById('delModDescription').innerText || null,
-        active: status,
         user_id: currentData.user_id || null,
         role_id: dataInfo.role_id || null
     });
 
     try {
         await apiService.fetchData(url, 'POST', formData());
-        closeModal('deleteRoleModal');
+        closeModal('deleteModal');
     } catch (error) {
         console.error('Error:', error);
     }

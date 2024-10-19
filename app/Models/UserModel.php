@@ -94,7 +94,6 @@ class UserModel {
             SET role_id = :role_id,
             first_name = :first_name,
             last_name = :last_name,
-            username = :username,
             `password` = IF(:password = '', `password`, SHA2(:password, 256)),
             `active` = :active,
             updated_by = :user_id
@@ -104,7 +103,6 @@ class UserModel {
         $this->db->bind(":role_id", $data["role_id"]);
         $this->db->bind(":first_name", $data["first_name"]);
         $this->db->bind(":last_name", $data["last_name"]);
-        $this->db->bind(":username", $data["username"]);
         $this->db->bind(":password", $data["password"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":user_id", $data["user_id"]);
