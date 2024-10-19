@@ -16,8 +16,10 @@ export function hasMinLength(value, minLength) {
 
 // Validación de contraseñas
 export function isValidPassword(password) {
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return passwordPattern.test(password);
+    const minLength = 8;
+    const hasLetter = /[A-Za-z]/;
+    const hasDigit = /\d/;
+    return password.length >= minLength && hasLetter.test(password) && hasDigit.test(password);
 }
 
 // Comparación de contraseñas

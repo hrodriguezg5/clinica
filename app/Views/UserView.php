@@ -13,40 +13,55 @@
                                 <form id="insertForm" data-info="">
 
                                     <div class="row">
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="insModFirstName" class="form-control" id="insModFirstName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="insModLastName" class="form-control" id="insModLastName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="insModLastName" maxlength="50">
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModUsername" class="form-label mb-0">Usuario</label>
-                                            <input type="insModUsername" class="form-control" id="insModUsername" maxlength="50" required>
+                                            <input type="text" class="form-control" id="insModUsername" maxlength="50" required>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModRole" class="form-label mb-0">Rol</label>
                                             <select name="insModRole" class="form-control" id="insModRole" required>
                                             </select>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
                                             <select name="insModStatus" class="form-control" id="insModStatus" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModPassword" class="form-label mb-0">Contraseña</label>
-                                            <input type="insModPassword" class="form-control" id="insModPassword" maxlength="50" required>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="insModPassword" maxlength="50" required>
+                                                <button class="btn btn-outline-secondary" type="button" id="insModTogglePassword" style="border-color: #ced4da; color: #757575;">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModConfirmPassword" class="form-label mb-0">Confirmar Contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="insModConfirmPassword" maxlength="50" required>
+                                                <button class="btn btn-outline-secondary" type="button" id="insModToggleConfirmPassword"  style="border-color: #ced4da; color: #757575;">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -66,20 +81,34 @@
                                 <form id="updateForm" data-info="">
 
                                     <div class="row">
-                                        <div class="mb-3 px-4">
-                                            <label for="updModName" class="form-label mb-0">Nombre</label>
-                                            <input type="updModName" class="form-control" id="updModName" maxlength="50" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-3 px-4">
-                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="updModDescription""></textarea>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
+                                            <input type="text" class="form-control" id="updModLastName" maxlength="50">
                                         </div>
-                                        <div class="mb-3 px-4">
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModRole" class="form-label mb-0">Rol</label>
+                                            <select name="updModRole" class="form-control" id="updModRole" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
                                             <select name="updModStatus" class="form-control" id="updModStatus" required>
-                                                <option>Activo</option>
-                                                <option>Inactivo</option>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
                                             </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPassword" class="form-label mb-0">Contraseña</label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="updModPassword" maxlength="50">
+                                                <button class="btn btn-outline-secondary" type="button" id="updModTogglePassword"  style="border-color: #ced4da; color: #757575;">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -109,7 +138,10 @@
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModDescription"></span>
+                                            <span>Usuario: </span><span id="delModUsername"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Rol: </span><span id="delModRole"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>

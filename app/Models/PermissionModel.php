@@ -20,7 +20,7 @@ class PermissionModel{
                 p.create_operation,
                 p.update_operation,
                 p.delete_operation,
-                p.cud_operation
+                m.cud_operation
             FROM `permission` AS p
             INNER JOIN `module` AS m
             ON p.module_id = m.id
@@ -38,7 +38,7 @@ class PermissionModel{
                 0 AS create_operation,
                 0 AS update_operation,
                 0 AS delete_operation,
-                0 AS cud_operation
+                m.cud_operation
             FROM `module` AS m
             WHERE m.deleted_at IS NULL
             AND NOT EXISTS (
