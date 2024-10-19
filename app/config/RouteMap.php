@@ -9,18 +9,12 @@ const ROUTE_MAP = [
     "paciente" => "PatientController",
     "empleado" => "EmployeController",
     "posicion" => "PositionController",
-    "medicina" => "MedicineController"
+    "medicina" => "MedicineController",
+    "proveedor" => "SupplierController"
 ];
 
 //Rutas de métodos de español a inglés
 const ROUTE_METHOD_MAP = [
-    "reservacion" => "reservation",
-    "cliente" => "customer",
-    "hora" => "hour",
-    "producto" => "product",
-    "usuarios" => "users",
-    "usuario" => "user",
-
     "ingresar" => "login",
     "salir" => "logout",
     "token" => "token",

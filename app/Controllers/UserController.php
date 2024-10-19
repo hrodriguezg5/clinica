@@ -100,7 +100,6 @@ class UserController extends Controllers {
                 "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null,
                 "first_name" => htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') ?? null,
                 "last_name" => htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "username" => htmlspecialchars($input['username'], ENT_QUOTES, 'UTF-8') ?? null,
                 "password" => htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') ?? null,
                 "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
                 "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
