@@ -1,5 +1,5 @@
 import { apiService } from '../services/apiService.js';
-import { isValidPassword, arePasswordsMatching } from '../utils/validation.js';
+import { isValidPassword, arePasswordsMatching, isEmpty } from '../utils/validation.js';
 import { showAlert } from '../utils/showArlert.js';
 import { 
     createButton, 
@@ -212,7 +212,11 @@ const updateFormSubmit = async () => {
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
     const password = document.getElementById('updModPassword');
 
-    if (!isValidPassword(password.value)) {
+    password.addEventListener('input', function() {
+        this.classList.remove('input-error');
+    });
+
+    if (!isValidPassword(password.value) && !isEmpty(password.value)) {
         showAlert('La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número.', 'danger');
         password.classList.add('input-error');
         return;
@@ -222,7 +226,7 @@ const updateFormSubmit = async () => {
         role_id: Number(document.getElementById('updModRole').value) || null,
         first_name: document.getElementById('updModFirstName').value || '',
         last_name: document.getElementById('updModLastName').value || '',
-        password: document.getElementById('updModPassword').value || null,
+        password: password.value || null,
         active: Number(document.getElementById('updModStatus').value) || null,
         user_id: currentData.user_id || null,
         id: dataInfo.user_id || null

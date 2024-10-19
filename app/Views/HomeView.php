@@ -21,7 +21,7 @@
                         <div class="d-flex align-items-center justify-content-center mb-4">
                             <h1 id="greetingTitle" class="mb-0"></h1>
                         </div>
-                        <img src="/clinica/public/img/1.jpg" class="img-fluid w-100" alt="Pacientes Registrados" style="object-fit: cover; max-width: 950px;"> <!-- Ajusta el valor de max-width según tus necesidades -->
+                        <img src="<?= URL_ROUTE; ?>/img/home.jpg" class="img-fluid w-100" alt="Inicio" style="object-fit: cover; max-width: 950px;"> <!-- Ajusta el valor de max-width según tus necesidades -->
                     </div>
                 </div>
                 <!-- Contenido de Bievenida Fin -->
