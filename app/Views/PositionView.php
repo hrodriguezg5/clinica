@@ -6,7 +6,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -14,21 +14,12 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
+                                            <label for="insModName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="insModLastName" maxlength="50">
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModUsername" class="form-label mb-0">Usuario</label>
-                                            <input type="text" class="form-control" id="insModUsername" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModRole" class="form-label mb-0">Rol</label>
-                                            <select name="insModRole" class="form-control" id="insModRole" required>
-                                            </select>
+                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -37,31 +28,12 @@
                                                 <option value="0">Inactivo</option>
                                             </select>
                                         </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPassword" class="form-label mb-0">Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="insModPassword" maxlength="50" required>
-                                                <button class="btn btn-outline-secondary" type="button" id="insModTogglePassword" style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModConfirmPassword" class="form-label mb-0">Confirmar Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="insModConfirmPassword" maxlength="50" required>
-                                                <button class="btn btn-outline-secondary" type="button" id="insModToggleConfirmPassword"  style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -74,7 +46,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -82,17 +54,12 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
+                                            <label for="updModName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="updModLastName" maxlength="50">
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModRole" class="form-label mb-0">Rol</label>
-                                            <select name="updModRole" class="form-control" id="updModRole" required>
-                                            </select>
+                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -100,15 +67,6 @@
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPassword" class="form-label mb-0">Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="updModPassword" maxlength="50">
-                                                <button class="btn btn-outline-secondary" type="button" id="updModTogglePassword"  style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -128,7 +86,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -138,10 +96,7 @@
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Usuario: </span><span id="delModUsername"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Rol: </span><span id="delModRole"></span>
+                                            <span>Descripción: </span><span id="delModDescription"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -183,15 +138,14 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Usuarios Registrados</h6>
+                            <h6 class="mb-0">Puestos Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Usuario</th>
-                                        <th scope="col">Rol</th>
+                                        <th scope="col">Descripción</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

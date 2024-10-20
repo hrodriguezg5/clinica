@@ -1,5 +1,4 @@
 import { apiService } from '../services/apiService.js';
-import { isValidPassword, arePasswordsMatching, isEmpty } from '../utils/validation.js';
 import { showAlert } from '../utils/showArlert.js';
 import { 
     createButton, 
@@ -7,8 +6,7 @@ import {
     assignFormSubmitEvent, 
     assignSearchEvent,
     closeModal,
-    resetModal,
-    togglePassword
+    resetModal
 } from '../utils/actionButton.js';
 
 let currentData;
@@ -108,8 +106,10 @@ const insertFormSubmit = async () => {
     
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -156,8 +156,10 @@ const updateFormSubmit = async () => {
     
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('updateModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -197,8 +199,10 @@ const deleteFormSubmit = async () => {
 
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('deleteModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 

@@ -166,15 +166,17 @@ const insertFormSubmit = async () => {
         last_name: document.getElementById('insModLastName').value || '',
         username: username.value || '',
         role_id: Number(document.getElementById('insModRole').value) || null,
-        active: Number(document.getElementById('insModStatus').value) || null,
+        active: Number(document.getElementById('insModStatus').value),
         password: password.value || null,
         user_id: currentData.user_id || null
     });
     
     try {
         await apiService.fetchData(urlInsert, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -227,15 +229,17 @@ const updateFormSubmit = async () => {
         first_name: document.getElementById('updModFirstName').value || '',
         last_name: document.getElementById('updModLastName').value || '',
         password: password.value || null,
-        active: Number(document.getElementById('updModStatus').value) || null,
+        active: Number(document.getElementById('updModStatus').value),
         user_id: currentData.user_id || null,
         id: dataInfo.user_id || null
     });
     
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('updateModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -273,8 +277,10 @@ const deleteFormSubmit = async () => {
 
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('deleteModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 

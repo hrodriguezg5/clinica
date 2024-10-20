@@ -3,7 +3,8 @@ export function translateToEnglish (spanishModule){
         'inicio': 'home',
         'usuario': 'user',
         'rol': 'role',
-        'paciente': 'patient'
+        'paciente': 'patient',
+        'posicion': 'position'
     };
 
     return module[spanishModule] || spanishModule;
