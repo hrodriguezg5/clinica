@@ -8,24 +8,16 @@ class PatientController extends Controllers {
         $this->view("PatientView");
     }
 
-    public function token(){
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
-    }
-
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
             $patients = $this->model->getPatients();
         
             if ($patients) {
-            //    $response = [];
                 foreach ($patients as $patient){
                     $response[] = [
                         'id' => $patient->id,
-                        'first_name' => $patient->first_name,
-                        'last_name' => $patient->last_name,
+                        'full_name' => $patient->full_name,
                         'birth_date' => $patient->birth_date,
                         'gender' =>$patient->gender,
                         'address' =>$patient->address,
@@ -47,15 +39,15 @@ class PatientController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
                 "birth_date" => isset($decodedData['birth_date']) ? filter_var($decodedData['birth_date'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "gender" => isset($decodedData['gender']) ? filter_var($decodedData['gender'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "gender" => isset($decodedData['gender']) ? htmlspecialchars($decodedData['gender'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
-                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_VALIDATE_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_VALIDATE_INT) : null,
             ];
     
             if ($this->model->insertPatient($data)) {
@@ -68,25 +60,22 @@ class PatientController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) {
-                
-                return;
-            }
+            if (!$this->authMiddleware->validateToken()) return;
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); // Decodifica el JSON en un array asociativo
     
             $data = [
-                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "birth_date" => isset($decodedData['birth_date']) ? filter_var($decodedData['birth_date'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "gender" => isset($decodedData['gender']) ? filter_var($decodedData['gender'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_VALIDATE_INT) : null,
+                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
+                "birth_date" => isset($decodedData['birth_date']) ? htmlspecialchars($decodedData['birth_date'], ENT_QUOTES, 'UTF-8') : null,
+                "gender" => isset($decodedData['gender']) ? htmlspecialchars($decodedData['gender'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_VALIDATE_INT) : null
             ];
             
             if ($this->model->updatePatient($data)) {
@@ -120,44 +109,13 @@ class PatientController extends Controllers {
         }
     }
 
-    public function search() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
-            $json = file_get_contents('php://input');
-            $decodedData = json_decode($json, true); 
-    
-            $name = isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $patients = $this->model->searchPatients($name);
-    
-            if ($patients) {
-                foreach ($patients as $patient){
-                    $response[] = [
-                        'id' => $patient->id,
-                        'first_name' => $patient->first_name,
-                        'last_name' => $patient->last_name,
-                        'birth_date' => $patient->birth_date,
-                        'gender' =>$patient->gender,
-                        'address' =>$patient->address,
-                        'phone' =>$patient->phone,
-                        'email' => $patient->email
-                    ];
-                
-                }   
-                $this->jsonResponse($response);
-
-                
-            }
-        }
-        
-    }
-
     public function filter() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
     
-            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
             $patients = $this->model->fileterPatient($id);
     
             if ($patients) {
@@ -174,14 +132,9 @@ class PatientController extends Controllers {
                     ];
                 
                 }   
-                $this->jsonResponse($response);
-
-                
+                $this->jsonResponse($response);       
             }
-        }
-        
-    }
-    
+        }   
+    }   
 }
-
 ?>

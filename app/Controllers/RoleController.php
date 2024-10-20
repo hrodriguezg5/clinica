@@ -7,12 +7,6 @@ class RoleController extends Controllers {
     public function index()  {
         $this->view("RoleView");
     }
-
-    public function token() {
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
-    }
     
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
