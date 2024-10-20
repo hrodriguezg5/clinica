@@ -42,16 +42,15 @@ class InventoryController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_batch" => isset($decodedData['id_batch']) ? filter_var($decodedData['id_batch'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "last_update_date" => isset($decodedData['last_update_date']) ? filter_var($decodedData['last_update_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_branch" => isset($decodedData['id_branch']) ? filter_var($decodedData['id_branch'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
     
-            if ($this->model->insertLots($data)) {
+            if ($this->model->insertInventories($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -72,15 +71,14 @@ class InventoryController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_batch" => isset($decodedData['id_batch']) ? filter_var($decodedData['id_batch'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "last_update_date" => isset($decodedData['last_update_date']) ? filter_var($decodedData['last_update_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "id_branch" => isset($decodedData['id_branch']) ? filter_var($decodedData['id_branch'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
             ];
             
-            if ($this->model->updateLots($data)) {
+            if ($this->model->updateInventories($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -103,7 +101,7 @@ class InventoryController extends Controllers {
             ];
     
     
-            if ($this->model->deleteLots($data)) {
+            if ($this->model->deleteInventories($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -118,17 +116,15 @@ class InventoryController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $lots = $this->model->fileterLots($id);
+            $inventories = $this->model->fileterInventories($id);
     
-            if ($lots) {
-                foreach ($lots as $batch){
+            if ($inventories) {
+                foreach ($inventories as $inventory){
                     $response = [
-                        'id' => $batch->id,
-                        'manufacture_date' => $batch->manufacture_date,
-                        'expiration_date' =>$batch->expiration_date,
-                        'initial_quantity' =>$batch->initial_quantity,
-                        'name_medicine' =>$batch->name_medicine,
-                        'name_supplier' =>$batch->name_supplier
+                        'id' => $inventory->id,
+                        'quantity_available' => $inventory->quantity_available,
+                        'last_update_date' =>$inventory->last_update_date,
+                        'name_branch' =>$inventory->name_branch
                     ];
                 
                 }   
