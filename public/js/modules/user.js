@@ -86,7 +86,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);
@@ -107,10 +107,12 @@ const populateSelect = async (selectId, module) =>  {
     try {
         const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
         options.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.role;
-            select.appendChild(option);
+            if (item.active === 1) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.role;
+                select.appendChild(option);
+            }
         });
     } catch (error) {
         console.error('Error:', error);

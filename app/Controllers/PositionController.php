@@ -44,7 +44,7 @@ class PositionController extends Controllers {
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null,
             ];
     
-            if ($this->model->insertPositions($data)) {
+            if ($this->model->insertPosition($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -68,7 +68,7 @@ class PositionController extends Controllers {
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updatePositions($data)) {
+            if ($this->model->updatePosition($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -91,7 +91,7 @@ class PositionController extends Controllers {
             ];
     
     
-            if ($this->model->deletePositions($data)) {
+            if ($this->model->deletePosition($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -106,18 +106,16 @@ class PositionController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $positions = $this->model->fileterPositions($id);
+            $position = $this->model->fileterPosition($id);
     
-            if ($positions) {
-                foreach ($positions as $position){
-                    $response = [
-                        'id' => $position->id,
-                        'name' =>$position->name,
-                        'description' =>$position->description,
-                        'active' =>$position->active
-                    ];
-                
-                }   
+            if ($position) {
+                $response = [
+                    'id' => $position->id,
+                    'name' =>$position->name,
+                    'description' =>$position->description,
+                    'active' =>$position->active
+                ];
+            
                 $this->jsonResponse($response);
             }
         }

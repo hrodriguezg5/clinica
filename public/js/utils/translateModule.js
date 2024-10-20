@@ -4,7 +4,8 @@ export function translateToEnglish (spanishModule){
         'usuario': 'user',
         'rol': 'role',
         'paciente': 'patient',
-        'posicion': 'position'
+        'empleado': 'employee',
+        'posicion': 'position',
     };
 
     return module[spanishModule] || spanishModule;

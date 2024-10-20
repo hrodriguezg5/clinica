@@ -25,7 +25,7 @@ class PositionModel{
         return $row;
     }
 
-    public function insertPositions($data){
+    public function insertPosition($data){
         $this->db->query(
             "INSERT INTO position 
              (name, 
@@ -54,7 +54,7 @@ class PositionModel{
         }
     }
 
-    public function updatePositions($data){
+    public function updatePosition($data){
         $this->db->query(
             "UPDATE position
             SET NAME = :name,
@@ -77,7 +77,7 @@ class PositionModel{
         }
     }
 
-    public function deletePositions($data){
+    public function deletePosition($data){
         $this->db->query(
             "UPDATE position
             SET deleted_at = CURRENT_TIMESTAMP(),
@@ -95,7 +95,7 @@ class PositionModel{
         }
     }
 
-    public function fileterPositions($id){
+    public function fileterPosition($id){
         $this->db->query(
             "SELECT p.id,
                     p.name,
@@ -107,7 +107,7 @@ class PositionModel{
 
         $this->db->bind(':id', $id);
 
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }
