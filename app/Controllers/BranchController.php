@@ -72,15 +72,14 @@ class BranchController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
+                "city" => isset($decodedData['city']) ? filter_var($decodedData['city'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
             ];
             
-            if ($this->model->updateLots($data)) {
+            if ($this->model->updateBranches($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -103,7 +102,7 @@ class BranchController extends Controllers {
             ];
     
     
-            if ($this->model->deleteLots($data)) {
+            if ($this->model->deleteBranches($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -118,17 +117,16 @@ class BranchController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $lots = $this->model->fileterLots($id);
+            $branches = $this->model->fileterBranches($id);
     
-            if ($lots) {
-                foreach ($lots as $batch){
+            if ($branches) {
+                foreach ($branches as $branch){
                     $response = [
-                        'id' => $batch->id,
-                        'manufacture_date' => $batch->manufacture_date,
-                        'expiration_date' =>$batch->expiration_date,
-                        'initial_quantity' =>$batch->initial_quantity,
-                        'name_medicine' =>$batch->name_medicine,
-                        'name_supplier' =>$batch->name_supplier
+                        'id' => $branch->id,
+                        'name' => $branch->name,
+                        'address' =>$branch->address,
+                        'phone' =>$branch->phone,
+                        'city' =>$branch->city
                     ];
                 
                 }   

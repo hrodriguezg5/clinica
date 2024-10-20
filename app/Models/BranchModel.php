@@ -74,25 +74,23 @@ class BranchModel{
         }
     }
 
-    public function updateLots($data){
+    public function updateBranches($data){
         $this->db->query(
-            "UPDATE batch
-                    SET manufacture_date = :manufacture_date,
-                    expiration_date = :expiration_date,
-                    initial_quantity = :initial_quantity,
-                    id_medicine = :id_medicine,
-                    id_supplier = :id_supplier,
+            "UPDATE branch
+                    SET `name` = :name,
+                    `address` = :address,
+                    phone = :phone,
+                    city = :city,
                     updated_at = CURRENT_TIMESTAMP(),
                     updated_by = :updated_by
                     WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":manufacture_date", $data["manufacture_date"]);
-        $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":initial_quantity", $data["initial_quantity"]);
-        $this->db->bind(":id_medicine", $data["id_medicine"]);
-        $this->db->bind(":id_supplier", $data["id_supplier"]);
+        $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":address", $data["address"]);
+        $this->db->bind(":phone", $data["phone"]);
+        $this->db->bind(":city", $data["city"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -101,9 +99,9 @@ class BranchModel{
         }
     }
 
-    public function deleteLots($data){
+    public function deleteBranches($data){
         $this->db->query(
-            "UPDATE batch
+            "UPDATE branch
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -119,18 +117,15 @@ class BranchModel{
         }
     }
 
-    public function fileterLots($id){
+    public function fileterBranches($id){
         $this->db->query(
             "SELECT 
                 b.id,
-                b.manufacture_date,
-                b.expiration_date,
-                b.initial_quantity,
-                m.`name` AS name_medicine,
-                s.`name` AS name_supplier
-                FROM batch b
-            INNER JOIN medicine AS m ON m.id = b.id_medicine
-            INNER JOIN supplier AS s ON s.id = b.id_supplier
+                b.`name`,
+                b.address,
+                b.phone,
+                b.city
+            FROM branch b
             WHERE b.id = :id
             AND b.deleted_at IS NULL;");
 
