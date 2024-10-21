@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModGender" class="form-label mb-0">Género</label>
-                                            <select name="insModGender" class="form-control" id="insModGender" required>
+                                            <select name="insModGender" class="form-control form-select" id="insModGender" required>
                                                 <option>Masculino</option>
                                                 <option>Femenino</option>
                                                 <option>Otro</option>
@@ -84,7 +84,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModGender" class="form-label mb-0">Género</label>
-                                            <select name="updModGender" class="form-control" id="updModGender" required>
+                                            <select name="updModGender" class="form-control form-select" id="updModGender" required>
                                                 <option>Masculino</option>
                                                 <option>Femenino</option>
                                                 <option>Otro</option>

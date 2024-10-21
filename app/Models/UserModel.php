@@ -15,6 +15,8 @@ class UserModel {
             "SELECT u.id,
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name,
                 u.username,
+                e.id AS employee_id,
+                CONCAT(e.id, ' - ', e.first_name, ' ', e.last_name) AS employee_name,
                 u.`active`,
                 r.id AS role_id,
                 r.`name` AS role_name
@@ -22,6 +24,9 @@ class UserModel {
             LEFT JOIN `role` AS r
             ON u.role_id = r.id
             AND r.active = 1
+            LEFT JOIN `employee` AS e
+            ON u.employee_id = e.id
+            AND e.active = 1
             WHERE u.deleted_at IS NULL
             AND r.deleted_at IS NULL;"
         );
@@ -36,6 +41,8 @@ class UserModel {
                 u.first_name,
                 u.last_name,
                 u.username,
+                e.id AS employee_id,
+                CONCAT(e.id, ' - ', e.first_name, ' ', e.last_name) AS employee_name,
                 u.`active`,
                 r.id AS role_id,
                 r.`name` AS role_name
@@ -43,6 +50,9 @@ class UserModel {
             LEFT JOIN `role` AS r
             ON u.role_id = r.id
             AND r.active = 1
+            LEFT JOIN `employee` AS e
+            ON u.employee_id = e.id
+            AND e.active = 1
             WHERE u.deleted_at IS NULL
             AND r.deleted_at IS NULL
             AND u.id = :id
@@ -70,14 +80,15 @@ class UserModel {
 
     public function insertUser($data) {
         $this->db->query(
-            "INSERT INTO `user` (role_id, first_name, last_name, username, password, active, created_by, updated_by)
-            VALUES (:role_id, :first_name, :last_name, :username, SHA2(:password , 256), :active, :user_id, :user_id);"
+            "INSERT INTO `user` (role_id, first_name, last_name, username, employee_id, password, active, created_by, updated_by)
+            VALUES (:role_id, :first_name, :last_name, :username, :employee_id, SHA2(:password , 256), :active, :user_id, :user_id);"
         );
         
         $this->db->bind(":role_id", $data["role_id"]);
         $this->db->bind(":first_name", $data["first_name"]);
         $this->db->bind(":last_name", $data["last_name"]);
         $this->db->bind(":username", $data["username"]);
+        $this->db->bind(":employee_id", $data["employee_id"]);
         $this->db->bind(":password", $data["password"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":user_id", $data["user_id"]);
@@ -94,7 +105,8 @@ class UserModel {
             SET role_id = :role_id,
             first_name = :first_name,
             last_name = :last_name,
-            `password` = IF(:password = '', `password`, SHA2(:password, 256)),
+            employee_id = :employee_id,
+            `password` = IF(:password IS NULL, `password`, SHA2(:password, 256)),
             `active` = :active,
             updated_by = :user_id
             WHERE id = :id;"
@@ -103,6 +115,7 @@ class UserModel {
         $this->db->bind(":role_id", $data["role_id"]);
         $this->db->bind(":first_name", $data["first_name"]);
         $this->db->bind(":last_name", $data["last_name"]);
+        $this->db->bind(":employee_id", $data["employee_id"]);
         $this->db->bind(":password", $data["password"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":user_id", $data["user_id"]);

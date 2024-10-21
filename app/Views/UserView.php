@@ -27,12 +27,17 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModRole" class="form-label mb-0">Rol</label>
-                                            <select name="insModRole" class="form-control" id="insModRole" required>
+                                            <select name="insModRole" class="form-control form-select" id="insModRole" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModEmployee" class="form-label mb-0">Empleado</label>
+                                            <select name="insModEmployee" class="form-control form-select" id="insModEmployee">
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="insModStatus" class="form-control" id="insModStatus" required>
+                                            <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -91,12 +96,17 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModRole" class="form-label mb-0">Rol</label>
-                                            <select name="updModRole" class="form-control" id="updModRole" required>
+                                            <select name="updModRole" class="form-control form-select" id="updModRole" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModEmployee" class="form-label mb-0">Empleado</label>
+                                            <select name="updModEmployee" class="form-control form-select" id="updModEmployee">
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="updModStatus" class="form-control" id="updModStatus" required>
+                                            <select name="updModStatus" class="form-control form-select" id="updModStatus" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -191,6 +201,7 @@
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Usuario</th>
+                                        <th scope="col">Empleado</th>
                                         <th scope="col">Rol</th>
                                         <th scope="col">Estado</th>
                                     </tr>

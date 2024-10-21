@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="insModStatus" class="form-control" id="insModStatus" required>
+                                            <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="updModStatus" class="form-control" id="updModStatus" required>
+                                            <select name="updModStatus" class="form-control form-select" id="updModStatus" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>

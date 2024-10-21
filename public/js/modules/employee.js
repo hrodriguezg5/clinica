@@ -73,6 +73,7 @@ export async function initModule(data, module) {
 
         rows += `
             <tr>
+                <td>${item.id}</td>
                 <td>${item.employee_name}</td>
                 <td>${item.position}</td>
                 <td>${item.email}</td>
@@ -101,7 +102,11 @@ export async function initModule(data, module) {
 
 const populateSelect = async (selectId, module) =>  {
     const select = document.getElementById(selectId);
-    select.innerHTML = '';
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
     
     try {
         const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
@@ -110,7 +115,7 @@ const populateSelect = async (selectId, module) =>  {
                 const option = document.createElement('option');
                 option.value = item.id;
                 option.textContent = item.name;
-                select.appendChild(option);
+                newSelectElement.appendChild(option);
             }
         });
     } catch (error) {
@@ -125,9 +130,8 @@ const insertFormSubmit = async () => {
         first_name: document.getElementById('insModFirstName').value || '',
         last_name: document.getElementById('insModLastName').value || '',
         position_id: Number(document.getElementById('insModPosition').value) || null,
-        email: document.getElementById('insModLastName').value || '',
-        phone: document.getElementById('insModLastName').value || '',
-        last_name: document.getElementById('insModLastName').value || '',
+        email: document.getElementById('insModEmail').value || '',
+        phone: document.getElementById('insModPhone').value || '',
         active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null

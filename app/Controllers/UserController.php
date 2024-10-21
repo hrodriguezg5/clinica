@@ -19,6 +19,8 @@ class UserController extends Controllers {
                         'id' => $user->id,
                         'user_name' => $user->user_name,
                         'username' => $user->username,
+                        'employee_id' => $user->employee_id,
+                        'employee_name' => $user->employee_name,
                         'active' => $user->active,
                         'role_id' => $user->role_id,
                         'role_name' => $user->role_name
@@ -42,6 +44,8 @@ class UserController extends Controllers {
                     'first_name' => $user->first_name,
                     'last_name' => $user->last_name,
                     'username' => $user->username,
+                    'employee_id' => $user->employee_id,
+                    'employee_name' => $user->employee_name,
                     'active' => $user->active,
                     'role_id' => $user->role_id,
                     'role_name' => $user->role_name
@@ -74,15 +78,16 @@ class UserController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
 
             $data = [
-                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null,
-                "first_name" => htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "last_name" => htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "username" => htmlspecialchars($input['username'], ENT_QUOTES, 'UTF-8') ?? null,
-                "password" => htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') ?? null,
-                "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
-                "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null
+                "role_id" => isset($input['role_id']) ? filter_var($input['role_id'], FILTER_VALIDATE_INT) : null,
+                "first_name" => isset($input['first_name']) ? htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($input['last_name']) ? htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') : null,
+                "username" => isset($input['username']) ? htmlspecialchars($input['username'], ENT_QUOTES, 'UTF-8') : null,
+                "employee_id" => isset($input['employee_id']) ? filter_var($input['employee_id'], FILTER_VALIDATE_INT) : null,
+                "password" => isset($input['password']) ? htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($input['active']) ? filter_var($input['active'], FILTER_VALIDATE_INT) : null,
+                "user_id" => isset($input['user_id']) ? filter_var($input['user_id'], FILTER_VALIDATE_INT) : null
             ];
-
+            
             if ($this->model->insertUser($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
@@ -97,13 +102,14 @@ class UserController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
 
             $data = [
-                "role_id" => filter_var($input['role_id'], FILTER_VALIDATE_INT) ?? null,
-                "first_name" => htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "last_name" => htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') ?? null,
-                "password" => htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') ?? null,
-                "active" => filter_var($input['active'], FILTER_VALIDATE_INT) ?? null,
-                "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
-                "id" => filter_var($input['id'], FILTER_VALIDATE_INT) ?? null
+                "role_id" => isset($input['role_id']) ? filter_var($input['role_id'], FILTER_VALIDATE_INT) : null,
+                "first_name" => isset($input['first_name']) ? htmlspecialchars($input['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($input['last_name']) ? htmlspecialchars($input['last_name'], ENT_QUOTES, 'UTF-8') : null,
+                "employee_id" => isset($input['employee_id']) ? filter_var($input['employee_id'], FILTER_VALIDATE_INT) : null,
+                "password" => isset($input['password']) ? htmlspecialchars($input['password'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($input['active']) ? filter_var($input['active'], FILTER_VALIDATE_INT) : null,
+                "user_id" => isset($input['user_id']) ? filter_var($input['user_id'], FILTER_VALIDATE_INT) : null,
+                "id" => isset($input['id']) ? filter_var($input['id'], FILTER_VALIDATE_INT) : null
             ];
 
             if ($this->model->updateUser($data)) {
@@ -120,8 +126,8 @@ class UserController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
             
             $data = [
-                "user_id" => filter_var($input['user_id'], FILTER_VALIDATE_INT) ?? null,
-                "id" => filter_var($input['id'], FILTER_VALIDATE_INT) ?? null
+                "user_id" => isset($input['user_id']) ? filter_var($input['user_id'], FILTER_VALIDATE_INT) : null,
+                "id" => isset($input['id']) ? filter_var($input['id'], FILTER_VALIDATE_INT) : null
             ];
 
             if ($this->model->deleteUser($data)) {
