@@ -28,7 +28,7 @@ export const createMenuItem = (item, activeModule) => {
     }
 
     const icon = document.createElement('i');
-    icon.className = item.icon;
+    icon.className = `${item.icon} me-2`;
     link.appendChild(icon);
     link.appendChild(document.createTextNode(item.module));
 

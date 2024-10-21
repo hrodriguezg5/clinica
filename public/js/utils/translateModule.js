@@ -3,7 +3,9 @@ export function translateToEnglish (spanishModule){
         'inicio': 'home',
         'usuario': 'user',
         'rol': 'role',
-        'paciente': 'patient'
+        'paciente': 'patient',
+        'empleado': 'employee',
+        'posicion': 'position',
     };
 
     return module[spanishModule] || spanishModule;

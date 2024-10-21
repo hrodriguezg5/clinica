@@ -6,7 +6,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -14,43 +14,26 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
+                                            <label for="insModName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="insModLastName" maxlength="50" required>
+                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModGender" class="form-label mb-0">Género</label>
-                                            <select name="insModGender" class="form-control form-select" id="insModGender" required>
-                                                <option>Masculino</option>
-                                                <option>Femenino</option>
-                                                <option>Otro</option>
+                                            <label for="insModStatus" class="form-label mb-0">Estado</label>
+                                            <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control" id="insModBirthDate" maxlength="50" required>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -63,7 +46,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -71,36 +54,19 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
+                                            <label for="updModName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="updModLastName" maxlength="50" required>
+                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
+                                            <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModGender" class="form-label mb-0">Género</label>
-                                            <select name="updModGender" class="form-control form-select" id="updModGender" required>
-                                                <option>Masculino</option>
-                                                <option>Femenino</option>
-                                                <option>Otro</option>
+                                            <label for="updModStatus" class="form-label mb-0">Estado</label>
+                                            <select name="updModStatus" class="form-control form-select" id="updModStatus" required>
+                                                <option value="1">Activo</option>
+                                                <option value="0">Inactivo</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control" id="updModBirthDate" maxlength="50" required>
                                         </div>
                                     </div>
                                 </form>
@@ -120,7 +86,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -130,19 +96,10 @@
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Correo: </span><span id="delModEmail"></span>
+                                            <span>Descripción: </span><span id="delModDescription"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Genero: </span><span id="delModGender"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Dirección: </span><span id="delModAddress"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Teléfono: </span><span id="delModPhone"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Fecha de Nacimiento: </span><span id="delModBirthDate"></span>
+                                            <span>Estado: </span><span id="delModStatus"></span>
                                         </div>
                                     </div>
                                 </form>
@@ -181,18 +138,15 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Pacientes Registrados</h6>
+                            <h6 class="mb-0">Puestos Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Correo</th>
-                                        <th scope="col">Género</th>
-                                        <th scope="col">Dirección</th>
-                                        <th scope="col">Teléfono</th>
-                                        <th scope="col">Fecha de Nacimiento</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">

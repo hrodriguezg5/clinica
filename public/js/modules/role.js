@@ -1,4 +1,5 @@
 import { apiService } from '../services/apiService.js';
+import { showAlert } from '../utils/showArlert.js';
 import { 
     createButton, 
     assignModalEvent, 
@@ -129,8 +130,6 @@ const permissionModal = async (data) => {
 };
 
 const permissionFormSubmit = async () => {
-    const modalElement = document.getElementById('permissionModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
     const urlInsert = `${urlBase}/permiso/agregar`;
     const urlUpdate = `${urlBase}/permiso/actualizar`;
     const rows = document.querySelectorAll('#permmissionTableBody tr');
@@ -150,14 +149,16 @@ const permissionFormSubmit = async () => {
         });
 
         try {
+            showAlert("Operación exitosa.", 'success');
             return await apiService.fetchData(url, 'POST', formData());
         } catch (error) {
+            showAlert("Error de conexión.", 'danger');
             console.error('Error:', error);
         }
     });
 
     await Promise.all(promises);
-    modalInstance.hide();
+    closeModal('permissionModal');
 };
 
 const insertFormSubmit = async () => {
@@ -165,14 +166,16 @@ const insertFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('insModName').value || '',
         description: document.getElementById('insModDescription').value || '',
-        active: Number(document.getElementById('insModStatus').value) || null,
+        active: Number(document.getElementById('insModStatus').value),
         user_id: currentData.user_id || null
     });
 
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -202,15 +205,17 @@ const updateFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('updModName').value || '',
         description: document.getElementById('updModDescription').value || '',
-        active: Number(document.getElementById('updModStatus').value)  || null,
+        active: Number(document.getElementById('updModStatus').value),
         user_id: currentData.user_id || null,
         role_id: dataInfo.role_id || null
     });
     
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('updateModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -245,8 +250,10 @@ const deleteFormSubmit = async () => {
 
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('deleteModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 

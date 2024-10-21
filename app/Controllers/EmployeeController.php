@@ -1,17 +1,11 @@
 <?php
-class EmployeController extends Controllers {
+class EmployeeController extends Controllers {
     public function __construct() {
         parent::__construct();
     }
     
     public function index() {
-        $this->view("PatientView");
-    }
-
-    public function token(){
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
+        $this->view("EmployeeView");
     }
 
     public function show() {
@@ -23,12 +17,12 @@ class EmployeController extends Controllers {
                 foreach ($employees as $employee){
                     $response[] = [
                         'id' => $employee->id,
-                        'first_name' => $employee->first_name,
-                        'last_name' => $employee->last_name,
+                        'employee_name' => $employee->employee_name,
                         'phone' =>$employee->phone,
                         'email' => $employee->email,
                         'active' => $employee->active,
-                        'name' =>$employee->name,
+                        'position_id' =>$employee->position_id,
+                        'position' =>$employee->position
                     ];
                 
                 }   
@@ -50,7 +44,7 @@ class EmployeController extends Controllers {
                 "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "id_position" => isset($decodedData['id_position']) ? filter_var($decodedData['id_position'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "position_id" => isset($decodedData['position_id']) ? filter_var($decodedData['position_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
             ];
@@ -65,10 +59,7 @@ class EmployeController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) {
-                
-                return;
-            }
+            if (!$this->authMiddleware->validateToken()) return;
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');
@@ -115,37 +106,6 @@ class EmployeController extends Controllers {
         }
     }
 
-    public function search() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
-            $json = file_get_contents('php://input');
-            $decodedData = json_decode($json, true); 
-    
-            $name = isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $employees = $this->model->searchEmployees($name);
-    
-            if ($employees) {
-                foreach ($employees as $employee){
-                    $response[] = [
-                        'id' => $employee->id,
-                        'first_name' => $employee->first_name,
-                        'last_name' => $employee->last_name,
-                        'phone' =>$employee->phone,
-                        'email' => $employee->email,
-                        'active' => $employee->active,
-                        'name' => $employee->name
-
-                    ];
-                
-                }   
-                $this->jsonResponse($response);
-
-                
-            }
-        }
-        
-    }
-
     public function filter() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
@@ -153,29 +113,23 @@ class EmployeController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $employees = $this->model->fileterEmployee($id);
+            $employee = $this->model->fileterEmployee($id);
     
-            if ($employees) {
-                foreach ($employees as $employee){
-                    $response = [
-                        'id' => $employee->id,
-                        'first_name' => $employee->first_name,
-                        'last_name' => $employee->last_name,
-                        'phone' => $employee->phone,
-                        'email' => $employee->email,
-                        'active' =>$employee->active,
-                        'name' =>$employee->name
-                    ];
+            if ($employee) {
+                $response = [
+                    'id' => $employee->id,
+                    'first_name' => $employee->first_name,
+                    'last_name' => $employee->last_name,
+                    'phone' => $employee->phone,
+                    'email' => $employee->email,
+                    'active' =>$employee->active,
+                    'position_id' =>$employee->position_id,
+                    'position' =>$employee->position
+                ];
                 
-                }   
-                $this->jsonResponse($response);
-
-                
+                $this->jsonResponse($response);                
             }
         }
-        
     }
-    
 }
-
 ?>
