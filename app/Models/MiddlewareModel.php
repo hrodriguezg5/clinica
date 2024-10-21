@@ -68,7 +68,7 @@ class MiddlewareModel{
                 p.create_operation,
                 p.update_operation,
                 p.delete_operation,
-                p.cud_operation
+                m.cud_operation
             FROM `module` AS m
             INNER JOIN `permission` AS p
             ON m.id = p.module_id
