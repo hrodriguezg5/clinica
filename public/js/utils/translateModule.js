@@ -6,6 +6,7 @@ export function translateToEnglish (spanishModule){
         'paciente': 'patient',
         'empleado': 'employee',
         'posicion': 'position',
+        'medicina': 'medicine',
         'proveedor': 'supplier',
     };
 

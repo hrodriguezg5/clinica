@@ -50,10 +50,10 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({supplier_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({medicine_id: item.id}).replace(/"/g, '&quot;');
         const status = item.active ? 'Activo' : 'Inactivo';
         const alertType = item.active ? 'success' : 'danger';
-
+        
         let actionButtons = '';
         
         // Crear los botones de acuerdo a los permisos
@@ -69,9 +69,9 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.name}</td>
                 <td>${item.description}</td>
-                <td>${item.email}</td>
-                <td>${item.address}</td>
-                <td>${item.phone}</td>
+                <td class="text-end">Q${item.purchase_price}</td>
+                <td class="text-end">Q${item.selling_price}</td>
+                <td>${item.brand}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -99,9 +99,9 @@ const insertFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('insModName').value || '',
         description: document.getElementById('insModDescription').value || '',
-        email: document.getElementById('insModEmail').value || '',
-        address: document.getElementById('insModAddress').value || '',
-        phone: document.getElementById('insModPhone').value || '',
+        purchase_price: document.getElementById('insModPurchasePrice').value || '',
+        selling_price: document.getElementById('insModSellingPrice').value || '',
+        brand: document.getElementById('insModBrand').value || '',
         active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
@@ -122,16 +122,16 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.supplier_id;
+    const id = data.medicine_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModName').value = response.name || '';
         document.getElementById('updModDescription').innerText = response.description || '';
-        document.getElementById('updModEmail').value = response.email || '';
-        document.getElementById('updModAddress').value = response.address || '';
-        document.getElementById('updModPhone').value = response.phone || '';
+        document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
+        document.getElementById('updModSellingPrice').value = response.selling_price || '';
+        document.getElementById('updModBrand').value = response.brand || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
@@ -145,13 +145,13 @@ const updateFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('updModName').value || '',
         description: document.getElementById('updModDescription').value || '',
-        email: document.getElementById('updModEmail').value || '',
-        address: document.getElementById('updModAddress').value || '',
-        phone: document.getElementById('updModPhone').value || '',
+        purchase_price: document.getElementById('updModPurchasePrice').value || '',
+        selling_price: document.getElementById('updModSellingPrice').value || '',
+        brand: document.getElementById('updModBrand').value || '',
         active: Number(document.getElementById('updModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null,
-        id: dataInfo.supplier_id || null
+        id: dataInfo.medicine_id || null
     });
     
     try {
@@ -169,7 +169,7 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.supplier_id;
+    const id = data.medicine_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
@@ -177,9 +177,9 @@ const deleteModal = async (data) => {
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = response.name || '';
         document.getElementById('delModDescription').innerText = response.description || '';
-        document.getElementById('delModEmail').innerText = response.email || '';
-        document.getElementById('delModAddress').innerText = response.address || '';
-        document.getElementById('delModPhone').innerText = response.phone || '';
+        document.getElementById('delModPurchasePrice').innerText = response.purchase_price || '';
+        document.getElementById('delModSellingPrice').innerText = response.selling_price || '';
+        document.getElementById('delModBrand').innerText = response.brand || '';
         document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
@@ -192,7 +192,7 @@ const deleteFormSubmit = async () => {
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.supplier_id || null
+        id: dataInfo.medicine_id || null
     });
 
     try {

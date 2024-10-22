@@ -5,13 +5,7 @@ class MedicineController extends Controllers {
     }
     
     public function index() {
-        $this->view("PatientView");
-    }
-
-    public function token(){
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
+        $this->view("MedicineView");
     }
 
     public function show() {
@@ -25,10 +19,10 @@ class MedicineController extends Controllers {
                         'id' => $medicine->id,
                         'name' =>$medicine->name,
                         'description' =>$medicine->description,
-                        'price' =>$medicine->price,
+                        'purchase_price' =>$medicine->purchase_price,
+                        'selling_price' =>$medicine->selling_price,
                         'brand' =>$medicine->brand,
-                        'quantity_available' =>$medicine->quantity_available,
-                        'expiration_date' =>$medicine->expiration_date
+                        'active' =>$medicine->active
                     ];
                 
                 }   
@@ -45,17 +39,17 @@ class MedicineController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "description" => isset($decodedData['description']) ? filter_var($decodedData['description'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "price" => isset($decodedData['price']) ? filter_var($decodedData['price'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "brand" => isset($decodedData['brand']) ? filter_var($decodedData['brand'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
+                "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
+                "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertMedicines($data)) {
+            if ($this->model->insertMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -75,17 +69,17 @@ class MedicineController extends Controllers {
             $decodedData = json_decode($json, true); // Decodifica el JSON en un array asociativo
     
             $data = [
-                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "description" => isset($decodedData['description']) ? filter_var($decodedData['description'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "price" => isset($decodedData['price']) ? filter_var($decodedData['price'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "brand" => isset($decodedData['brand']) ? filter_var($decodedData['brand'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "quantity_available" => isset($decodedData['quantity_available']) ? filter_var($decodedData['quantity_available'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
+                "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
+                "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
+                "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updateMedicines($data)) {
+            if ($this->model->updateMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -108,7 +102,7 @@ class MedicineController extends Controllers {
             ];
     
     
-            if ($this->model->deleteMedicines($data)) {
+            if ($this->model->deleteMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -123,29 +117,22 @@ class MedicineController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $medicines = $this->model->fileterMedicines($id);
+            $medicine = $this->model->filterMedicine($id);
     
-            if ($medicines) {
-                foreach ($medicines as $medicine){
-                    $response = [
-                        'id' => $medicine->id,
-                        'name' =>$medicine->name,
-                        'description' =>$medicine->description,
-                        'price' =>$medicine->price,
-                        'brand' =>$medicine->brand,
-                        'quantity_available' =>$medicine->quantity_available,
-                        'expiration_date' =>$medicine->expiration_date
-                    ];
-                
-                }   
+            if ($medicine) {
+                $response = [
+                    'id' => $medicine->id,
+                    'name' =>$medicine->name,
+                    'description' =>$medicine->description,
+                    'purchase_price' =>$medicine->purchase_price,
+                    'selling_price' =>$medicine->selling_price,
+                    'brand' =>$medicine->brand,
+                    'active' =>$medicine->active
+                ];
+            
                 $this->jsonResponse($response);
-
-                
             }
-        }
-        
+        }   
     }
-    
 }
-
 ?>
