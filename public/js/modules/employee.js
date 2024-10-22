@@ -1,5 +1,4 @@
 import { apiService } from '../services/apiService.js';
-import { isValidPassword, arePasswordsMatching, isEmpty } from '../utils/validation.js';
 import { showAlert } from '../utils/showArlert.js';
 import { 
     createButton, 
@@ -7,8 +6,7 @@ import {
     assignFormSubmitEvent, 
     assignSearchEvent,
     closeModal,
-    resetModal,
-    togglePassword
+    resetModal
 } from '../utils/actionButton.js';
 
 let currentData;

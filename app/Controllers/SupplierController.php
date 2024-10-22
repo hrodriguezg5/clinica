@@ -5,13 +5,7 @@ class SupplierController extends Controllers {
     }
     
     public function index() {
-        $this->view("PatientView");
-    }
-
-    public function token(){
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
+        $this->view("SupplierView");
     }
 
     public function show() {
@@ -24,8 +18,11 @@ class SupplierController extends Controllers {
                     $response[] = [
                         'id' => $supplier->id,
                         'name' =>$supplier->name,
+                        'description' =>$supplier->description,
+                        'email' =>$supplier->email,
                         'phone' =>$supplier->phone,
-                        'address' =>$supplier->address
+                        'address' =>$supplier->address,
+                        'active' =>$supplier->active
                     ];
                 
                 }   
@@ -42,14 +39,17 @@ class SupplierController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "email" => isset($decodedData['email']) ? htmlspecialchars($decodedData['email'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertSuppliers($data)) {
+            if ($this->model->insertSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -70,13 +70,16 @@ class SupplierController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "name" => isset($decodedData['name']) ? filter_var($decodedData['name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "address" => isset($decodedData['address']) ? filter_var($decodedData['address'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "email" => isset($decodedData['email']) ? htmlspecialchars($decodedData['email'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updateSuppliers($data)) {
+            if ($this->model->updateSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -99,7 +102,7 @@ class SupplierController extends Controllers {
             ];
     
     
-            if ($this->model->deleteSuppliers($data)) {
+            if ($this->model->deleteSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -113,27 +116,23 @@ class SupplierController extends Controllers {
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
     
-            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $suppliers = $this->model->fileterSuppliers($id);
+            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
+            $supplier = $this->model->filterSupplier($id);
     
-            if ($suppliers) {
-                foreach ($suppliers as $supplier){
-                    $response = [
-                        'id' => $supplier->id,
-                        'name' =>$supplier->name,
-                        'phone' =>$supplier->phone,
-                        'address' =>$supplier->address
-                    ];
-                
-                }   
-                $this->jsonResponse($response);
+            if ($supplier) {
+                $response = [
+                    'id' => $supplier->id,
+                    'name' =>$supplier->name,
+                    'description' =>$supplier->description,
+                    'email' =>$supplier->email,
+                    'phone' =>$supplier->phone,
+                    'address' =>$supplier->address,
+                    'active' =>$supplier->active
+                ];
 
-                
+                $this->jsonResponse($response);
             }
         }
-        
     }
-    
 }
-
 ?>
