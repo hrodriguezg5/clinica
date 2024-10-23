@@ -5,29 +5,25 @@ class BatchController extends Controllers {
     }
     
     public function index() {
-        $this->view("PatientView");
-    }
-
-    public function token(){
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
+        $this->view("BatchView");
     }
 
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $lots = $this->model->getLots();
+            $batchs = $this->model->getBatchs();
         
-            if ($lots) {
-                foreach ($lots as $batch){
+            if ($batchs) {
+                foreach ($batchs as $batch){
                     $response[] = [
                         'id' => $batch->id,
-                        'manufacture_date' => $batch->manufacture_date,
-                        'expiration_date' =>$batch->expiration_date,
-                        'initial_quantity' =>$batch->initial_quantity,
-                        'name_medicine' =>$batch->name_medicine,
-                        'name_supplier' =>$batch->name_supplier
+                        'medicine_id' =>$batch->medicine_id,
+                        'medicine_name' =>$batch->medicine_name,
+                        'supplier_id' =>$batch->supplier_id,
+                        'supplier_name' =>$batch->supplier_name,
+                        'quantity' =>$batch->quantity,
+                        'created_at' => $batch->created_at,
+                        'expiration_date' =>$batch->expiration_date
                     ];
                 
                 }   
@@ -44,16 +40,15 @@ class BatchController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+                "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertLots($data)) {
+            if ($this->model->insertBatch($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -74,15 +69,14 @@ class BatchController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "manufacture_date" => isset($decodedData['manufacture_date']) ? filter_var($decodedData['manufacture_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? filter_var($decodedData['expiration_date'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "initial_quantity" => isset($decodedData['initial_quantity']) ? filter_var($decodedData['initial_quantity'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_medicine" => isset($decodedData['id_medicine']) ? filter_var($decodedData['id_medicine'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "id_supplier" => isset($decodedData['id_supplier']) ? filter_var($decodedData['id_supplier'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
+                "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updateLots($data)) {
+            if ($this->model->updateBatch($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -105,7 +99,7 @@ class BatchController extends Controllers {
             ];
     
     
-            if ($this->model->deleteLots($data)) {
+            if ($this->model->deleteBatch($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -120,28 +114,23 @@ class BatchController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $lots = $this->model->fileterLots($id);
+            $batch = $this->model->filterBatch($id);
     
-            if ($lots) {
-                foreach ($lots as $batch){
-                    $response = [
-                        'id' => $batch->id,
-                        'manufacture_date' => $batch->manufacture_date,
-                        'expiration_date' =>$batch->expiration_date,
-                        'initial_quantity' =>$batch->initial_quantity,
-                        'name_medicine' =>$batch->name_medicine,
-                        'name_supplier' =>$batch->name_supplier
-                    ];
-                
-                }   
-                $this->jsonResponse($response);
+            if ($batch) {
+                $response = [
+                    'id' => $batch->id,
+                    'medicine_id' =>$batch->medicine_id,
+                    'medicine_name' =>$batch->medicine_name,
+                    'supplier_id' =>$batch->supplier_id,
+                    'supplier_name' =>$batch->supplier_name,
+                    'quantity' =>$batch->quantity,
+                    'created_at' =>$batch->created_at,
+                    'expiration_date' =>$batch->expiration_date
+                ];
 
-                
+                $this->jsonResponse($response);
             }
         }
-        
     }
-    
 }
-
 ?>

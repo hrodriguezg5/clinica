@@ -41,7 +41,7 @@ class SupplierController extends Controllers {
             $data = [
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
-                "email" => isset($decodedData['email']) ? htmlspecialchars($decodedData['email'], ENT_QUOTES, 'UTF-8') : null,
+                "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
                 "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
@@ -72,7 +72,7 @@ class SupplierController extends Controllers {
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
-                "email" => isset($decodedData['email']) ? htmlspecialchars($decodedData['email'], ENT_QUOTES, 'UTF-8') : null,
+                "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
                 "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,

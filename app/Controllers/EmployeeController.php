@@ -39,14 +39,14 @@ class EmployeeController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "position_id" => isset($decodedData['position_id']) ? filter_var($decodedData['position_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
-                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "position_id" => isset($decodedData['position_id']) ? filter_var($decodedData['position_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null,
             ];
     
             if ($this->model->insertEmployee($data)) {
@@ -67,12 +67,12 @@ class EmployeeController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "first_name" => isset($decodedData['first_name']) ? filter_var($decodedData['first_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "last_name" => isset($decodedData['last_name']) ? filter_var($decodedData['last_name'], FILTER_SANITIZE_SPECIAL_CHARS) : null,
-                "phone" => isset($decodedData['phone']) ? filter_var($decodedData['phone'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : null,
+                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
+                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
-                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_EMAIL) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_EMAIL) : null
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
             if ($this->model->updateEmployee($data)) {
@@ -112,7 +112,7 @@ class EmployeeController extends Controllers {
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
     
-            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
             $employee = $this->model->fileterEmployee($id);
     
             if ($employee) {

@@ -1,6 +1,6 @@
 import { apiService } from '../services/apiService.js';
 import { showAlert } from '../utils/showArlert.js';
-import { 
+import {
     createButton, 
     assignModalEvent, 
     assignFormSubmitEvent, 
@@ -37,7 +37,8 @@ export async function initModule(data, module) {
 
         const insertModal = document.getElementById('insertModal');
         insertModal.addEventListener('show.bs.modal', () => {
-            populateSelect('insModPosition', 'posicion');
+            populateSelectMedicine('insModMedicine', 'medicina');
+            populateSelectSupplier('insModSupplier', 'proveedor');
         });
 
     } else {
@@ -55,9 +56,7 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({employee_id: item.id}).replace(/"/g, '&quot;');
-        const status = item.active ? 'Activo' : 'Inactivo';
-        const alertType = item.active ? 'success' : 'danger';
+        const dataInfo = JSON.stringify({batch_id: item.id}).replace(/"/g, '&quot;');
 
         let actionButtons = '';
         
@@ -72,11 +71,11 @@ export async function initModule(data, module) {
         rows += `
             <tr>
                 <td>${item.id}</td>
-                <td>${item.employee_name}</td>
-                <td>${item.position}</td>
-                <td>${item.email}</td>
-                <td>${item.phone}</td>
-                <td><span class="badge bg-${alertType}">${status}</span></td>
+                <td>${item.medicine_name}</td>
+                <td>${item.supplier_name}</td>
+                <td>${item.quantity}u.</td>
+                <td>${item.created_at}</td>
+                <td>${item.expiration_date}</td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
         `;
@@ -84,7 +83,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);
@@ -98,7 +97,30 @@ export async function initModule(data, module) {
     resetModal('insertModal', 'insertForm');
 }
 
-const populateSelect = async (selectId, module) =>  {
+const populateSelectMedicine = async (selectId, module) =>  {
+    const select = document.getElementById(selectId);
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
+
+    try {
+        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
+        options.forEach(item => {
+            if (item.active === 1) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name + ' - ' + item.brand;
+                newSelectElement.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+const populateSelectSupplier = async (selectId, module) =>  {
     const select = document.getElementById(selectId);
     const newSelect = select.outerHTML;
     select.outerHTML = newSelect;
@@ -112,7 +134,7 @@ const populateSelect = async (selectId, module) =>  {
             if (item.active === 1) {
                 const option = document.createElement('option');
                 option.value = item.id;
-                option.textContent = item.name;
+                option.textContent = item.name;;
                 newSelectElement.appendChild(option);
             }
         });
@@ -125,12 +147,10 @@ const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
 
     const formData = () => ({
-        first_name: document.getElementById('insModFirstName').value || '',
-        last_name: document.getElementById('insModLastName').value || '',
-        position_id: Number(document.getElementById('insModPosition').value) || null,
-        email: document.getElementById('insModEmail').value || '',
-        phone: document.getElementById('insModPhone').value || '',
-        active: Number(document.getElementById('insModStatus').value),
+        medicine_id: Number(document.getElementById('insModMedicine').value) || null,
+        supplier_id: Number(document.getElementById('insModSupplier').value) || null,
+        quantity: Number(document.getElementById('insModQuantity').value) || null,
+        expiration_date: document.getElementById('insModExpirationDate').value || '',
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
     });
@@ -150,23 +170,25 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.employee_id;
+    const id = data.batch_id;
 
-    await populateSelect('updModPosition', 'posicion');
+    await populateSelectMedicine('updModMedicine', 'medicina');
+    await populateSelectSupplier('updModSupplier', 'proveedor');
 
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-        const positionSelect = document.getElementById('updModPosition');
-        const positionOption = Array.from(positionSelect.options).find(option => option.text === response.position);
+        const medicineSelect = document.getElementById('updModMedicine');
+        const supplierSelect = document.getElementById('updModSupplier');
+        const medicineOption = Array.from(medicineSelect.options).find(option => option.text.includes(response.medicine_name));
+        const supplierOption = Array.from(supplierSelect.options).find(option => option.text === response.supplier_name);
         
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
-        document.getElementById('updModEmployeeCode').value = response.id || '';
-        document.getElementById('updModFirstName').value = response.first_name || '';
-        document.getElementById('updModLastName').value = response.last_name || '';
-        document.getElementById('updModPosition').value = positionOption.value || '';
-        document.getElementById('updModEmail').value = response.email || '';
-        document.getElementById('updModPhone').value = response.phone || '';
-        document.getElementById('updModStatus').value = response.active.toString() || '';
+        document.getElementById('updModBatchId').value = response.id || '';
+        document.getElementById('updModMedicine').value = medicineOption.value || '';
+        document.getElementById('updModSupplier').value = supplierOption.value || '';
+        document.getElementById('updModQuantity').value = response.quantity || '';
+        document.getElementById('updModCreatedAt').value = response.created_at || '';
+        document.getElementById('updModExpirationDate').value = response.expiration_date || '';
     } catch (error) {
         console.error('Error:', error);
     }
@@ -174,20 +196,17 @@ const updateModal = async (data) => {
     resetModal('updateModal', 'updateForm');
 };
 
-
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
-    
+
     const formData = () => ({
-        first_name: document.getElementById('updModFirstName').value || '',
-        last_name: document.getElementById('updModLastName').value || '',
-        position_id: Number(document.getElementById('updModPosition').value) || null,
-        email: document.getElementById('updModEmail').value || '',
-        phone: document.getElementById('updModPhone').value || '',
-        active: Number(document.getElementById('updModStatus').value),
+        medicine_id: Number(document.getElementById('updModMedicine').value) || null,
+        supplier_id: Number(document.getElementById('updModSupplier').value) || null,
+        quantity: Number(document.getElementById('updModQuantity').value) || null,
+        expiration_date: document.getElementById('updModExpirationDate').value || null,
         updated_by: currentData.user_id || null,
-        id: dataInfo.employee_id || null,
+        id: dataInfo.batch_id || null
     });
     
     try {
@@ -205,20 +224,18 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.employee_id;
+    const id = data.batch_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-        const status = response.active ? 'Activo' : 'Inactivo';
-        const name = response.first_name + ' ' + response.last_name;
 
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModEmployeeCode').innerText = response.id || '';
-        document.getElementById('delModName').innerText = name || '';
-        document.getElementById('delModPosition').innerText = response.position || '';
-        document.getElementById('delModEmail').innerText = response.email || '';
-        document.getElementById('delModPhone').innerText = response.phone || '';
-        document.getElementById('delModStatus').innerText = status || '';
+        document.getElementById('delModBatchId').innerText = response.id || '';
+        document.getElementById('delModMedicine').innerText = response.medicine_name || '';
+        document.getElementById('delModSupplier').innerText = response.supplier_name || '';
+        document.getElementById('delModQuantity').innerText = response.quantity || '';
+        document.getElementById('delModCreatedAt').innerText = response.created_at || '';
+        document.getElementById('delModExpirationDate').innerText = response.expiration_date || '';
     } catch (error) {
         console.error('Error:', error);
     }
@@ -230,7 +247,7 @@ const deleteFormSubmit = async () => {
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.employee_id || null
+        id: dataInfo.batch_id || null
     });
 
     try {

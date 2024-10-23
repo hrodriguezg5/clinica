@@ -116,7 +116,7 @@ class MedicineController extends Controllers {
             $json = file_get_contents('php://input');
             $decodedData = json_decode($json, true); 
     
-            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
+            $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
             $medicine = $this->model->filterMedicine($id);
     
             if ($medicine) {

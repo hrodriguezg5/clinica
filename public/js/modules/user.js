@@ -232,7 +232,7 @@ const updateModal = async (data) => {
         const employeeSelect = document.getElementById('updModEmployee');
         const roleOption = Array.from(roleSelect.options).find(option => option.text === response.role_name);
         const employeeOption = Array.from(employeeSelect.options).find(option => option.text === response.employee_name);
-        console
+        
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModFirstName').value = response.first_name || '';
         document.getElementById('updModLastName').value = response.last_name || '';
