@@ -22,10 +22,6 @@
                                             <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPurchasePrice" class="form-label mb-0">Precio Compra</label>
-                                            <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModSellingPrice" class="form-label mb-0">Precio Venta</label>
                                             <input type="number" class="form-control" id="insModSellingPrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
@@ -74,10 +70,6 @@
                                             <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPurchasePrice" class="form-label mb-0">Precio Compra</label>
-                                            <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModSellingPrice" class="form-label mb-0">Precio Venta</label>
                                             <input type="number" class="form-control" id="updModSellingPrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
@@ -121,9 +113,6 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Descripción: </span><span id="delModDescription"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Precio Compra: </span><span id="delModPurchasePrice"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Precio Venta: </span><span id="delModSellingPrice"></span>
@@ -180,7 +169,6 @@
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
-                                        <th scope="col">Precio Compra</th>
                                         <th scope="col">Precio Venta</th>
                                         <th scope="col">Marca</th>
                                         <th scope="col">Estado</th>

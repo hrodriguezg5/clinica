@@ -21,6 +21,7 @@ class BatchController extends Controllers {
                         'medicine_name' =>$batch->medicine_name,
                         'supplier_id' =>$batch->supplier_id,
                         'supplier_name' =>$batch->supplier_name,
+                        'purchase_price' =>$batch->purchase_price,
                         'quantity' =>$batch->quantity,
                         'created_at' => $batch->created_at,
                         'expiration_date' =>$batch->expiration_date
@@ -42,6 +43,7 @@ class BatchController extends Controllers {
             $data = [
                 "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
                 "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
@@ -71,6 +73,7 @@ class BatchController extends Controllers {
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
                 "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
@@ -123,6 +126,7 @@ class BatchController extends Controllers {
                     'medicine_name' =>$batch->medicine_name,
                     'supplier_id' =>$batch->supplier_id,
                     'supplier_name' =>$batch->supplier_name,
+                    'purchase_price' =>$batch->purchase_price,
                     'quantity' =>$batch->quantity,
                     'created_at' =>$batch->created_at,
                     'expiration_date' =>$batch->expiration_date

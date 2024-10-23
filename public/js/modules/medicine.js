@@ -69,8 +69,7 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.name}</td>
                 <td>${item.description}</td>
-                <td class="text-end">Q${item.purchase_price}</td>
-                <td class="text-end">Q${item.selling_price}</td>
+                <td>Q${item.selling_price}</td>
                 <td>${item.brand}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
@@ -99,7 +98,6 @@ const insertFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('insModName').value || '',
         description: document.getElementById('insModDescription').value || '',
-        purchase_price: document.getElementById('insModPurchasePrice').value || '',
         selling_price: document.getElementById('insModSellingPrice').value || '',
         brand: document.getElementById('insModBrand').value || '',
         active: Number(document.getElementById('insModStatus').value),
@@ -129,7 +127,6 @@ const updateModal = async (data) => {
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModName').value = response.name || '';
         document.getElementById('updModDescription').innerText = response.description || '';
-        document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
         document.getElementById('updModSellingPrice').value = response.selling_price || '';
         document.getElementById('updModBrand').value = response.brand || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
@@ -145,7 +142,6 @@ const updateFormSubmit = async () => {
     const formData = () => ({
         name: document.getElementById('updModName').value || '',
         description: document.getElementById('updModDescription').value || '',
-        purchase_price: document.getElementById('updModPurchasePrice').value || '',
         selling_price: document.getElementById('updModSellingPrice').value || '',
         brand: document.getElementById('updModBrand').value || '',
         active: Number(document.getElementById('updModStatus').value),
@@ -177,7 +173,6 @@ const deleteModal = async (data) => {
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = response.name || '';
         document.getElementById('delModDescription').innerText = response.description || '';
-        document.getElementById('delModPurchasePrice').innerText = response.purchase_price || '';
         document.getElementById('delModSellingPrice').innerText = response.selling_price || '';
         document.getElementById('delModBrand').innerText = response.brand || '';
         document.getElementById('delModStatus').innerText = status || '';

@@ -73,6 +73,7 @@ export async function initModule(data, module) {
                 <td>${item.id}</td>
                 <td>${item.medicine_name}</td>
                 <td>${item.supplier_name}</td>
+                <td>Q${item.purchase_price}</td>
                 <td>${item.quantity}u.</td>
                 <td>${item.created_at}</td>
                 <td>${item.expiration_date}</td>
@@ -149,6 +150,7 @@ const insertFormSubmit = async () => {
     const formData = () => ({
         medicine_id: Number(document.getElementById('insModMedicine').value) || null,
         supplier_id: Number(document.getElementById('insModSupplier').value) || null,
+        purchase_price: document.getElementById('insModPurchasePrice').value || '',
         quantity: Number(document.getElementById('insModQuantity').value) || null,
         expiration_date: document.getElementById('insModExpirationDate').value || '',
         created_by: currentData.user_id || null,
@@ -186,6 +188,7 @@ const updateModal = async (data) => {
         document.getElementById('updModBatchId').value = response.id || '';
         document.getElementById('updModMedicine').value = medicineOption.value || '';
         document.getElementById('updModSupplier').value = supplierOption.value || '';
+        document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
         document.getElementById('updModQuantity').value = response.quantity || '';
         document.getElementById('updModCreatedAt').value = response.created_at || '';
         document.getElementById('updModExpirationDate').value = response.expiration_date || '';
@@ -203,6 +206,7 @@ const updateFormSubmit = async () => {
     const formData = () => ({
         medicine_id: Number(document.getElementById('updModMedicine').value) || null,
         supplier_id: Number(document.getElementById('updModSupplier').value) || null,
+        purchase_price: document.getElementById('updModPurchasePrice').value || '',
         quantity: Number(document.getElementById('updModQuantity').value) || null,
         expiration_date: document.getElementById('updModExpirationDate').value || null,
         updated_by: currentData.user_id || null,
@@ -233,6 +237,7 @@ const deleteModal = async (data) => {
         document.getElementById('delModBatchId').innerText = response.id || '';
         document.getElementById('delModMedicine').innerText = response.medicine_name || '';
         document.getElementById('delModSupplier').innerText = response.supplier_name || '';
+        document.getElementById('delModPurchasePrice').innerText = response.purchase_price || '';
         document.getElementById('delModQuantity').innerText = response.quantity || '';
         document.getElementById('delModCreatedAt').innerText = response.created_at || '';
         document.getElementById('delModExpirationDate').innerText = response.expiration_date || '';

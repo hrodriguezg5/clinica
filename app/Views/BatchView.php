@@ -24,6 +24,10 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPurchasePrice" class="form-label mb-0">Precio Compra</label>
+                                            <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModQuantity" class="form-label mb-0">Cantidad</label>
                                             <input type="number" class="form-control" id="insModQuantity" required>
                                         </div>
@@ -71,6 +75,10 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPurchasePrice" class="form-label mb-0">Precio Compra</label>
+                                            <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModQuantity" class="form-label mb-0">Cantidad</label>
                                             <input type="number" class="form-control" id="updModQuantity" required>
                                         </div>
@@ -114,6 +122,9 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Proveedor: </span><span id="delModSupplier"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Precio Compra: </span><span id="delModPurchasePrice"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Cantidad: </span><span id="delModQuantity"></span>
@@ -170,6 +181,7 @@
                                         <th scope="col">ID Lote</th>
                                         <th scope="col">Médicina</th>
                                         <th scope="col">Proveedor</th>
+                                        <th scope="col">Precio Compra</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Ingreso</th>
                                         <th scope="col">Expiración</th>

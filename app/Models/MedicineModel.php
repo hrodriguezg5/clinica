@@ -15,7 +15,6 @@ class MedicineModel{
             "SELECT m.id,
                 m.name,
                 m.description,
-                m.purchase_price,
                 m.selling_price,
                 m.brand,
                 m.active
@@ -32,7 +31,6 @@ class MedicineModel{
             "INSERT INTO medicine
              (`name`, 
               description, 
-              purchase_price,
               selling_price,
               brand, 
               active,
@@ -41,7 +39,6 @@ class MedicineModel{
              VALUES
              (:name, 
              :description, 
-             :purchase_price,
              :selling_price,
              :brand, 
              :active,
@@ -51,7 +48,6 @@ class MedicineModel{
 
         $this->db->bind(":name", $data["name"]);
         $this->db->bind(":description", $data["description"]);
-        $this->db->bind(":purchase_price", $data["purchase_price"]);
         $this->db->bind(":selling_price", $data["selling_price"]);
         $this->db->bind(":brand", $data["brand"]);
         $this->db->bind(":active", $data["active"]);
@@ -70,7 +66,6 @@ class MedicineModel{
             "UPDATE medicine
             SET `name` = :name,
             `description` = :description,
-            purchase_price = :purchase_price,
             selling_price = :selling_price,
             brand = :brand,
             active = :active,
@@ -82,7 +77,6 @@ class MedicineModel{
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
         $this->db->bind(":description", $data["description"]);
-        $this->db->bind(":purchase_price", $data["purchase_price"]);
         $this->db->bind(":selling_price", $data["selling_price"]);
         $this->db->bind(":brand", $data["brand"]);
         $this->db->bind(":active", $data["active"]);
@@ -117,7 +111,6 @@ class MedicineModel{
             "SELECT m.id,
             m.`name`,
             m.`description`,
-            m.purchase_price,
             m.selling_price,
             m.brand,
             m.active
