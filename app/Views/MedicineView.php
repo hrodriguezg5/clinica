@@ -1,49 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="permissionModalTitle"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="permissionForm">
-                                    <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Módulo</th>
-                                                    <th>Ver</th>
-                                                    <th>Crear</th>
-                                                    <th>Actualizar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="permmissionTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="permissionForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal de Permisos Fin -->
-
-
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Medicina</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -57,6 +20,18 @@
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="insModDescription""></textarea>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPurchasePrice" class="form-label mb-0">Precio Compra</label>
+                                            <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModSellingPrice" class="form-label mb-0">Precio Venta</label>
+                                            <input type="number" class="form-control" id="insModSellingPrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModBrand" class="form-label mb-0">Marca</label>
+                                            <input type="text" class="form-control" id="insModBrand" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -83,7 +58,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Medicina</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -97,6 +72,18 @@
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="updModDescription""></textarea>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPurchasePrice" class="form-label mb-0">Precio Compra</label>
+                                            <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModSellingPrice" class="form-label mb-0">Precio Venta</label>
+                                            <input type="number" class="form-control" id="updModSellingPrice" step="0.01" min="0" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBrand" class="form-label mb-0">Marca</label>
+                                            <input type="text" class="form-control" id="updModBrand" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -123,7 +110,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Medicina</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -134,6 +121,15 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Descripción: </span><span id="delModDescription"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Precio Compra: </span><span id="delModPurchasePrice"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Precio Venta: </span><span id="delModSellingPrice"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Marca: </span><span id="delModBrand"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -149,6 +145,7 @@
                     </div>
                 </div>
                 <!-- Modal de Eliminar Rol Fin -->
+
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -175,7 +172,7 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Roles Registrados</h6>
+                            <h6 class="mb-0">Medicamentos Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -183,6 +180,9 @@
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
+                                        <th scope="col">Precio Compra</th>
+                                        <th scope="col">Precio Venta</th>
+                                        <th scope="col">Marca</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

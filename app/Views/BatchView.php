@@ -1,49 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="permissionModalTitle"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="permissionForm">
-                                    <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Módulo</th>
-                                                    <th>Ver</th>
-                                                    <th>Crear</th>
-                                                    <th>Actualizar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="permmissionTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="permissionForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal de Permisos Fin -->
-
-
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Lote</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -51,26 +14,29 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="insModDescription""></textarea>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
-                                                <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>
+                                            <label for="insModMedicine" class="form-label mb-0">Medicina</label>
+                                            <select name="insModMedicine" class="form-control form-select" id="insModMedicine" required>
                                             </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModSupplier" class="form-label mb-0">Proveedor</label>
+                                            <select name="insModSupplier" class="form-control form-select" id="insModSupplier">
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModQuantity" class="form-label mb-0">Cantidad</label>
+                                            <input type="number" class="form-control" id="insModQuantity" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModExpirationDate" class="form-label mb-0">Expiración</label>
+                                            <input type="date" class="form-control" id="insModExpirationDate" maxlength="50">
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -83,27 +49,38 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Lote</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="updateForm" data-info="">
-
                                     <div class="row">
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
+
+                                        <div div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBatchId" class="form-label mb-0">ID Lote</label>
+                                            <input type="text" class="form-control" id="updModBatchId" maxlength="50" disabled>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="updModDescription""></textarea>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="updModStatus" class="form-control form-select" id="updModStatus" required>
-                                                <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>
+                                            <label for="updModMedicine" class="form-label mb-0">Medicina</label>
+                                            <select name="updModMedicine" class="form-control form-select" id="updModMedicine" required>
                                             </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModSupplier" class="form-label mb-0">Proveedor</label>
+                                            <select name="updModSupplier" class="form-control form-select" id="updModSupplier">
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModQuantity" class="form-label mb-0">Cantidad</label>
+                                            <input type="number" class="form-control" id="updModQuantity" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModCreatedAt" class="form-label mb-0">Ingreso</label>
+                                            <input type="date" class="form-control" id="updModCreatedAt" disabled>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModExpirationDate" class="form-label mb-0">Expiración</label>
+                                            <input type="date" class="form-control" id="updModExpirationDate" maxlength="50">
                                         </div>
                                     </div>
                                 </form>
@@ -123,20 +100,29 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Lote</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Nombre: </span><span id="delModName"></span>
+                                            <span>ID Lote: </span><span id="delModBatchId"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModDescription"></span>
+                                            <span>Medicina: </span><span id="delModMedicine"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Estado: </span><span id="delModStatus"></span>
+                                            <span>Proveedor: </span><span id="delModSupplier"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Cantidad: </span><span id="delModQuantity"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Ingreso: </span><span id="delModCreatedAt"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Expiración: </span><span id="delModExpirationDate"></span>
                                         </div>
                                     </div>
                                 </form>
@@ -175,15 +161,18 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Roles Registrados</h6>
+                            <h6 class="mb-0">Lotes Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">Estado</th>
+                                        <th scope="col">ID Lote</th>
+                                        <th scope="col">Médicina</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Ingreso</th>
+                                        <th scope="col">Expiración</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">

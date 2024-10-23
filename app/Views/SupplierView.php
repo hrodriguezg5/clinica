@@ -1,49 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="permissionModalTitle"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="permissionForm">
-                                    <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Módulo</th>
-                                                    <th>Ver</th>
-                                                    <th>Crear</th>
-                                                    <th>Actualizar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="permmissionTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="permissionForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal de Permisos Fin -->
-
-
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Proveedor</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -57,6 +20,18 @@
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="insModDescription""></textarea>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModDescription" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModDescription" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModDescription" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -83,7 +58,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Proveedor</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -97,6 +72,18 @@
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModDescription" class="form-label mb-0">Descripción</label>
                                             <textarea class="form-control" id="updModDescription""></textarea>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -123,7 +110,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Proveedor</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -134,6 +121,15 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Descripción: </span><span id="delModDescription"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Correo: </span><span id="delModEmail"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Dirección: </span><span id="delModAddress"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Teléfono: </span><span id="delModPhone"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -149,6 +145,7 @@
                     </div>
                 </div>
                 <!-- Modal de Eliminar Rol Fin -->
+
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -175,7 +172,7 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Roles Registrados</h6>
+                            <h6 class="mb-0">Proveedores Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -183,6 +180,9 @@
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col">Dirección</th>
+                                        <th scope="col">Teléfono</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

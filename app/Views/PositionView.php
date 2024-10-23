@@ -1,49 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="permissionModalTitle"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="permissionForm">
-                                    <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Módulo</th>
-                                                    <th>Ver</th>
-                                                    <th>Crear</th>
-                                                    <th>Actualizar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="permmissionTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="permissionForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal de Permisos Fin -->
-
-
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -83,7 +46,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -123,7 +86,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Puesto</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -175,7 +138,7 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Roles Registrados</h6>
+                            <h6 class="mb-0">Puestos Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">

@@ -1,49 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Permisos Inicio -->
-                <div class="modal fade" id="permissionModal" tabindex="-1" aria-labelledby="permissionModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="permissionModalTitle"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="permissionForm">
-                                    <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
-                                            <thead>
-                                                <tr>
-                                                    <th>Módulo</th>
-                                                    <th>Ver</th>
-                                                    <th>Crear</th>
-                                                    <th>Actualizar</th>
-                                                    <th>Eliminar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="permmissionTableBody">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="permissionForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal de Permisos Fin -->
-
-
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -51,12 +14,25 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
+                                            <label for="insModFirstName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="insModDescription""></textarea>
+                                            <label for="insModLastName" class="form-label mb-0">Apellido</label>
+                                            <input type="text" class="form-control" id="insModLastName" maxlength="50">
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPosition" class="form-label mb-0">Puesto</label>
+                                            <select name="insModPosition" class="form-control form-select" id="insModPosition" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -70,7 +46,7 @@
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -83,7 +59,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -91,12 +67,29 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
+                                            <label for="updModEmployeeCode" class="form-label mb-0">Código</label>
+                                            <input type="text" class="form-control" id="updModEmployeeCode" maxlength="50" disabled>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="updModDescription""></textarea>
+                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
+                                            <input type="text" class="form-control" id="updModLastName" maxlength="50">
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPosition" class="form-label mb-0">Puesto</label>
+                                            <select name="updModPosition" class="form-control form-select" id="updModPosition" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -123,17 +116,26 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Rol</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Código: </span><span id="delModEmployeeCode"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModDescription"></span>
+                                            <span>Puesto: </span><span id="delModPosition"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Correo: </span><span id="delModEmail"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Teléfono: </span><span id="delModPhone"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -175,14 +177,17 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Roles Registrados</h6>
+                            <h6 class="mb-0">Empleados Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
+                                        <th scope="col">Código</th>
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Puesto</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col">Teléfono</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

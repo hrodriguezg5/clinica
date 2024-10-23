@@ -10,27 +10,10 @@ class PatientModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
-        $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
     public function getPatients(){
         $this->db->query(
             "SELECT p.id,
-                p.first_name,
-                p.last_name,
+                CONCAT(p.first_name, ' ', p.last_name) AS full_name,
                 p.birth_date,
                 p.gender,
                 p.address,

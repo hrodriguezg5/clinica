@@ -2,38 +2,15 @@ import { apiService } from './services/apiService.js';
 import { isEmpty } from './utils/validation.js';
 import { showAlert } from './utils/showArlert.js';
 
-let tokenData;
-
 // Inicializar la página
 document.addEventListener("DOMContentLoaded", async function() {
     const url = `${urlBase}/login/token`;
     const token = localStorage.getItem('token');
-    const tokenExpired = localStorage.getItem('tokenExpired');
-
-    if (tokenExpired === 'true') {
-        showAlert('Token Expirado. Por favor, inicia sesión de nuevo.', 'danger');
-        localStorage.removeItem('tokenExpired');
-    }
 
     if (token) {
-        try {
-            const data = await apiService.fetchData(url, 'GET');
-            tokenData = data;
-
-            if (data) {
-                if (data.modules[0]) {
-                    window.location.href = `${urlBase}/${data.modules[0].link}`;
-                } else {
-                    localStorage.removeItem('token');
-                    showAlert('El usuario no tiene módulos asignados.', 'warning');
-                    $('#spinner').removeClass('show');
-                }
-            } else {
-                localStorage.removeItem('token');
-                $('#spinner').removeClass('show');
-            }
-        } catch (error) {
-            showAlert('Error de conexión, por favor intenta de nuevo.', 'danger');
+        const data = await fetchWithHandling(url, 'GET');
+        if (data) {
+            window.location.href = `${urlBase}/${data}`;
         }
     } else {
         $('#spinner').removeClass('show');
@@ -95,24 +72,52 @@ document.getElementById('loginForm').onsubmit = async function (e) {
                 // Almacenar las credenciales en el navegador
                 await navigator.credentials.store(credentials);
             }
+            const url = `${urlBase}/login/token`;
 
-            try {
-                const url = `${urlBase}/login/token`;
-                const data = await apiService.fetchData(url, 'GET');
-    
-                if (data && data.modules[0]) {
-                    window.location.href = `${urlBase}/${data.modules[0].link}`;
-                } else {
-                    localStorage.removeItem('token');
-                    showAlert('El usuario no tiene módulos asignados.', 'warning');
+            if (data.token) {
+                const data = await fetchWithHandling(url, 'GET');
+                if (data) {
+                    window.location.href = `${urlBase}/${data}`;
                 }
-            } catch (error) {
-                showAlert('Error de conexión, por favor intenta de nuevo.', 'danger');
+            } else {
+                $('#spinner').removeClass('show');
             }
         } else {
             showAlert(data.message, 'danger');
         }
     } catch (error) {
-        showAlert('Error de conexión, por favor intenta de nuevo.', 'danger');
+        showAlert('Error de conexión.', 'danger');
     }
 };
+
+async function fetchWithHandling(url, method, body = {}) {
+    try {
+        const data = await apiService.fetchData(url, method, body);
+
+        if (data && data.modules && data.modules[0]) {
+            return data.modules[0].link;
+        } else {
+            if (!data.modules || data.modules.length === 0) {
+                showAlert('El usuario no tiene módulos asignados.', 'warning');
+                localStorage.removeItem('token');
+                $('#spinner').removeClass('show');
+            }
+            return null;
+        }
+    } catch (error) {
+        const tokenExpired = localStorage.getItem('tokenExpired');
+        if (error.message.includes('401') && tokenExpired === 'true') {
+            showAlert('Tu sesión ha expirado. Inicia sesión de nuevo.', 'danger');
+            localStorage.removeItem('token');
+            localStorage.removeItem('tokenExpired');
+            $('#spinner').removeClass('show');
+        } else if (error.message.includes('401')) {
+            localStorage.removeItem('token');
+            $('#spinner').removeClass('show');
+        } else {
+            showAlert('Error de conexión, por favor intenta de nuevo.', 'danger');
+            $('#spinner').removeClass('show');
+        }
+        return null;
+    }
+}

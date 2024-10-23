@@ -39,6 +39,7 @@ export async function initModule(data, module) {
     }
 
     if (hasActions) {
+        // Verificar si ya existe la columna "Acción" para evitar duplicados
         if (!document.querySelector('th.action-column')) {
             const actionHeader = document.createElement('th');
             actionHeader.scope = 'col';
@@ -49,7 +50,10 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({patient_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({medicine_id: item.id}).replace(/"/g, '&quot;');
+        const status = item.active ? 'Activo' : 'Inactivo';
+        const alertType = item.active ? 'success' : 'danger';
+        
         let actionButtons = '';
         
         // Crear los botones de acuerdo a los permisos
@@ -60,14 +64,15 @@ export async function initModule(data, module) {
             actionButtons += createButton('btn-danger btn-delete', 'Borrar', dataInfo, 'deleteModal', 'bi bi-trash-fill');
         }
 
+        // Si existen acciones permitidas, agregamos el <td> de acciones
         rows += `
             <tr>
-                <td>${item.full_name}</td>
-                <td>${item.email}</td>
-                <td>${item.gender}</td>
-                <td>${item.address}</td>
-                <td>${item.phone}</td>
-                <td>${item.birth_date}</td>
+                <td>${item.name}</td>
+                <td>${item.description}</td>
+                <td class="text-end">Q${item.purchase_price}</td>
+                <td class="text-end">Q${item.selling_price}</td>
+                <td>${item.brand}</td>
+                <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
         `;
@@ -78,32 +83,30 @@ export async function initModule(data, module) {
     assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5]);
 
     if (hasActions) {
-        assignModalEvent('.btn-update', updateModal);
-        assignModalEvent('.btn-delete', deleteModal);
+        assignModalEvent('.btn-update', updateModal, currentModule);
+        assignModalEvent('.btn-delete', deleteModal, currentModule);
     }
 
-    assignFormSubmitEvent('insertForm', insertFormSubmit);
-    assignFormSubmitEvent('updateForm', updateFormSubmit);
-    assignFormSubmitEvent('deleteForm', deleteFormSubmit);
+    assignFormSubmitEvent('insertForm', insertFormSubmit, currentModule);
+    assignFormSubmitEvent('updateForm', updateFormSubmit, currentModule);
+    assignFormSubmitEvent('deleteForm', deleteFormSubmit, currentModule);
 
     resetModal('insertModal', 'insertForm');
 }
 
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
-    
     const formData = () => ({
-        first_name: document.getElementById('insModFirstName').value || '',
-        last_name: document.getElementById('insModLastName').value || '',
-        email: document.getElementById('insModEmail').value || '',
-        gender: document.getElementById('insModGender').value || '',
-        address: document.getElementById('insModAddress').value || '',
-        phone: document.getElementById('insModPhone').value || '',
-        birth_date: document.getElementById('insModBirthDate').value || '',
+        name: document.getElementById('insModName').value || '',
+        description: document.getElementById('insModDescription').value || '',
+        purchase_price: document.getElementById('insModPurchasePrice').value || '',
+        selling_price: document.getElementById('insModSellingPrice').value || '',
+        brand: document.getElementById('insModBrand').value || '',
+        active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
     });
-    
+
     try {
         await apiService.fetchData(url, 'POST', formData());
         showAlert("Operación exitosa.", 'success');
@@ -119,39 +122,36 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.patient_id;
-
+    const id = data.medicine_id;
+    
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
-        document.getElementById('updModFirstName').value = response.first_name || '';
-        document.getElementById('updModLastName').value = response.last_name || '';
-        document.getElementById('updModEmail').value = response.email || '';
-        document.getElementById('updModGender').value = response.gender || '';
-        document.getElementById('updModAddress').value = response.address || '';
-        document.getElementById('updModPhone').value = response.phone || '';
-        document.getElementById('updModBirthDate').value = response.birth_date || '';
+        document.getElementById('updModName').value = response.name || '';
+        document.getElementById('updModDescription').innerText = response.description || '';
+        document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
+        document.getElementById('updModSellingPrice').value = response.selling_price || '';
+        document.getElementById('updModBrand').value = response.brand || '';
+        document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
     }
 };
-
 
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
 
     const formData = () => ({
-        first_name: document.getElementById('updModFirstName').value || '',
-        last_name: document.getElementById('updModLastName').value || '',
-        email: document.getElementById('updModEmail').value || '',
-        gender: document.getElementById('updModGender').value || '',
-        address: document.getElementById('updModAddress').value || '',
-        phone: document.getElementById('updModPhone').value || '',
-        birth_date: document.getElementById('updModBirthDate').value || '',
+        name: document.getElementById('updModName').value || '',
+        description: document.getElementById('updModDescription').value || '',
+        purchase_price: document.getElementById('updModPurchasePrice').value || '',
+        selling_price: document.getElementById('updModSellingPrice').value || '',
+        brand: document.getElementById('updModBrand').value || '',
+        active: Number(document.getElementById('updModStatus').value),
+        created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null,
-        id: dataInfo.patient_id || null
+        id: dataInfo.medicine_id || null
     });
     
     try {
@@ -169,20 +169,18 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.patient_id;
+    const id = data.medicine_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-        const name = response.first_name + ' ' + response.last_name;
-
+        const status = response.active ? 'Activo' : 'Inactivo';
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModName').innerText = name || '';
-        document.getElementById('delModEmail').innerText = response.email || '';
-        document.getElementById('delModGender').innerText = response.gender || '';
-        document.getElementById('delModAddress').innerText = response.address || '';
-        document.getElementById('delModPhone').innerText = response.phone || '';
-        document.getElementById('delModBirthDate').innerText = response.birth_date || '';
-
+        document.getElementById('delModName').innerText = response.name || '';
+        document.getElementById('delModDescription').innerText = response.description || '';
+        document.getElementById('delModPurchasePrice').innerText = response.purchase_price || '';
+        document.getElementById('delModSellingPrice').innerText = response.selling_price || '';
+        document.getElementById('delModBrand').innerText = response.brand || '';
+        document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
     }
@@ -194,7 +192,7 @@ const deleteFormSubmit = async () => {
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.patient_id || null
+        id: dataInfo.medicine_id || null
     });
 
     try {

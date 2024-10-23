@@ -1,29 +1,31 @@
 <?php
-class PositionController extends Controllers {
+class MedicineController extends Controllers {
     public function __construct() {
         parent::__construct();
     }
     
     public function index() {
-        $this->view("PositionView");
+        $this->view("MedicineView");
     }
 
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $positions = $this->model->getPositions();
+            $medicines = $this->model->getMedicines();
         
-            if ($positions) {
-                foreach ($positions as $position){
+            if ($medicines) {
+                foreach ($medicines as $medicine){
                     $response[] = [
-                        'id' => $position->id,
-                        'name' =>$position->name,
-                        'description' =>$position->description,
-                        'active' =>$position->active
+                        'id' => $medicine->id,
+                        'name' =>$medicine->name,
+                        'description' =>$medicine->description,
+                        'purchase_price' =>$medicine->purchase_price,
+                        'selling_price' =>$medicine->selling_price,
+                        'brand' =>$medicine->brand,
+                        'active' =>$medicine->active
                     ];
                 
-                }
-
+                }   
                 $this->jsonResponse($response);
             }
         }
@@ -39,12 +41,15 @@ class PositionController extends Controllers {
             $data = [
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
+                "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
+                "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertPosition($data)) {
+            if ($this->model->insertMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -54,7 +59,10 @@ class PositionController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
+            if (!$this->authMiddleware->validateToken()) {
+                
+                return;
+            }
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');
@@ -64,11 +72,14 @@ class PositionController extends Controllers {
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
+                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
+                "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
+                "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updatePosition($data)) {
+            if ($this->model->updateMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -91,7 +102,7 @@ class PositionController extends Controllers {
             ];
     
     
-            if ($this->model->deletePosition($data)) {
+            if ($this->model->deleteMedicine($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -106,19 +117,22 @@ class PositionController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $position = $this->model->fileterPosition($id);
+            $medicine = $this->model->filterMedicine($id);
     
-            if ($position) {
+            if ($medicine) {
                 $response = [
-                    'id' => $position->id,
-                    'name' =>$position->name,
-                    'description' =>$position->description,
-                    'active' =>$position->active
+                    'id' => $medicine->id,
+                    'name' =>$medicine->name,
+                    'description' =>$medicine->description,
+                    'purchase_price' =>$medicine->purchase_price,
+                    'selling_price' =>$medicine->selling_price,
+                    'brand' =>$medicine->brand,
+                    'active' =>$medicine->active
                 ];
             
                 $this->jsonResponse($response);
             }
-        }
-    } 
+        }   
+    }
 }
 ?>

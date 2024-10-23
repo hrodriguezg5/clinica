@@ -67,7 +67,7 @@
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a href="<?= URL_ROUTE; ?>/paciente" class="navbar-brand d-flex d-lg-none me-4">
+                <a href="<?= URL_ROUTE; ?>" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary"><img class="image mt-2" src="<?= URL_ROUTE; ?>/img/logo.png"></h2>
                 </a>
 
@@ -88,3 +88,11 @@
                 </div>
             </nav>
             <!-- Navbar End -->
+             
+        
+            <!-- Alerta HTML Inicio-->
+            <div id="errorMessage" class="alert-dismissible position-fixed top-0 end-0 m-3 fade" role="alert">
+                <i class="bi bi-bell-fill me-2"></i><span id="errorText"></span>
+                <button id="closeButton" type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+            <!-- Alerta HTML Fin -->

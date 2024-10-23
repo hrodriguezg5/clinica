@@ -1,5 +1,6 @@
 import { loadModuleContent } from './moduleContent.js';
 import { apiService } from '../services/apiService.js';
+import { showAlert } from '../utils/showArlert.js';
 
 export const createMenu = (menuItems, activeModule, data) => {
     const navbarNav = document.querySelector('.navbar-modules');
@@ -27,24 +28,30 @@ export const createMenuItem = (item, activeModule) => {
     }
 
     const icon = document.createElement('i');
-    icon.className = item.icon;
+    icon.className = `${item.icon} me-2`;
     link.appendChild(icon);
     link.appendChild(document.createTextNode(item.module));
 
     // Manejo de eventos
     link.addEventListener('click', async (e) => {
         e.preventDefault();
-        const url = `${urlBase}/${activeModule}/token`;
-        const data = await apiService.fetchData(url, 'GET');
+        $('.sidebar, .content').removeClass("open");
+        
+        const url = `${urlBase}/login/token`;
+        try {
+            const data = await apiService.fetchData(url, 'GET');
+            history.pushState(null, '', `${urlBase}/${item.link}`);
+            await loadModuleContent(item, data);
+            updateActiveMenuItem(item.link);
 
-        if (!data) {
-            window.location.href = urlBase;
-            return;
+        } catch (error) {
+            if (error.message.includes('401')) {
+                localStorage.setItem('tokenExpired', 'true');
+                window.location.href = urlBase;
+            } else {
+                showAlert('Error de conexión.', 'danger');
+            }
         }
-
-        history.pushState(null, '', `${urlBase}/${item.link}`);
-        await loadModuleContent(item, data);
-        updateActiveMenuItem(item.link);
     });
 
     return link;

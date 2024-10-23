@@ -1,5 +1,5 @@
 <?php
-class PositionModel{
+class MedicineModel{
     private $db;
 
     public function __construct(){
@@ -10,39 +10,50 @@ class PositionModel{
         $this->db->closeConnection();
     }
 
-    public function getPositions(){
+    public function getMedicines(){
         $this->db->query(
-            "SELECT 
-                p.id,
-                p.name,
-                p.description,
-                p.active
-            FROM position p
-            WHERE p.deleted_at IS NULL;"
+            "SELECT m.id,
+                m.name,
+                m.description,
+                m.purchase_price,
+                m.selling_price,
+                m.brand,
+                m.active
+            FROM medicine AS m
+            WHERE m.deleted_at IS NULL;"
         );
 
         $row = $this->db->records();
         return $row;
     }
 
-    public function insertPosition($data){
+    public function insertMedicine($data){
         $this->db->query(
-            "INSERT INTO position 
-             (name, 
+            "INSERT INTO medicine
+             (`name`, 
               description, 
-              active, 
+              purchase_price,
+              selling_price,
+              brand, 
+              active,
               created_by,
               updated_by)
              VALUES
              (:name, 
-              :description,
-              :active,
-			  :created_by,
-			  :updated_by);"
+             :description, 
+             :purchase_price,
+             :selling_price,
+             :brand, 
+             :active,
+             :created_by,
+             :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
         $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":purchase_price", $data["purchase_price"]);
+        $this->db->bind(":selling_price", $data["selling_price"]);
+        $this->db->bind(":brand", $data["brand"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -54,11 +65,14 @@ class PositionModel{
         }
     }
 
-    public function updatePosition($data){
+    public function updateMedicine($data){
         $this->db->query(
-            "UPDATE position
-            SET NAME = :name,
-            description = :description,
+            "UPDATE medicine
+            SET `name` = :name,
+            `description` = :description,
+            purchase_price = :purchase_price,
+            selling_price = :selling_price,
+            brand = :brand,
             active = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
@@ -68,6 +82,9 @@ class PositionModel{
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
         $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":purchase_price", $data["purchase_price"]);
+        $this->db->bind(":selling_price", $data["selling_price"]);
+        $this->db->bind(":brand", $data["brand"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
@@ -77,9 +94,9 @@ class PositionModel{
         }
     }
 
-    public function deletePosition($data){
+    public function deleteMedicine($data){
         $this->db->query(
-            "UPDATE position
+            "UPDATE medicine
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -95,15 +112,19 @@ class PositionModel{
         }
     }
 
-    public function fileterPosition($id){
+    public function filterMedicine($id){
         $this->db->query(
-            "SELECT p.id,
-                    p.name,
-                    p.description,
-                    p.active
-                FROM position AS p
-                WHERE p.id = :id
-                AND p.deleted_at IS NULL;");
+            "SELECT m.id,
+            m.`name`,
+            m.`description`,
+            m.purchase_price,
+            m.selling_price,
+            m.brand,
+            m.active
+        FROM medicine AS m
+        WHERE m.id = :id
+        AND m.deleted_at IS NULL;"
+        );
 
         $this->db->bind(':id', $id);
 

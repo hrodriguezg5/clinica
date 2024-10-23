@@ -10,17 +10,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         const url = `${urlBase}/login/salir`;
         const token = localStorage.getItem('token');
-        if (token) {
+        
+        try {
             const response = await apiService.fetchData(url, 'POST', { token });
-            
             if (response.success) {
                 localStorage.removeItem('token');
                 window.location.href = urlBase;
             } else {
-                console.error(response.message);
+                window.location.href = urlBase;
             }
-        } else {
+        } catch (error) {
             window.location.href = urlBase;
         }
+    });
+
+    const insertModal = document.getElementById('insertModal');
+    const insertForm = document.getElementById('insertForm');
+
+    // Evento que se dispara al cerrar el modal
+    insertModal.addEventListener('hidden.bs.modal', function () {
+        // Restablecer el formulario para evitar el guardado de contraseñas
+        insertForm.reset();
     });
 });

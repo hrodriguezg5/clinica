@@ -1,146 +1,181 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Actualizar Reservaciòn -->
-                <div class="modal fade" id="updateReservationModal" tabindex="-1" aria-labelledby="updateReservationModalLabel" aria-hidden="true">
+                <!-- Modal de Insertar Rol Inicio -->
+                <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateReservationModalLabel">Actualizar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Paciente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="updateReservationForm">
-                                    <input type="hidden" id="upModReservationId">
+                                <form id="insertForm" data-info="">
 
                                     <div class="row">
-                                        <div class="mb-1 mb-sm-3 col-6">
-                                            <label for="upModFirstName" class="form-label mb-0 mb-sm-1">Nombre</label>
-                                            <input type="text" class="form-control" id="upModFirstName" maxlength="50" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModFirstName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-1 mb-sm-3 col-6">
-                                            <label for="upModLastName" class="form-label mb-0 mb-sm-1">Apellido</label>
-                                            <input type="text" class="form-control" id="upModLastName" maxlength="50" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModLastName" class="form-label mb-0">Apellido</label>
+                                            <input type="text" class="form-control" id="insModLastName" maxlength="50" required>
                                         </div>
-                                        <div class="mb-1 mb-sm-3 col-6">
-                                            <label for="upModEmail" class="form-label mb-0 mb-sm-1">Correo</label>
-                                            <input type="email" class="form-control" id="upModEmail" maxlength="100" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
                                         </div>
-                                        <div class="mb-1 mb-sm-3 col-6">
-                                            <label for="upModPhoneNumber" class="form-label mb-0 mb-sm-1">Teléfono</label>
-                                            <input type="tel" class="form-control" id="upModPhoneNumber" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 col-6">
-                                            <label for="upModProduct" class="form-label mb-0 mb-sm-1">Dispositivo</label>
-                                            <select name="upModProduct" class="form-control" id="upModProduct" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModGender" class="form-label mb-0">Género</label>
+                                            <select name="insModGender" class="form-control form-select" id="insModGender" required>
+                                                <option>Masculino</option>
+                                                <option>Femenino</option>
+                                                <option>Otro</option>
                                             </select>
                                         </div>
-                                        <div class="mb-2 mb-sm-3 col-6">
-                                            <label for="upModProductQuantity" class="form-label mb-0 mb-sm-1">Cantidad</label>
-                                            <select name="upModProductQuantity" class="form-control" id="upModProductQuantity" required>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                            </select>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
                                         </div>
-                                        <div class="mb-2 mb-sm-3 col-12">
-                                            <label for="upModAddress" class="form-label mb-0 mb-sm-1">Dirección</label>
-                                            <input type="text" class="form-control" id="upModAddress" maxlength="100" required>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
-                                        <div class="mb-2 mb-sm-3 col-6">
-                                            <label for="upModDate" class="form-label mb-0 mb-sm-1">Fecha</label>
-                                            <input type="date" class="form-control" id="upModDate" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 col-6">
-                                            <label for="upModHour" class="form-label mb-0 mb-sm-1">Hora</label>
-                                            <select name="update_hour" class="form-control" id="upModHour" required>
-                                            </select>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
+                                            <input type="date" class="form-control" id="insModBirthDate" maxlength="50" required>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary" form="updateReservationForm">Guardar</button>
+                                <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal de Insertar Rol Fin -->
+
+
+                <!-- Modal de Actualizar Rol Inicio -->
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Paciente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateForm" data-info="">
+
+                                    <div class="row">
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
+                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
+                                            <input type="text" class="form-control" id="updModLastName" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModGender" class="form-label mb-0">Género</label>
+                                            <select name="updModGender" class="form-control form-select" id="updModGender" required>
+                                                <option>Masculino</option>
+                                                <option>Femenino</option>
+                                                <option>Otro</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
+                                            <input type="date" class="form-control" id="updModBirthDate" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-primary" form="updateForm">Guardar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- Modal de Actualizar Rol Fin -->
                 
-                <!-- Modal de Eliminar Reservaciòn -->
-                <div class="modal fade" id="deleteReservationModal" tabindex="-1" aria-labelledby="deleteReservationModalLabel" aria-hidden="true">
+                
+                <!-- Modal de Eliminar Rol Inicio -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteReservationModalLabel">Eliminar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Paciente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="deleteReservationForm">
-                                    <input type="hidden" id="delModReservationId">
+                                <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Nombre: </span><span id="delModFirstName"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Apellido: </span><span id="delModLastName"></span>
+                                            <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Correo: </span><span id="delModEmail"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Teléfono: </span><span id="delModPhoneNumber"></span>
+                                            <span>Genero: </span><span id="delModGender"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Dirección: </span><span id="delModAddress"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Dispositivo: </span><span id="delModProduct"></span>
+                                            <span>Teléfono: </span><span id="delModPhone"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Cantidad: </span><span id="delModProductQuantity"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Hora: </span><span id="delModHour"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Fecha: </span><span id="delModDate"></span>
+                                            <span>Fecha de Nacimiento: </span><span id="delModBirthDate"></span>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-danger" form="deleteReservationForm">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" form="deleteForm">Eliminar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <!-- Modal de Eliminar Rol Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="bg-transparent rounded d-flex align-items-center px-4">
+                        <div id="iconClassTitle" class="col-12 col-sm-5 mb-0">
+                            <div class="bg-transparent rounded d-flex align-items-center px-2">
                                 <i id="moduleIcon"></i>
-                                <h4 id="moduleTitle" class="mb-0 ms-3"></h4>
+                                <h4 id="moduleTitle" class="mb-0 ms-2"></h4>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div id="buttonAdd" class="rounded d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary">
-                                    <i class="bi bi-plus-circle me-1"></i>Agregar
-                                </button>
+                        <div id="buttonClassTitle" class="col-12 col-sm-7 d-flex align-items-center justify-content-start justify-content-sm-end">
+                            <div class="bg-transparent rounded d-flex">
+                                <div class="rounded">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar">
+                                </div>
+                                <div id="addButton"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Titulo del Módulo Fin -->
-
 
                 <!-- Citas Realizadas Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -149,21 +184,18 @@
                             <h6 class="mb-0">Pacientes Registrados</h6>
                         </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0" id="dataTable">
-                                <thead>
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead id="tableHead">
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Correo</th>
-                                        <th scope="col">Teléfono</th>
+                                        <th scope="col">Género</th>
                                         <th scope="col">Dirección</th>
-                                        <th scope="col">Producto</th>
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Hora</th>
-                                        <th scope="col">Fecha</th>
-                                        <th scope="col">Acción</th>
+                                        <th scope="col">Teléfono</th>
+                                        <th scope="col">Fecha de Nacimiento</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tableBody">
                                 </tbody>
                             </table>
                         </div>

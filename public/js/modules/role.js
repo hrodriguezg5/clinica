@@ -1,10 +1,12 @@
 import { apiService } from '../services/apiService.js';
+import { showAlert } from '../utils/showArlert.js';
 import { 
     createButton, 
     assignModalEvent, 
     assignFormSubmitEvent, 
     assignSearchEvent,
-    closeModal
+    closeModal,
+    resetModal
 } from '../utils/actionButton.js';
 
 let currentData;
@@ -16,47 +18,85 @@ export async function initModule(data, module) {
     const url = `${urlBase}/${currentModule}/mostrar`;
     const response = await apiService.fetchData(url, 'GET');
     const tableBody = document.getElementById('tableBody');
+    const tableHead = document.getElementById('tableHead');
+    const addButton = document.getElementById('addButton');
     const moduleData = currentData.modules.find(moduleData => moduleData.link === currentModule);
 
-    console.log('Módulo:', moduleData);
+    const canCreate = moduleData.create_operation === 1;
+    const canUpdate = moduleData.update_operation === 1;
+    const canDelete = moduleData.delete_operation === 1;
+    const hasActions = canUpdate || canDelete;
     let rows = '';
 
+    if (canCreate) {
+        addButton.innerHTML = `
+            <div class="rounded ps-4">
+                <button type="button" class="btn btn-primary fw-bold btn-insert" data-bs-toggle="modal" data-bs-target="#insertModal">Agregar</button>
+            </div>
+        `;
+    } else {
+        addButton.innerHTML = ''; // Si no hay permisos, limpiar el contenedor
+    }
+
+    if (hasActions) {
+        // Verificar si ya existe la columna "Acción" para evitar duplicados
+        if (!document.querySelector('th.action-column')) {
+            const actionHeader = document.createElement('th');
+            actionHeader.scope = 'col';
+            actionHeader.textContent = 'Acción';
+            actionHeader.classList.add('action-column');
+            tableHead.querySelector('tr').appendChild(actionHeader);
+        }
+    }
+
     response.forEach(item => {
-        const dataInfo = JSON.stringify({role_id: item.id, role: item.role, user_id: data.user_id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({role_id: item.id, role: item.role}).replace(/"/g, '&quot;');
         const status = item.active ? 'Activo' : 'Inactivo';
         const alertType = item.active ? 'success' : 'danger';
 
+        let actionButtons = '';
+        
+        // Crear los botones de acuerdo a los permisos
+        if (canUpdate) {
+            actionButtons += createButton('btn-secondary btn-permission', 'Permiso', dataInfo, 'permissionModal', 'bi bi-key');
+            actionButtons += createButton('btn-primary btn-update', 'Editar', dataInfo, 'updateModal', 'bi bi-pencil');
+        }
+        if (canDelete) {
+            actionButtons += createButton('btn-danger btn-delete', 'Borrar', dataInfo, 'deleteModal', 'bi bi-trash-fill');
+        }
+
+        // Si existen acciones permitidas, agregamos el <td> de acciones
         rows += `
             <tr>
                 <td>${item.role}</td>
                 <td>${item.description}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
-                <td>
-                    <div class="d-flex">
-                        ${createButton('btn-secondary btn-permission', 'Permiso', dataInfo, '#permissionRoleModal', 'bi bi-key')}
-                        ${createButton('btn-primary btn-update', 'Editar', dataInfo, '#updateRoleModal', 'bi bi-pencil')}
-                        ${createButton('btn-danger btn-delete', 'Borrar', dataInfo, '#deleteRoleModal', 'bi bi-trash-fill')}
-                    </div>
-                </td>
+                ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
         `;
     });
+    
     tableBody.innerHTML = rows;
+    
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
 
-    assignModalEvent('.btn-permission', permissionRoleModal, 'permiso');
-    assignModalEvent('.btn-update', updateRoleModal, currentModule);
-    assignModalEvent('.btn-delete', deleteRoleModal, currentModule);
+    if (hasActions) {
+        assignModalEvent('.btn-permission', permissionModal, 'permiso');
+        assignModalEvent('.btn-update', updateModal, currentModule);
+        assignModalEvent('.btn-delete', deleteModal, currentModule);
+    }
 
     assignFormSubmitEvent('permissionForm', permissionFormSubmit, currentModule);
-    assignFormSubmitEvent('updateRoleForm', updateFormSubmit, currentModule);
-    assignFormSubmitEvent('deleteRoleForm', deleteFormSubmit, currentModule);
+    assignFormSubmitEvent('insertForm', insertFormSubmit, currentModule);
+    assignFormSubmitEvent('updateForm', updateFormSubmit, currentModule);
+    assignFormSubmitEvent('deleteForm', deleteFormSubmit, currentModule);
 
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
+    resetModal('insertModal', 'insertForm');
 }
 
-const permissionRoleModal = async (data) => {
+const permissionModal = async (data) => {
     const url = `${urlBase}/permiso/filtrar`;
-    const { role_id, role, user_id} = data;
+    const { role_id, role} = data;
 
     try {
         const response = await apiService.fetchData(url, 'POST', { role_id });
@@ -67,14 +107,14 @@ const permissionRoleModal = async (data) => {
         let rows = '';
         response.forEach(item => {
             const showChecked = item.show_operation ? 'checked' : '';
-            const createChecked = item.create_operation ? 'checked' : '';
-            const updateChecked = item.update_operation ? 'checked' : '';
-            const deleteChecked = item.delete_operation ? 'checked' : '';
-            const inputs = 'input class="form-check-input" type="checkbox" role="switch"';
+            const createChecked = item.cud_operation === 0 ? 'disabled' : (item.create_operation ? 'checked' : '');
+            const updateChecked = item.cud_operation === 0 ? 'disabled' : (item.update_operation ? 'checked' : '');
+            const deleteChecked = item.cud_operation === 0 ? 'disabled' : (item.delete_operation ? 'checked' : '');
+            const inputs = 'input class="form-check-input invalid-cursor" type="checkbox" role="switch"';
             const classes = 'class="form-check form-switch d-flex justify-content-center"';
 
             rows += `
-                <tr mp-id="${item.id}" mr-id="${role_id}" mm-id="${item.module_id}"mu-id="${user_id}">
+                <tr mp-id="${item.id}" mr-id="${role_id}" mm-id="${item.module_id}">
                     <td class="text-start">${item.module}</td>
                     <td><div ${classes}><${inputs} ${showChecked}></div></td>
                     <td><div ${classes}><${inputs} ${createChecked}></div></td>
@@ -90,8 +130,6 @@ const permissionRoleModal = async (data) => {
 };
 
 const permissionFormSubmit = async () => {
-    const modalElement = document.getElementById('permissionRoleModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
     const urlInsert = `${urlBase}/permiso/agregar`;
     const urlUpdate = `${urlBase}/permiso/actualizar`;
     const rows = document.querySelectorAll('#permmissionTableBody tr');
@@ -107,61 +145,84 @@ const permissionFormSubmit = async () => {
             create_operation: row.querySelectorAll('input[type="checkbox"]')[1].checked ? 1 : 0,
             update_operation: row.querySelectorAll('input[type="checkbox"]')[2].checked ? 1 : 0,
             delete_operation: row.querySelectorAll('input[type="checkbox"]')[3].checked ? 1 : 0,
-            user_id: row.getAttribute('mu-id')
+            user_id: currentData.user_id || null
         });
 
         try {
+            showAlert("Operación exitosa.", 'success');
             return await apiService.fetchData(url, 'POST', formData());
         } catch (error) {
+            showAlert("Error de conexión.", 'danger');
             console.error('Error:', error);
         }
     });
 
     await Promise.all(promises);
-    modalInstance.hide();
+    closeModal('permissionModal');
 };
 
-const updateRoleModal = async (data) => {
-    const url = `${urlBase}/${currentModule}/filtrar`;
-    const dataInfo = JSON.stringify(data);
-    const role_id = data.role_id;
-    
-    try {
-        const response = await apiService.fetchData(url, 'POST', { role_id });
-        const status = response.active ? 'Activo' : 'Inactivo';
-        document.getElementById('updateRoleForm').setAttribute('data-info', dataInfo);
-        document.getElementById('upModName').value = response.role || null;
-        document.getElementById('upModDescription').innerText = response.description || null;
-        document.getElementById('upModStatus').value = status || null;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-const updateFormSubmit = async () => {
-    const url = `${urlBase}/rol/actualizar`;
-    const dataInfo = JSON.parse(document.getElementById('updateRoleForm').getAttribute('data-info'));
-    const status = document.getElementById('upModStatus').value === 'Activo' ? 1 : 0;
-
+const insertFormSubmit = async () => {
+    const url = `${urlBase}/${currentModule}/agregar`;
     const formData = () => ({
-        name: document.getElementById('upModName').value || null,
-        description: document.getElementById('upModDescription').value || null,
-        active: status,
-        user_id: dataInfo.user_id || null,
-        role_id: dataInfo.role_id || null
+        name: document.getElementById('insModName').value || '',
+        description: document.getElementById('insModDescription').value || '',
+        active: Number(document.getElementById('insModStatus').value),
+        user_id: currentData.user_id || null
     });
-    
+
     try {
         await apiService.fetchData(url, 'POST', formData());
-        closeModal('updateRoleModal');
+        showAlert("Operación exitosa.", 'success');
+        closeModal('insertModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
     await initModule(currentData, currentModule);
 };
 
-const deleteRoleModal = async (data) => {
+const updateModal = async (data) => {
+    const url = `${urlBase}/${currentModule}/filtrar`;
+    const dataInfo = JSON.stringify(data);
+    const role_id = data.role_id;
+    
+    try {
+        const response = await apiService.fetchData(url, 'POST', { role_id });
+        document.getElementById('updateForm').setAttribute('data-info', dataInfo);
+        document.getElementById('updModName').value = response.role || '';
+        document.getElementById('updModDescription').innerText = response.description || '';
+        document.getElementById('updModStatus').value = response.active.toString() || '';
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+const updateFormSubmit = async () => {
+    const url = `${urlBase}/${currentModule}/actualizar`;
+    const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
+
+    const formData = () => ({
+        name: document.getElementById('updModName').value || '',
+        description: document.getElementById('updModDescription').value || '',
+        active: Number(document.getElementById('updModStatus').value),
+        user_id: currentData.user_id || null,
+        role_id: dataInfo.role_id || null
+    });
+    
+    try {
+        await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
+        closeModal('updateModal');
+    } catch (error) {
+        showAlert("Error de conexión.", 'danger');
+        console.error('Error:', error);
+    }
+
+    await initModule(currentData, currentModule);
+};
+
+const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
     const role_id = data.role_id;
@@ -169,32 +230,30 @@ const deleteRoleModal = async (data) => {
     try {
         const response = await apiService.fetchData(url, 'POST', { role_id });
         const status = response.active ? 'Activo' : 'Inactivo';
-        document.getElementById('deleteRoleForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModName').innerText = response.role || null;
-        document.getElementById('delModDescription').innerText = response.description || null;
-        document.getElementById('delModStatus').innerText = status || null;
+        document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
+        document.getElementById('delModName').innerText = response.role || '';
+        document.getElementById('delModDescription').innerText = response.description || '';
+        document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
 const deleteFormSubmit = async () => {
-    const url = `${urlBase}/rol/eliminar`;
-    const dataInfo = JSON.parse(document.getElementById('deleteRoleForm').getAttribute('data-info'));
-    const status = document.getElementById('delModStatus').innerText === 'Activo' ? 1 : 0;
+    const url = `${urlBase}/${currentModule}/eliminar`;
+    const dataInfo = JSON.parse(document.getElementById('deleteForm').getAttribute('data-info'));
 
     const formData = () => ({
-        name: document.getElementById('delModName').innerText || null,
-        description: document.getElementById('delModDescription').innerText || null,
-        active: status,
-        user_id: dataInfo.user_id || null,
+        user_id: currentData.user_id || null,
         role_id: dataInfo.role_id || null
     });
 
     try {
         await apiService.fetchData(url, 'POST', formData());
-        closeModal('deleteRoleModal');
+        showAlert("Operación exitosa.", 'success');
+        closeModal('deleteModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 

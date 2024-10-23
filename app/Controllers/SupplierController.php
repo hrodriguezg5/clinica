@@ -1,28 +1,28 @@
 <?php
-class PatientController extends Controllers {
+class SupplierController extends Controllers {
     public function __construct() {
         parent::__construct();
     }
     
     public function index() {
-        $this->view("PatientView");
+        $this->view("SupplierView");
     }
 
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $patients = $this->model->getPatients();
+            $suppliers = $this->model->getSuppliers();
         
-            if ($patients) {
-                foreach ($patients as $patient){
+            if ($suppliers) {
+                foreach ($suppliers as $supplier){
                     $response[] = [
-                        'id' => $patient->id,
-                        'full_name' => $patient->full_name,
-                        'birth_date' => $patient->birth_date,
-                        'gender' =>$patient->gender,
-                        'address' =>$patient->address,
-                        'phone' =>$patient->phone,
-                        'email' => $patient->email
+                        'id' => $supplier->id,
+                        'name' =>$supplier->name,
+                        'description' =>$supplier->description,
+                        'email' =>$supplier->email,
+                        'phone' =>$supplier->phone,
+                        'address' =>$supplier->address,
+                        'active' =>$supplier->active
                     ];
                 
                 }   
@@ -39,18 +39,17 @@ class PatientController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
-                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
-                "birth_date" => isset($decodedData['birth_date']) ? htmlspecialchars($decodedData['birth_date'], ENT_QUOTES, 'UTF-8') : null,
-                "gender" => isset($decodedData['gender']) ? htmlspecialchars($decodedData['gender'], ENT_QUOTES, 'UTF-8') : null,
-                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
-                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertPatient($data)) {
+            if ($this->model->insertSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -60,7 +59,10 @@ class PatientController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) return;
+            if (!$this->authMiddleware->validateToken()) {
+                
+                return;
+            }
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');
@@ -68,17 +70,16 @@ class PatientController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "first_name" => isset($decodedData['first_name']) ? htmlspecialchars($decodedData['first_name'], ENT_QUOTES, 'UTF-8') : null,
-                "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
-                "birth_date" => isset($decodedData['birth_date']) ? htmlspecialchars($decodedData['birth_date'], ENT_QUOTES, 'UTF-8') : null,
-                "gender" => isset($decodedData['gender']) ? htmlspecialchars($decodedData['gender'], ENT_QUOTES, 'UTF-8') : null,
-                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
-                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
+                "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
+                "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
+                "address" => isset($decodedData['address']) ? htmlspecialchars($decodedData['address'], ENT_QUOTES, 'UTF-8') : null,
+                "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updatePatient($data)) {
+            if ($this->model->updateSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -101,7 +102,7 @@ class PatientController extends Controllers {
             ];
     
     
-            if ($this->model->deletePatient($data)) {
+            if ($this->model->deleteSupplier($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -116,25 +117,22 @@ class PatientController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $patients = $this->model->fileterPatient($id);
+            $supplier = $this->model->filterSupplier($id);
     
-            if ($patients) {
-                foreach ($patients as $patient){
-                    $response = [
-                        'id' => $patient->id,
-                        'first_name' => $patient->first_name,
-                        'last_name' => $patient->last_name,
-                        'birth_date' => $patient->birth_date,
-                        'gender' =>$patient->gender,
-                        'address' =>$patient->address,
-                        'phone' =>$patient->phone,
-                        'email' => $patient->email
-                    ];
-                
-                }   
-                $this->jsonResponse($response);       
+            if ($supplier) {
+                $response = [
+                    'id' => $supplier->id,
+                    'name' =>$supplier->name,
+                    'description' =>$supplier->description,
+                    'email' =>$supplier->email,
+                    'phone' =>$supplier->phone,
+                    'address' =>$supplier->address,
+                    'active' =>$supplier->active
+                ];
+
+                $this->jsonResponse($response);
             }
-        }   
-    }   
+        }
+    }
 }
 ?>
