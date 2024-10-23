@@ -11,7 +11,8 @@ const ROUTE_MAP = [
     "posicion" => "PositionController",
     "lote" => "BatchController",
     "medicina" => "MedicineController",
-    "proveedor" => "SupplierController"
+    "proveedor" => "SupplierController",
+    "inventario" => "InventoryController"
 ];
 
 //Rutas de métodos de español a inglés
