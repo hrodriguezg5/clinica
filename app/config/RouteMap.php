@@ -12,6 +12,7 @@ const ROUTE_MAP = [
     "lote" => "BatchController",
     "medicina" => "MedicineController",
     "proveedor" => "SupplierController",
+    "sucursal" => "BranchController",
     "inventario" => "InventoryController"
 ];
 
