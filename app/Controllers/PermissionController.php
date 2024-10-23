@@ -7,17 +7,11 @@ class PermissionController extends Controllers {
     public function index() {
     }
 
-    public function token() {
-        $data = $this->authMiddleware->validateToken();
-        $response = $this->getUserAndModules($data);
-        $this->jsonResponse($response);
-    }
-
     public function filter() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
             $input = json_decode(file_get_contents("php://input"), true);
-            $role_id = filter_var($input['role_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null;
+            $role_id = filter_var($input['role_id'], FILTER_SANITIZE_NUMBER_INT) ?? null;
             $permissions = $this->model->filterPermissions(['role_id' => $role_id]);
 
             if ($permissions) {
@@ -44,14 +38,14 @@ class PermissionController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
             
             $data = [
-                "id" => filter_var($input['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "role_id" => filter_var($input['role_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "module_id" => filter_var($input['module_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "show_operation" => filter_var($input['show_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "create_operation" => filter_var($input['create_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "update_operation" => filter_var($input['update_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "delete_operation" => filter_var($input['delete_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "user_id" => filter_var($input['user_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null
+                "id" => filter_var($input['id'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "role_id" => filter_var($input['role_id'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "module_id" => filter_var($input['module_id'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "show_operation" => filter_var($input['show_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "create_operation" => filter_var($input['create_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "update_operation" => filter_var($input['update_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "delete_operation" => filter_var($input['delete_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "user_id" => filter_var($input['user_id'], FILTER_SANITIZE_NUMBER_INT) ?? null
             ];
 
             if ($this->model->updatePermission($data)) {
@@ -68,13 +62,13 @@ class PermissionController extends Controllers {
             $input = json_decode(file_get_contents("php://input"), true);
             
             $data = [
-                "module_id" => filter_var($input['module_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "role_id" => filter_var($input['role_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "show_operation" => filter_var($input['show_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "create_operation" => filter_var($input['create_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "update_operation" => filter_var($input['update_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "delete_operation" => filter_var($input['delete_operation'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null,
-                "user_id" => filter_var($input['user_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? null
+                "module_id" => filter_var($input['module_id'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "role_id" => filter_var($input['role_id'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "show_operation" => filter_var($input['show_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "create_operation" => filter_var($input['create_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "update_operation" => filter_var($input['update_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "delete_operation" => filter_var($input['delete_operation'], FILTER_SANITIZE_NUMBER_INT) ?? null,
+                "user_id" => filter_var($input['user_id'], FILTER_SANITIZE_NUMBER_INT) ?? null
             ];
 
             if ($this->model->insertPermission($data)) {

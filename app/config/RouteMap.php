@@ -5,14 +5,15 @@ const ROUTE_MAP = [
     "inicio" => "HomeController",
     "usuario" => "UserController",
     "rol" => "RoleController",
-    "permiso" => "PermissionController",
     "paciente" => "PatientController",
-    "empleado" => "EmployeController",
+    "permiso" => "PermissionController",
+    "empleado" => "EmployeeController",
     "posicion" => "PositionController",
     "lote" => "BatchController",
     "medicina" => "MedicineController",
     "proveedor" => "SupplierController",
-    "sucursal" => "BranchController"
+    "sucursal" => "BranchController",
+    "inventario" => "InventoryController"
 ];
 
 //Rutas de métodos de español a inglés

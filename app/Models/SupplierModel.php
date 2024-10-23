@@ -10,29 +10,15 @@ class SupplierModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
-        $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
     public function getSuppliers(){
         $this->db->query(
-            "SELECT 
-                s.id,
+            "SELECT s.id,
                 s.`name`,
+                s.`description`,
+                s.email,
                 s.phone,
-                s.address
+                s.address,
+                s.active
             FROM supplier AS s
             WHERE s.deleted_at IS NULL;"
         );
@@ -41,25 +27,34 @@ class SupplierModel{
         return $row;
     }
 
-    public function insertSuppliers($data){
+    public function insertSupplier($data){
         $this->db->query(
             "INSERT INTO supplier 
              (`name`, 
+              description,
+              email,
               phone,
-			  address, 
+			  address,
+			  active,
               created_by,
               updated_by)
              VALUES
              (:name, 
+              :description,
+              :email,
               :phone,
               :address,
+              :active,
 			  :created_by,
 			  :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":email", $data["email"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":address", $data["address"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -70,12 +65,15 @@ class SupplierModel{
         }
     }
 
-    public function updateSuppliers($data){
+    public function updateSupplier($data){
         $this->db->query(
             "UPDATE supplier
             SET `name` = :name,
+            description = :description,
+            email = :email,
             phone = :phone,
             address = :address,
+            active = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
@@ -83,8 +81,11 @@ class SupplierModel{
 
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
+        $this->db->bind(":email", $data["email"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":address", $data["address"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -93,7 +94,7 @@ class SupplierModel{
         }
     }
 
-    public function deleteSuppliers($data){
+    public function deleteSupplier($data){
         $this->db->query(
             "UPDATE supplier
             SET deleted_at = CURRENT_TIMESTAMP(),
@@ -111,20 +112,22 @@ class SupplierModel{
         }
     }
 
-    public function fileterSuppliers($id){
+    public function filterSupplier($id){
         $this->db->query(
-            "SELECT 
-                s.id,
+            "SELECT s.id,
                 s.`name`,
+                s.`description`,
+                s.email,
                 s.phone,
-                s.address
+                s.address,
+                s.active
             FROM supplier AS s
             WHERE id = :id
             AND s.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }
