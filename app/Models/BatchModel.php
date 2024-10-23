@@ -10,34 +10,21 @@ class BatchModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
+    public function getBatchs(){
         $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
-    public function getLots(){
-        $this->db->query(
-            "SELECT 
-                b.id,
-                b.manufacture_date,
-                b.expiration_date,
-                b.initial_quantity,
-                m.`name` AS name_medicine,
-                s.`name` AS name_supplier
-            FROM batch b
-            INNER JOIN medicine AS m ON m.id = b.id_medicine
-            INNER JOIN supplier AS s ON s.id = b.id_supplier
+            "SELECT b.id,
+            	b.medicine_id,
+            	m.`name` AS medicine_name,
+            	b.supplier_id,
+            	s.`name` AS supplier_name,
+            	b.quantity,
+            	DATE(b.created_at) AS created_at,
+            	b.expiration_date
+            FROM batch AS b
+            INNER JOIN medicine AS m
+            ON b.medicine_id = m.id
+            INNER JOIN supplier AS s
+            ON b.supplier_id = s.id
             WHERE b.deleted_at IS NULL;"
         );
 
@@ -45,31 +32,29 @@ class BatchModel{
         return $row;
     }
 
-    public function insertLots($data){
+    public function insertBatch($data){
         $this->db->query(
             "INSERT INTO batch
-             (manufacture_date, 
+             (medicine_id,
+			  supplier_id,
+			  quantity,
               expiration_date,
-			  initial_quantity,
-			  id_medicine,
-			  id_supplier, 
               created_by,
               updated_by)
              VALUES
-             (:manufacture_date, 
+             (
+              :medicine_id,
+              :supplier_id,
+              :quantity,
               :expiration_date,
-              :initial_quantity,
-              :id_medicine,
-              :id_supplier,
 			  :created_by,
 			  :updated_by);"
         );
 
-        $this->db->bind(":manufacture_date", $data["manufacture_date"]);
         $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":initial_quantity", $data["initial_quantity"]);
-        $this->db->bind(":id_medicine", $data["id_medicine"]);
-        $this->db->bind(":id_supplier", $data["id_supplier"]);
+        $this->db->bind(":quantity", $data["quantity"]);
+        $this->db->bind(":medicine_id", $data["medicine_id"]);
+        $this->db->bind(":supplier_id", $data["supplier_id"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -80,25 +65,23 @@ class BatchModel{
         }
     }
 
-    public function updateLots($data){
+    public function updateBatch($data){
         $this->db->query(
             "UPDATE batch
-                    SET manufacture_date = :manufacture_date,
-                    expiration_date = :expiration_date,
-                    initial_quantity = :initial_quantity,
-                    id_medicine = :id_medicine,
-                    id_supplier = :id_supplier,
+                    SET expiration_date = :expiration_date,
+                    quantity = :quantity,
+                    medicine_id = :medicine_id,
+                    supplier_id = :supplier_id,
                     updated_at = CURRENT_TIMESTAMP(),
                     updated_by = :updated_by
                     WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":manufacture_date", $data["manufacture_date"]);
         $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":initial_quantity", $data["initial_quantity"]);
-        $this->db->bind(":id_medicine", $data["id_medicine"]);
-        $this->db->bind(":id_supplier", $data["id_supplier"]);
+        $this->db->bind(":quantity", $data["quantity"]);
+        $this->db->bind(":medicine_id", $data["medicine_id"]);
+        $this->db->bind(":supplier_id", $data["supplier_id"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -107,7 +90,7 @@ class BatchModel{
         }
     }
 
-    public function deleteLots($data){
+    public function deleteBatch($data){
         $this->db->query(
             "UPDATE batch
             SET deleted_at = CURRENT_TIMESTAMP(),
@@ -125,24 +108,27 @@ class BatchModel{
         }
     }
 
-    public function fileterLots($id){
+    public function filterBatch($id){
         $this->db->query(
-            "SELECT 
-                b.id,
-                b.manufacture_date,
-                b.expiration_date,
-                b.initial_quantity,
-                m.`name` AS name_medicine,
-                s.`name` AS name_supplier
-                FROM batch b
-            INNER JOIN medicine AS m ON m.id = b.id_medicine
-            INNER JOIN supplier AS s ON s.id = b.id_supplier
+            "SELECT b.id,
+            	b.medicine_id,
+            	m.`name` AS medicine_name,
+            	b.supplier_id,
+            	s.`name` AS supplier_name,
+            	b.quantity,
+            	DATE(b.created_at) AS created_at,
+            	b.expiration_date
+            FROM batch AS b
+            INNER JOIN medicine AS m
+            ON b.medicine_id = m.id
+            INNER JOIN supplier AS s
+            ON b.supplier_id = s.id
             WHERE b.id = :id
             AND b.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }

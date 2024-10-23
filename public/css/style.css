@@ -103,6 +103,13 @@
     font-size: 40px;
 }
 
+
+/*** Puntero desabilitado en check input ***/
+.form-check:has(input:disabled) {
+    cursor: not-allowed;
+}
+
+
 /*** Button ***/
 .btn {
     transition: .5s;

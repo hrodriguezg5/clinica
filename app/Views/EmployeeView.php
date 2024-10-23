@@ -6,7 +6,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -22,18 +22,17 @@
                                             <input type="text" class="form-control" id="insModLastName" maxlength="50">
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModUsername" class="form-label mb-0">Usuario</label>
-                                            <input type="text" class="form-control" id="insModUsername" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModRole" class="form-label mb-0">Rol</label>
-                                            <select name="insModRole" class="form-control form-select" id="insModRole" required>
+                                            <label for="insModPosition" class="form-label mb-0">Puesto</label>
+                                            <select name="insModPosition" class="form-control form-select" id="insModPosition" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModEmployee" class="form-label mb-0">Empleado</label>
-                                            <select name="insModEmployee" class="form-control form-select" id="insModEmployee">
-                                            </select>
+                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -41,25 +40,6 @@
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPassword" class="form-label mb-0">Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="insModPassword" maxlength="50" required>
-                                                <button class="btn btn-outline-secondary" type="button" id="insModTogglePassword" style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModConfirmPassword" class="form-label mb-0">Confirmar Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="insModConfirmPassword" maxlength="50" required>
-                                                <button class="btn btn-outline-secondary" type="button" id="insModToggleConfirmPassword"  style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -79,13 +59,17 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="updateForm" data-info="">
 
                                     <div class="row">
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModEmployeeCode" class="form-label mb-0">Código</label>
+                                            <input type="text" class="form-control" id="updModEmployeeCode" maxlength="50" disabled>
+                                        </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModFirstName" class="form-label mb-0">Nombre</label>
                                             <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
@@ -95,14 +79,17 @@
                                             <input type="text" class="form-control" id="updModLastName" maxlength="50">
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModRole" class="form-label mb-0">Rol</label>
-                                            <select name="updModRole" class="form-control form-select" id="updModRole" required>
+                                            <label for="updModPosition" class="form-label mb-0">Puesto</label>
+                                            <select name="updModPosition" class="form-control form-select" id="updModPosition" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModEmployee" class="form-label mb-0">Empleado</label>
-                                            <select name="updModEmployee" class="form-control form-select" id="updModEmployee">
-                                            </select>
+                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
+                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -110,15 +97,6 @@
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPassword" class="form-label mb-0">Contraseña</label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="updModPassword" maxlength="50">
-                                                <button class="btn btn-outline-secondary" type="button" id="updModTogglePassword"  style="border-color: #ced4da; color: #757575;">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -138,20 +116,26 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Código: </span><span id="delModEmployeeCode"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Usuario: </span><span id="delModUsername"></span>
+                                            <span>Puesto: </span><span id="delModPosition"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Rol: </span><span id="delModRole"></span>
+                                            <span>Correo: </span><span id="delModEmail"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Teléfono: </span><span id="delModPhone"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -193,16 +177,17 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Usuarios Registrados</h6>
+                            <h6 class="mb-0">Empleados Registrados</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
+                                        <th scope="col">Código</th>
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Usuario</th>
-                                        <th scope="col">Empleado</th>
-                                        <th scope="col">Rol</th>
+                                        <th scope="col">Puesto</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col">Teléfono</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

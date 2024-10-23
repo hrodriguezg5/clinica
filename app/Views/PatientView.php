@@ -6,7 +6,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Paciente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModGender" class="form-label mb-0">Género</label>
-                                            <select name="insModGender" class="form-control" id="insModGender" required>
+                                            <select name="insModGender" class="form-control form-select" id="insModGender" required>
                                                 <option>Masculino</option>
                                                 <option>Femenino</option>
                                                 <option>Otro</option>
@@ -63,7 +63,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Paciente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -84,7 +84,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModGender" class="form-label mb-0">Género</label>
-                                            <select name="updModGender" class="form-control" id="updModGender" required>
+                                            <select name="updModGender" class="form-control form-select" id="updModGender" required>
                                                 <option>Masculino</option>
                                                 <option>Femenino</option>
                                                 <option>Otro</option>
@@ -120,7 +120,7 @@
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Usuario</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Paciente</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -162,7 +162,7 @@
                         <div id="iconClassTitle" class="col-12 col-sm-5 mb-0">
                             <div class="bg-transparent rounded d-flex align-items-center px-2">
                                 <i id="moduleIcon"></i>
-                                <h4 id="moduleTitle" class="mb-0 ms-3"></h4>
+                                <h4 id="moduleTitle" class="mb-0 ms-2"></h4>
                             </div>
                         </div>
                         <div id="buttonClassTitle" class="col-12 col-sm-7 d-flex align-items-center justify-content-start justify-content-sm-end">

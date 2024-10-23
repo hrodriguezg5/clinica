@@ -10,27 +10,12 @@ class PositionModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
-        $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
     public function getPositions(){
         $this->db->query(
             "SELECT 
                 p.id,
                 p.name,
+                p.description,
                 p.active
             FROM position p
             WHERE p.deleted_at IS NULL;"
@@ -40,21 +25,24 @@ class PositionModel{
         return $row;
     }
 
-    public function insertPositions($data){
+    public function insertPosition($data){
         $this->db->query(
             "INSERT INTO position 
              (name, 
+              description, 
               active, 
               created_by,
               updated_by)
              VALUES
              (:name, 
+              :description,
               :active,
 			  :created_by,
 			  :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -66,10 +54,11 @@ class PositionModel{
         }
     }
 
-    public function updatePositions($data){
+    public function updatePosition($data){
         $this->db->query(
             "UPDATE position
             SET NAME = :name,
+            description = :description,
             active = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
@@ -78,6 +67,7 @@ class PositionModel{
 
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":description", $data["description"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
@@ -87,7 +77,7 @@ class PositionModel{
         }
     }
 
-    public function deletePositions($data){
+    public function deletePosition($data){
         $this->db->query(
             "UPDATE position
             SET deleted_at = CURRENT_TIMESTAMP(),
@@ -105,10 +95,11 @@ class PositionModel{
         }
     }
 
-    public function fileterPositions($id){
+    public function fileterPosition($id){
         $this->db->query(
             "SELECT p.id,
                     p.name,
+                    p.description,
                     p.active
                 FROM position AS p
                 WHERE p.id = :id
@@ -116,7 +107,7 @@ class PositionModel{
 
         $this->db->bind(':id', $id);
 
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }

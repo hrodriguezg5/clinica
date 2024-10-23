@@ -1,7 +1,7 @@
 import { apiService } from '../services/apiService.js';
 import { isValidPassword, arePasswordsMatching, isEmpty } from '../utils/validation.js';
 import { showAlert } from '../utils/showArlert.js';
-import { 
+import {
     createButton, 
     assignModalEvent, 
     assignFormSubmitEvent, 
@@ -39,7 +39,8 @@ export async function initModule(data, module) {
 
         const insertModal = document.getElementById('insertModal');
         insertModal.addEventListener('show.bs.modal', () => {
-            populateSelect('insModRole', 'rol');
+            populateSelectRole('insModRole', 'rol');
+            populateSelectEmployee('insModEmployee', 'empleado');
             togglePassword('insModTogglePassword', 'insModPassword');
             togglePassword('insModToggleConfirmPassword', 'insModConfirmPassword');
         });
@@ -77,6 +78,7 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.user_name}</td>
                 <td>${item.username}</td>
+                <td>${item.employee_name || ''}</td>
                 <td>${item.role_name}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
@@ -86,7 +88,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);
@@ -100,17 +102,48 @@ export async function initModule(data, module) {
     resetModal('insertModal', 'insertForm');
 }
 
-const populateSelect = async (selectId, module) =>  {
+const populateSelectRole = async (selectId, module) =>  {
     const select = document.getElementById(selectId);
-    select.innerHTML = '';
-    
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
+
     try {
         const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
         options.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.role;
-            select.appendChild(option);
+            if (item.active === 1) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.role;
+                newSelectElement.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+const populateSelectEmployee = async (selectId, module) =>  {
+    const select = document.getElementById(selectId);
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
+    
+    try {
+        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
+        newSelectElement.appendChild(new Option('Ninguno', ''));
+        options.forEach(item => {
+            if (item.active === 1) {
+                const option = document.createElement('option');
+                const name = item.id + ' - ' + item.employee_name;
+                option.value = item.id;
+                option.textContent = name;
+                newSelectElement.appendChild(option);
+            }
         });
     } catch (error) {
         console.error('Error:', error);
@@ -165,16 +198,19 @@ const insertFormSubmit = async () => {
         first_name: document.getElementById('insModFirstName').value || '',
         last_name: document.getElementById('insModLastName').value || '',
         username: username.value || '',
+        employee_id: Number(document.getElementById('insModEmployee').value) || null,
         role_id: Number(document.getElementById('insModRole').value) || null,
-        active: Number(document.getElementById('insModStatus').value) || null,
+        active: Number(document.getElementById('insModStatus').value),
         password: password.value || null,
         user_id: currentData.user_id || null
     });
     
     try {
         await apiService.fetchData(urlInsert, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -186,17 +222,21 @@ const updateModal = async (data) => {
     const dataInfo = JSON.stringify(data);
     const id = data.user_id;
 
-    await populateSelect('updModRole', 'rol');
+    await populateSelectRole('updModRole', 'rol');
+    await populateSelectEmployee('updModEmployee', 'empleado');
     togglePassword('updModTogglePassword', 'updModPassword');
 
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         const roleSelect = document.getElementById('updModRole');
+        const employeeSelect = document.getElementById('updModEmployee');
         const roleOption = Array.from(roleSelect.options).find(option => option.text === response.role_name);
-
+        const employeeOption = Array.from(employeeSelect.options).find(option => option.text === response.employee_name);
+        
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModFirstName').value = response.first_name || '';
         document.getElementById('updModLastName').value = response.last_name || '';
+        document.getElementById('updModEmployee').value = employeeOption.value || '';
         document.getElementById('updModRole').value = roleOption.value || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
@@ -205,7 +245,6 @@ const updateModal = async (data) => {
 
     resetModal('updateModal', 'updateForm');
 };
-
 
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
@@ -226,16 +265,19 @@ const updateFormSubmit = async () => {
         role_id: Number(document.getElementById('updModRole').value) || null,
         first_name: document.getElementById('updModFirstName').value || '',
         last_name: document.getElementById('updModLastName').value || '',
+        employee_id: Number(document.getElementById('updModEmployee').value) || null,
         password: password.value || null,
-        active: Number(document.getElementById('updModStatus').value) || null,
+        active: Number(document.getElementById('updModStatus').value),
         user_id: currentData.user_id || null,
         id: dataInfo.user_id || null
     });
     
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('updateModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
@@ -255,6 +297,7 @@ const deleteModal = async (data) => {
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = name || '';
         document.getElementById('delModUsername').innerText = response.username || '';
+        document.getElementById('delModUsername').innerText = response.employee_name || '';
         document.getElementById('delModRole').innerText = response.role_name || '';
         document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
@@ -273,8 +316,10 @@ const deleteFormSubmit = async () => {
 
     try {
         await apiService.fetchData(url, 'POST', formData());
+        showAlert("Operación exitosa.", 'success');
         closeModal('deleteModal');
     } catch (error) {
+        showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
 
