@@ -5,7 +5,7 @@ class BranchController extends Controllers {
     }
     
     public function index() {
-        $this->view("PatientView");
+        $this->view("BranchView");
     }
 
     public function show() {

@@ -18,8 +18,16 @@
                                             <input type="text" class="form-control" id="insModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="insModDescription""></textarea>
+                                            <label for="insModCity" class="form-label mb-0">Ciudad</label>
+                                            <input type="text" class="form-control" id="insModCity" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -58,8 +66,16 @@
                                             <input type="text" class="form-control" id="updModName" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="updModDescription""></textarea>
+                                            <label for="updModCity" class="form-label mb-0">Ciudad</label>
+                                            <input type="text" class="form-control" id="updModCity" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
+                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
+                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -96,7 +112,13 @@
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModDescription"></span>
+                                            <span>Ciudad: </span><span id="delModCity"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Dirección: </span><span id="delModAddress"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Teléfono: </span><span id="delModPhone"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -138,15 +160,16 @@
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Puestos Sucursal</h6>
+                            <h6 class="mb-0">Sucursales Registradas</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start align-middle table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark">
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Ciudad</th>
+                                        <th scope="col">Dirección</th>
+                                        <th scope="col">Teléfono</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

@@ -145,7 +145,6 @@ const updateFormSubmit = async () => {
         selling_price: document.getElementById('updModSellingPrice').value || '',
         brand: document.getElementById('updModBrand').value || '',
         active: Number(document.getElementById('updModStatus').value),
-        created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null,
         id: dataInfo.medicine_id || null
     });

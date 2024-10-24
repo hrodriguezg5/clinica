@@ -50,7 +50,7 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({position_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({branch_id: item.id}).replace(/"/g, '&quot;');
         const status = item.active ? 'Activo' : 'Inactivo';
         const alertType = item.active ? 'success' : 'danger';
 
@@ -68,7 +68,9 @@ export async function initModule(data, module) {
         rows += `
             <tr>
                 <td>${item.name}</td>
-                <td>${item.description}</td>
+                <td>${item.city}</td>
+                <td>${item.address}</td>
+                <td>${item.phone}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -77,7 +79,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal, currentModule);
@@ -95,7 +97,9 @@ const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
     const formData = () => ({
         name: document.getElementById('insModName').value || '',
-        description: document.getElementById('insModDescription').value || '',
+        city: document.getElementById('insModCity').value || '',
+        address: document.getElementById('insModAddress').value || '',
+        phone: document.getElementById('insModPhone').value || '',
         active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
@@ -116,13 +120,15 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.position_id;
+    const id = data.branch_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModName').value = response.name || '';
-        document.getElementById('updModDescription').innerText = response.description || '';
+        document.getElementById('updModCity').value = response.city || '';
+        document.getElementById('updModAddress').value = response.address || '';
+        document.getElementById('updModPhone').value = response.phone || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
@@ -135,10 +141,12 @@ const updateFormSubmit = async () => {
 
     const formData = () => ({
         name: document.getElementById('updModName').value || '',
-        description: document.getElementById('updModDescription').value || '',
+        city: document.getElementById('updModCity').value || '',
+        address: document.getElementById('updModAddress').value || '',
+        phone: document.getElementById('updModPhone').value || '',
         active: Number(document.getElementById('updModStatus').value),
         updated_by: currentData.user_id || null,
-        id: dataInfo.position_id || null
+        id: dataInfo.branch_id || null
     });
     
     try {
@@ -156,14 +164,16 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.position_id;
+    const id = data.branch_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         const status = response.active ? 'Activo' : 'Inactivo';
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = response.name || '';
-        document.getElementById('delModDescription').innerText = response.description || '';
+        document.getElementById('delModCity').innerText = response.city || '';
+        document.getElementById('delModAddress').innerText = response.address || '';
+        document.getElementById('delModPhone').innerText = response.phone || '';
         document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
@@ -176,7 +186,7 @@ const deleteFormSubmit = async () => {
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.position_id || null
+        id: dataInfo.branch_id || null
     });
 
     try {

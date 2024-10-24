@@ -22,15 +22,15 @@
                                             <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Correo</label>
+                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
                                             <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Dirección</label>
+                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
                                             <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Teléfono</label>
+                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
                                             <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">

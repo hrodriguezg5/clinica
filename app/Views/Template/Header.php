@@ -75,6 +75,7 @@
                     <i class="fa fa-bars"></i>
                 </a>
                 <div class="navbar-nav align-items-center ms-auto">
+                    <!-- <span id="branchName" class="me-3 text-primary">Clínica Zona 1</span> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i>
