@@ -5,7 +5,7 @@ class RoomController extends Controllers {
     }
     
     public function index() {
-        $this->view("BatchView");
+        $this->view("RoomView");
     }
 
     public function show() {
@@ -17,10 +17,9 @@ class RoomController extends Controllers {
                 foreach ($rooms as $room){
                     $response[] = [
                         'id' => $room->id,
-                        'room_number' =>$room->medicine_id,
-                        'branch_name' =>$room->medicine_name,
-                        'created_at' =>$room->supplier_id,
-                        'created_at' => $room->created_at,
+                        'room_number' =>$room->room_number,
+                        'branch_name' =>$room->branch_name,
+                        'created_at' =>$room->created_at,
                     ];
                 
                 }   
@@ -37,15 +36,14 @@ class RoomController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $data = [
-                "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
+                "room_number" => isset($decodedData['room_number']) ? filter_var($decodedData['room_number'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "branch_id" => isset($decodedData['branch_id']) ? filter_var($decodedData['branch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "available" => isset($decodedData['available']) ? filter_var($decodedData['available'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
     
-            if ($this->model->insertBatch($data)) {
+            if ($this->model->insertRooms($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -66,14 +64,13 @@ class RoomController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
+                "room_number" => isset($decodedData['room_number']) ? filter_var($decodedData['room_number'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "branch_id" => isset($decodedData['branch_id']) ? filter_var($decodedData['branch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "available" => isset($decodedData['available']) ? filter_var($decodedData['available'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updateBatch($data)) {
+            if ($this->model->updateRooms($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -96,7 +93,7 @@ class RoomController extends Controllers {
             ];
     
     
-            if ($this->model->deleteBatch($data)) {
+            if ($this->model->deleteRooms($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -111,18 +108,14 @@ class RoomController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $batch = $this->model->filterBatch($id);
-    
-            if ($batch) {
+            $room = $this->model->filterRooms($id);
+
+            if ($room) {
                 $response = [
-                    'id' => $batch->id,
-                    'medicine_id' =>$batch->medicine_id,
-                    'medicine_name' =>$batch->medicine_name,
-                    'supplier_id' =>$batch->supplier_id,
-                    'supplier_name' =>$batch->supplier_name,
-                    'quantity' =>$batch->quantity,
-                    'created_at' =>$batch->created_at,
-                    'expiration_date' =>$batch->expiration_date
+                    'id' => $room->id,
+                    'room_number' =>$room->room_number,
+                    'branch_name' =>$room->branch_name,
+                    'created_at' =>$room->created_at
                 ];
 
                 $this->jsonResponse($response);

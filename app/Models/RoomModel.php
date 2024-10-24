@@ -19,7 +19,8 @@ class RoomModel{
               	DATE(b.created_at) AS created_at
             FROM room AS r
             INNER JOIN branch AS b
-            ON b.id = r.id;"
+            ON b.id = r.branch_id
+            WHERE r.deleted_at IS NULL;"
         );
 
         $row = $this->db->records();
@@ -56,23 +57,21 @@ class RoomModel{
         }
     }
 
-    public function updateBatch($data){
+    public function updateRooms($data){
         $this->db->query(
-            "UPDATE batch
-                    SET expiration_date = :expiration_date,
-                    quantity = :quantity,
-                    medicine_id = :medicine_id,
-                    supplier_id = :supplier_id,
+            "UPDATE room
+                    SET room_number = :room_number,
+                    branch_id = :branch_id,
+                    available = :available,
                     updated_at = CURRENT_TIMESTAMP(),
                     updated_by = :updated_by
                     WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":quantity", $data["quantity"]);
-        $this->db->bind(":medicine_id", $data["medicine_id"]);
-        $this->db->bind(":supplier_id", $data["supplier_id"]);
+        $this->db->bind(":room_number", $data["room_number"]);
+        $this->db->bind(":branch_id", $data["branch_id"]);
+        $this->db->bind(":available", $data["available"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -81,9 +80,9 @@ class RoomModel{
         }
     }
 
-    public function deleteBatch($data){
+    public function deleteRooms($data){
         $this->db->query(
-            "UPDATE batch
+            "UPDATE room
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -99,23 +98,18 @@ class RoomModel{
         }
     }
 
-    public function filterBatch($id){
+    public function filterRooms($id){
         $this->db->query(
-            "SELECT b.id,
-            	b.medicine_id,
-            	m.`name` AS medicine_name,
-            	b.supplier_id,
-            	s.`name` AS supplier_name,
-            	b.quantity,
-            	DATE(b.created_at) AS created_at,
-            	b.expiration_date
-            FROM batch AS b
-            INNER JOIN medicine AS m
-            ON b.medicine_id = m.id
-            INNER JOIN supplier AS s
-            ON b.supplier_id = s.id
-            WHERE b.id = :id
-            AND b.deleted_at IS NULL;");
+            "SELECT r.id,
+            	r.room_number,
+            	b.name AS branch_name,
+            	r.available,
+              	DATE(b.created_at) AS created_at
+            FROM room AS r
+            INNER JOIN branch AS b
+            ON b.id = r.branch_id
+            WHERE r.id = :id
+            AND r.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 
