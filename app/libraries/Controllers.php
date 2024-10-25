@@ -66,6 +66,7 @@ class Controllers{
             'first_name' => $user->first_name,
             'user_name' => $user->user_name,
             'role_name' => $user->role_name,
+            'branch_name' => $user->branch_name,
             'modules' => $moduleData
         ];
     }

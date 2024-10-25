@@ -38,6 +38,7 @@ export async function initModule(data, module) {
         const insertModal = document.getElementById('insertModal');
         insertModal.addEventListener('show.bs.modal', () => {
             populateSelect('insModPosition', 'posicion');
+            populateSelect('insModBranch', 'sucursal');
         });
 
     } else {
@@ -73,6 +74,7 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.id}</td>
                 <td>${item.employee_name}</td>
+                <td>${item.branch}</td>
                 <td>${item.position}</td>
                 <td>${item.email}</td>
                 <td>${item.phone}</td>
@@ -84,7 +86,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5, 6]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);
@@ -128,6 +130,7 @@ const insertFormSubmit = async () => {
         first_name: document.getElementById('insModFirstName').value || '',
         last_name: document.getElementById('insModLastName').value || '',
         position_id: Number(document.getElementById('insModPosition').value) || null,
+        branch_id: Number(document.getElementById('insModBranch').value) || null,
         email: document.getElementById('insModEmail').value || '',
         phone: document.getElementById('insModPhone').value || '',
         active: Number(document.getElementById('insModStatus').value),
@@ -153,17 +156,21 @@ const updateModal = async (data) => {
     const id = data.employee_id;
 
     await populateSelect('updModPosition', 'posicion');
+    await populateSelect('updModBranch', 'sucursal');
 
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         const positionSelect = document.getElementById('updModPosition');
+        const branchSelect = document.getElementById('updModBranch');
         const positionOption = Array.from(positionSelect.options).find(option => option.text === response.position);
+        const branchOption = Array.from(branchSelect.options).find(option => option.text === response.branch);
         
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModEmployeeCode').value = response.id || '';
         document.getElementById('updModFirstName').value = response.first_name || '';
         document.getElementById('updModLastName').value = response.last_name || '';
         document.getElementById('updModPosition').value = positionOption.value || '';
+        document.getElementById('updModBranch').value = branchOption.value || '';
         document.getElementById('updModEmail').value = response.email || '';
         document.getElementById('updModPhone').value = response.phone || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
@@ -183,6 +190,7 @@ const updateFormSubmit = async () => {
         first_name: document.getElementById('updModFirstName').value || '',
         last_name: document.getElementById('updModLastName').value || '',
         position_id: Number(document.getElementById('updModPosition').value) || null,
+        branch_id: Number(document.getElementById('updModBranch').value) || null,
         email: document.getElementById('updModEmail').value || '',
         phone: document.getElementById('updModPhone').value || '',
         active: Number(document.getElementById('updModStatus').value),

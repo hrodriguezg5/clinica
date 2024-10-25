@@ -27,6 +27,11 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="insModBranch" class="form-control form-select" id="insModBranch" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModEmail" class="form-label mb-0">Correo</label>
                                             <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
                                         </div>
@@ -84,6 +89,11 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="updModBranch" class="form-control form-select" id="updModBranch" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModEmail" class="form-label mb-0">Correo</label>
                                             <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
                                         </div>
@@ -130,6 +140,9 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Puesto: </span><span id="delModPosition"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Sucursal: </span><span id="delModBranch"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Correo: </span><span id="delModEmail"></span>
@@ -186,6 +199,7 @@
                                         <th scope="col">Código</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Puesto</th>
+                                        <th scope="col">Sucursal</th>
                                         <th scope="col">Correo</th>
                                         <th scope="col">Teléfono</th>
                                         <th scope="col">Estado</th>
