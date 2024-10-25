@@ -17,6 +17,8 @@ class BatchModel{
             	m.`name` AS medicine_name,
             	b.supplier_id,
             	s.`name` AS supplier_name,
+            	i.branch_id,
+            	ba.`name` AS branch_name,
                 b.purchase_price,
             	b.quantity,
             	DATE(b.created_at) AS created_at,
@@ -26,6 +28,10 @@ class BatchModel{
             ON b.medicine_id = m.id
             INNER JOIN supplier AS s
             ON b.supplier_id = s.id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            INNER JOIN branch AS ba
+            ON i.branch_id = ba.id
             WHERE b.deleted_at IS NULL;"
         );
 
@@ -63,7 +69,7 @@ class BatchModel{
         $this->db->bind(":updated_by", $data["updated_by"]);
         
         if($this->db->execute()){
-            return true;
+            return $this->db->lastInsertId();
         } else{
             return false;
         }
@@ -121,6 +127,8 @@ class BatchModel{
             	m.`name` AS medicine_name,
             	b.supplier_id,
             	s.`name` AS supplier_name,
+            	i.branch_id,
+            	ba.`name` AS branch_name,
                 b.purchase_price,
             	b.quantity,
             	DATE(b.created_at) AS created_at,
@@ -130,6 +138,10 @@ class BatchModel{
             ON b.medicine_id = m.id
             INNER JOIN supplier AS s
             ON b.supplier_id = s.id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            INNER JOIN branch AS ba
+            ON i.branch_id = ba.id
             WHERE b.id = :id
             AND b.deleted_at IS NULL;");
 

@@ -38,7 +38,8 @@ export async function initModule(data, module) {
         const insertModal = document.getElementById('insertModal');
         insertModal.addEventListener('show.bs.modal', () => {
             populateSelectMedicine('insModMedicine', 'medicina');
-            populateSelectSupplier('insModSupplier', 'proveedor');
+            populateSelect('insModSupplier', 'proveedor');
+            populateSelect('insModBranch', 'sucursal');
         });
 
     } else {
@@ -73,6 +74,7 @@ export async function initModule(data, module) {
                 <td>${item.id}</td>
                 <td>${item.medicine_name}</td>
                 <td>${item.supplier_name}</td>
+                <td>${item.branch_name}</td>
                 <td>Q${item.purchase_price}</td>
                 <td>${item.quantity}u.</td>
                 <td>${item.created_at}</td>
@@ -121,7 +123,7 @@ const populateSelectMedicine = async (selectId, module) =>  {
     }
 }
 
-const populateSelectSupplier = async (selectId, module) =>  {
+const populateSelect = async (selectId, module) =>  {
     const select = document.getElementById(selectId);
     const newSelect = select.outerHTML;
     select.outerHTML = newSelect;
@@ -145,11 +147,13 @@ const populateSelectSupplier = async (selectId, module) =>  {
 }
 
 const insertFormSubmit = async () => {
-    const url = `${urlBase}/${currentModule}/agregar`;
+    const urlBatch = `${urlBase}/${currentModule}/agregar`;
+    const urlInventory = `${urlBase}/inventario/agregar`;
 
     const formData = () => ({
         medicine_id: Number(document.getElementById('insModMedicine').value) || null,
         supplier_id: Number(document.getElementById('insModSupplier').value) || null,
+        branch_id: Number(document.getElementById('insModBranch').value) || null,
         purchase_price: document.getElementById('insModPurchasePrice').value || '',
         quantity: Number(document.getElementById('insModQuantity').value) || null,
         expiration_date: document.getElementById('insModExpirationDate').value || '',
@@ -158,7 +162,14 @@ const insertFormSubmit = async () => {
     });
     
     try {
-        await apiService.fetchData(url, 'POST', formData());
+        const response = await apiService.fetchData(urlBatch, 'POST', formData());
+        await apiService.fetchData(urlInventory, 'POST', {
+            batch_id: response.batch_id,
+            branch_id: formData().branch_id,
+            quantity: formData().quantity,
+            created_by: formData().created_by,
+            updated_by: formData().updated_by
+        });
         showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
@@ -175,7 +186,7 @@ const updateModal = async (data) => {
     const id = data.batch_id;
 
     await populateSelectMedicine('updModMedicine', 'medicina');
-    await populateSelectSupplier('updModSupplier', 'proveedor');
+    await populateSelect('updModSupplier', 'proveedor');
 
     try {
         const response = await apiService.fetchData(url, 'POST', { id });

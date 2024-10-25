@@ -70,6 +70,12 @@ class Database {
         return $this->stmt->rowCount();
     }
 
+    //Se obtiene el ultimo id insertado
+    public function lastInsertId() {
+        return $this->dbh->lastInsertId();
+    }
+    
+    // Cerrar la conexión
     public function closeConnection() {
         $this->dbh = null;
     }

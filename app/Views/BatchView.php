@@ -24,6 +24,11 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="insModBranch" class="form-control form-select" id="insModBranch">
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModPurchasePrice" class="form-label mb-0">Precio Compra</label>
                                             <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
@@ -75,12 +80,17 @@
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="updModBranch" class="form-control form-select" id="updModBranch">
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModPurchasePrice" class="form-label mb-0">Precio Compra</label>
                                             <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModQuantity" class="form-label mb-0">Cantidad</label>
-                                            <input type="number" class="form-control" id="updModQuantity" required>
+                                            <input type="number" class="form-control" id="updModQuantity" disabled>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModCreatedAt" class="form-label mb-0">Ingreso</label>
@@ -122,6 +132,9 @@
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Proveedor: </span><span id="delModSupplier"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Sucursal: </span><span id="delModBranch"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Precio Compra: </span><span id="delModPurchasePrice"></span>
@@ -181,6 +194,7 @@
                                         <th scope="col">ID Lote</th>
                                         <th scope="col">Médicina</th>
                                         <th scope="col">Proveedor</th>
+                                        <th scope="col">Sucursal</th>
                                         <th scope="col">Precio Compra</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Ingreso</th>
