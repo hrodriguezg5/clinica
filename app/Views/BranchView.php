@@ -163,9 +163,9 @@
                             <h6 class="mb-0">Sucursales Registradas</h6>
                         </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
-                                    <tr class="text-dark">
+                                    <tr class="text-dark align-middle">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Ciudad</th>
                                         <th scope="col">Dirección</th>

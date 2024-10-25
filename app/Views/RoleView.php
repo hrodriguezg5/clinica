@@ -12,9 +12,9 @@
                             <div class="modal-body">
                                 <form id="permissionForm">
                                     <div class="table-responsive px-3">
-                                        <table class="table table-bordered text-center align-middle">
+                                        <table class="table text-center table-bordered table-hover mb-0">
                                             <thead>
-                                                <tr>
+                                                <tr class="text-dark align-middle">
                                                     <th>Módulo</th>
                                                     <th>Ver</th>
                                                     <th>Crear</th>
@@ -178,9 +178,9 @@
                             <h6 class="mb-0">Roles Registrados</h6>
                         </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
-                                    <tr class="text-dark">
+                                    <tr class="text-dark align-middle">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">Estado</th>

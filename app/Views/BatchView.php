@@ -66,7 +66,7 @@
                                     <div class="row">
 
                                         <div div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModBatchId" class="form-label mb-0">ID Lote</label>
+                                            <label for="updModBatchId" class="form-label mb-0">No. Lote</label>
                                             <input type="text" class="form-control" id="updModBatchId" maxlength="50" disabled>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
@@ -125,7 +125,7 @@
                                 <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>ID Lote: </span><span id="delModBatchId"></span>
+                                            <span>No. Lote: </span><span id="delModBatchId"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Medicina: </span><span id="delModMedicine"></span>
@@ -188,10 +188,10 @@
                             <h6 class="mb-0">Lotes Registrados</h6>
                         </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
-                                    <tr class="text-dark">
-                                        <th scope="col">ID Lote</th>
+                                    <tr class="text-dark align-middle">
+                                        <th scope="col">No. Lote</th>
                                         <th scope="col">Médicina</th>
                                         <th scope="col">Proveedor</th>
                                         <th scope="col">Sucursal</th>
