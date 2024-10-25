@@ -49,18 +49,14 @@ class InventoryModel{
     public function updateInventory($data){
         $this->db->query(
             "UPDATE inventory
-                SET batch_id = :batch_id,
-                branch_id = :branch_id,
-                quantity = :quantity,
+                SET branch_id = :branch_id,
                 updated_at = CURRENT_TIMESTAMP(),
                 updated_by = :updated_by
-                WHERE id = :id;"
+                WHERE batch_id = :batch_id;"
         );
 
-        $this->db->bind(":id", $data["id"]);
         $this->db->bind(":batch_id", $data["batch_id"]);
         $this->db->bind(":branch_id", $data["branch_id"]);
-        $this->db->bind(":quantity", $data["quantity"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -74,10 +70,10 @@ class InventoryModel{
             "UPDATE inventory
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
-            WHERE id = :id;"
+            WHERE batch_id = :batch_id;"
         );
 
-        $this->db->bind(":id", $data["id"]);
+        $this->db->bind(":batch_id", $data["batch_id"]);
         $this->db->bind(":deleted_by", $data["deleted_by"]);
 
         if($this->db->execute()){

@@ -80,7 +80,6 @@ class BatchModel{
             "UPDATE batch
                     SET expiration_date = :expiration_date,
                     purchase_price = :purchase_price,
-                    quantity = :quantity,
                     medicine_id = :medicine_id,
                     supplier_id = :supplier_id,
                     updated_at = CURRENT_TIMESTAMP(),
@@ -91,7 +90,6 @@ class BatchModel{
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":expiration_date", $data["expiration_date"]);
         $this->db->bind(":purchase_price", $data["purchase_price"]);
-        $this->db->bind(":quantity", $data["quantity"]);
         $this->db->bind(":medicine_id", $data["medicine_id"]);
         $this->db->bind(":supplier_id", $data["supplier_id"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
