@@ -29,6 +29,12 @@ class AuthMiddleware {
 
                 $this->model->updateSessionToken($tokenData);
                 $user = $this->model->getUser(['user_id' => $session->user_id]);
+
+                if (!$user) {
+                    http_response_code(401);
+                    return false;
+                }
+                
                 $modules = $this->model->getModules(['role_id' => $user->role_id]);
                 return [
                     "success" => true,

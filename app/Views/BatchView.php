@@ -1,7 +1,7 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Insertar Rol Inicio -->
+                <!-- Modal de Insertar Lote Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -20,17 +20,17 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModSupplier" class="form-label mb-0">Proveedor</label>
-                                            <select name="insModSupplier" class="form-control form-select" id="insModSupplier">
+                                            <select name="insModSupplier" class="form-control form-select" id="insModSupplier" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModBranch" class="form-label mb-0">Sucursal</label>
-                                            <select name="insModBranch" class="form-control form-select" id="insModBranch">
+                                            <select name="insModBranch" class="form-control form-select" id="insModBranch"  required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModPurchasePrice" class="form-label mb-0">Precio Compra</label>
-                                            <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                            <input type="number" class="form-control" id="insModPurchasePrice" step="0.01" min="0" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModQuantity" class="form-label mb-0">Cantidad</label>
@@ -38,7 +38,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModExpirationDate" class="form-label mb-0">Expiración</label>
-                                            <input type="date" class="form-control" id="insModExpirationDate" maxlength="50">
+                                            <input type="date" class="form-control" id="insModExpirationDate" maxlength="50"  required>
                                         </div>
                                     </div>
                                 </form>
@@ -50,10 +50,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Rol Fin -->
+                <!-- Modal de Insertar Lote Fin -->
 
 
-                <!-- Modal de Actualizar Rol Inicio -->
+                <!-- Modal de Actualizar Lote Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -76,17 +76,17 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModSupplier" class="form-label mb-0">Proveedor</label>
-                                            <select name="updModSupplier" class="form-control form-select" id="updModSupplier">
+                                            <select name="updModSupplier" class="form-control form-select" id="updModSupplier" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModBranch" class="form-label mb-0">Sucursal</label>
-                                            <select name="updModBranch" class="form-control form-select" id="updModBranch">
+                                            <select name="updModBranch" class="form-control form-select" id="updModBranch" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModPurchasePrice" class="form-label mb-0">Precio Compra</label>
-                                            <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" maxlength="50" required>
+                                            <input type="number" class="form-control" id="updModPurchasePrice" step="0.01" min="0" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModQuantity" class="form-label mb-0">Cantidad</label>
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModExpirationDate" class="form-label mb-0">Expiración</label>
-                                            <input type="date" class="form-control" id="updModExpirationDate" maxlength="50">
+                                            <input type="date" class="form-control" id="updModExpirationDate" maxlength="50" required>
                                         </div>
                                     </div>
                                 </form>
@@ -110,10 +110,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Rol Fin -->
+                <!-- Modal de Actualizar Lote Fin -->
                 
                 
-                <!-- Modal de Eliminar Rol Inicio -->
+                <!-- Modal de Eliminar Lote Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
@@ -158,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Rol Fin -->
+                <!-- Modal de Eliminar Lote Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -181,7 +181,7 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Citas Realizadas Inicio -->
+                <!-- Lotes Registrados Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Citas Realizadas Fin -->
+                <!-- Lotes Registrados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

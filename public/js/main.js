@@ -23,13 +23,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = urlBase;
         }
     });
-
-    const insertModal = document.getElementById('insertModal');
-    const insertForm = document.getElementById('insertForm');
-
-    // Evento que se dispara al cerrar el modal
-    insertModal.addEventListener('hidden.bs.modal', function () {
-        // Restablecer el formulario para evitar el guardado de contraseñas
-        insertForm.reset();
-    });
 });

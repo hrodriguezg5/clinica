@@ -24,8 +24,8 @@ class PatientController extends Controllers {
                         'phone' =>$patient->phone,
                         'email' => $patient->email
                     ];
-                
-                }   
+                }
+
                 $this->jsonResponse($response);
             }
         }
@@ -86,7 +86,6 @@ class PatientController extends Controllers {
         }
     }
     
-
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
@@ -116,22 +115,20 @@ class PatientController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $patients = $this->model->fileterPatient($id);
+            $patient = $this->model->filterPatient($id);
     
-            if ($patients) {
-                foreach ($patients as $patient){
-                    $response = [
-                        'id' => $patient->id,
-                        'first_name' => $patient->first_name,
-                        'last_name' => $patient->last_name,
-                        'birth_date' => $patient->birth_date,
-                        'gender' =>$patient->gender,
-                        'address' =>$patient->address,
-                        'phone' =>$patient->phone,
-                        'email' => $patient->email
-                    ];
-                
-                }   
+            if ($patient) {
+                $response = [
+                    'id' => $patient->id,
+                    'first_name' => $patient->first_name,
+                    'last_name' => $patient->last_name,
+                    'birth_date' => $patient->birth_date,
+                    'gender' =>$patient->gender,
+                    'address' =>$patient->address,
+                    'phone' =>$patient->phone,
+                    'email' => $patient->email
+                ];
+                  
                 $this->jsonResponse($response);       
             }
         }   

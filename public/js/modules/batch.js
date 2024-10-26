@@ -72,9 +72,9 @@ export async function initModule(data, module) {
         rows += `
             <tr>
                 <td>${item.id}</td>
-                <td>${item.medicine_name}</td>
-                <td>${item.supplier_name}</td>
-                <td>${item.branch_name}</td>
+                <td class="${item.medicine_name ? '' : 'text-danger'}">${item.medicine_name}</td>
+                <td class="${item.supplier_name ? '' : 'text-danger'}">${item.supplier_name}</td>
+                <td class="${item.branch_name ? '' : 'text-danger'}">${item.branch_name}</td>
                 <td>Q${item.purchase_price}</td>
                 <td>${item.quantity}u.</td>
                 <td>${item.created_at}</td>
@@ -200,9 +200,9 @@ const updateModal = async (data) => {
         
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModBatchId').value = response.id || '';
-        document.getElementById('updModMedicine').value = medicineOption.value || '';
-        document.getElementById('updModSupplier').value = supplierOption.value || '';
-        document.getElementById('updModBranch').value = branchOption.value || '';
+        document.getElementById('updModMedicine').value = medicineOption ? medicineOption.value : '';
+        document.getElementById('updModSupplier').value = supplierOption ? supplierOption.value : '';
+        document.getElementById('updModBranch').value = branchOption ? branchOption.value : '';
         document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
         document.getElementById('updModQuantity').value = response.quantity || '';
         document.getElementById('updModCreatedAt').value = response.created_at || '';
@@ -253,7 +253,6 @@ const deleteModal = async (data) => {
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModBatchId').innerText = response.id || '';
         document.getElementById('delModMedicine').innerText = response.medicine_name || '';

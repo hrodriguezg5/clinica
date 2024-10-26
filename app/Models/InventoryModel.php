@@ -10,23 +10,6 @@ class InventoryModel{
         $this->db->closeConnection();
     }
 
-    public function getInventories(){
-        $this->db->query(
-            "SELECT 
-                i.id,
-                i.quantity_available,
-                i.last_update_date,
-                b1.`name` AS name_branch
-            FROM inventory i
-            INNER JOIN batch AS b ON b.id = i.id_batch
-            INNER JOIN branch AS b1 ON b1.id = i.id_branch
-            WHERE i.deleted_at IS NULL;"
-        );
-
-        $row = $this->db->records();
-        return $row;
-    }
-
     public function insertInventory($data){
         $this->db->query(
             "INSERT INTO inventory (batch_id, branch_id, quantity, created_by, updated_by)

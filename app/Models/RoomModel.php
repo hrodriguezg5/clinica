@@ -14,12 +14,15 @@ class RoomModel{
         $this->db->query(
             "SELECT r.id,
             	r.room_number,
+                r.
             	b.name AS branch_name,
-            	r.available,
+            	r.active,
               	DATE(b.created_at) AS created_at
             FROM room AS r
-            INNER JOIN branch AS b
+            LEFT JOIN branch AS b
             ON b.id = r.branch_id
+            AND b.active = 1
+            AND b.deleted_at IS NULL
             WHERE r.deleted_at IS NULL;"
         );
 

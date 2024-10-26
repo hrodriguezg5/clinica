@@ -171,7 +171,7 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Citas Realizadas Inicio -->
+                <!-- Roles Registrados Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Citas Realizadas Fin -->
+                <!-- Roles Registrados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

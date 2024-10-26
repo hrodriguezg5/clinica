@@ -78,8 +78,8 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.user_name}</td>
                 <td>${item.username}</td>
-                <td>${item.employee_name || ''}</td>
-                <td>${item.role_name}</td>
+                <td class="${item.employee_name ? '' : 'text-danger'}">${item.employee_name}</td>
+                <td class="${item.role_name ? '' : 'text-danger'}">${item.role_name}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -236,8 +236,8 @@ const updateModal = async (data) => {
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModFirstName').value = response.first_name || '';
         document.getElementById('updModLastName').value = response.last_name || '';
-        document.getElementById('updModEmployee').value = employeeOption.value || '';
-        document.getElementById('updModRole').value = roleOption.value || '';
+        document.getElementById('updModEmployee').value = employeeOption ? employeeOption.value : '';
+        document.getElementById('updModRole').value = roleOption ? roleOption.value : '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
@@ -297,7 +297,7 @@ const deleteModal = async (data) => {
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = name || '';
         document.getElementById('delModUsername').innerText = response.username || '';
-        document.getElementById('delModUsername').innerText = response.employee_name || '';
+        document.getElementById('delModEmployee').innerText = response.employee_name || '';
         document.getElementById('delModRole').innerText = response.role_name || '';
         document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {

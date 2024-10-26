@@ -74,8 +74,8 @@ export async function initModule(data, module) {
             <tr>
                 <td>${item.id}</td>
                 <td>${item.employee_name}</td>
-                <td>${item.branch}</td>
-                <td>${item.position}</td>
+                <td class="${item.position ? '' : 'text-danger'}">${item.position}</td>
+                <td class="${item.branch ? '' : 'text-danger'}">${item.branch}</td>
                 <td>${item.email}</td>
                 <td>${item.phone}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
@@ -169,8 +169,8 @@ const updateModal = async (data) => {
         document.getElementById('updModEmployeeCode').value = response.id || '';
         document.getElementById('updModFirstName').value = response.first_name || '';
         document.getElementById('updModLastName').value = response.last_name || '';
-        document.getElementById('updModPosition').value = positionOption.value || '';
-        document.getElementById('updModBranch').value = branchOption.value || '';
+        document.getElementById('updModPosition').value = positionOption ? positionOption.value : '';
+        document.getElementById('updModBranch').value = branchOption ? branchOption.value : '';
         document.getElementById('updModEmail').value = response.email || '';
         document.getElementById('updModPhone').value = response.phone || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
@@ -224,6 +224,7 @@ const deleteModal = async (data) => {
         document.getElementById('delModEmployeeCode').innerText = response.id || '';
         document.getElementById('delModName').innerText = name || '';
         document.getElementById('delModPosition').innerText = response.position || '';
+        document.getElementById('delModBranch').innerText = response.branch || '';
         document.getElementById('delModEmail').innerText = response.email || '';
         document.getElementById('delModPhone').innerText = response.phone || '';
         document.getElementById('delModStatus').innerText = status || '';
