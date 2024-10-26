@@ -1,6 +1,6 @@
 import { apiService } from '../services/apiService.js';
 import { showAlert } from '../utils/showArlert.js';
-import {
+import { 
     createButton, 
     assignModalEvent, 
     assignFormSubmitEvent, 
@@ -37,8 +37,6 @@ export async function initModule(data, module) {
 
         const insertModal = document.getElementById('insertModal');
         insertModal.addEventListener('show.bs.modal', () => {
-            populateSelectMedicine('insModMedicine', 'medicina');
-            populateSelect('insModSupplier', 'proveedor');
             populateSelect('insModBranch', 'sucursal');
         });
 
@@ -57,7 +55,9 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({batch_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({room_id: item.id}).replace(/"/g, '&quot;');
+        const status = item.active ? 'Activo' : 'Inactivo';
+        const alertType = item.active ? 'success' : 'danger';
 
         let actionButtons = '';
         
@@ -71,14 +71,9 @@ export async function initModule(data, module) {
 
         rows += `
             <tr>
-                <td>${item.id}</td>
-                <td class="${item.medicine_name ? '' : 'text-danger'}">${item.medicine_name}</td>
-                <td class="${item.supplier_name ? '' : 'text-danger'}">${item.supplier_name}</td>
+                <td>${item.name}</td>
                 <td class="${item.branch_name ? '' : 'text-danger'}">${item.branch_name}</td>
-                <td>Q${item.purchase_price}</td>
-                <td>${item.quantity}u.</td>
-                <td>${item.created_at}</td>
-                <td>${item.expiration_date}</td>
+                <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
         `;
@@ -86,7 +81,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5, 7]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);
@@ -98,29 +93,6 @@ export async function initModule(data, module) {
     assignFormSubmitEvent('deleteForm', deleteFormSubmit);
 
     resetModal('insertModal', 'insertForm');
-}
-
-const populateSelectMedicine = async (selectId, module) =>  {
-    const select = document.getElementById(selectId);
-    const newSelect = select.outerHTML;
-    select.outerHTML = newSelect;
-
-    const newSelectElement = document.getElementById(selectId);
-    newSelectElement.innerHTML = '';
-
-    try {
-        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
-        options.forEach(item => {
-            if (item.active === 1) {
-                const option = document.createElement('option');
-                option.value = item.id;
-                option.textContent = item.name + ' - ' + item.brand;
-                newSelectElement.appendChild(option);
-            }
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
 }
 
 const populateSelect = async (selectId, module) =>  {
@@ -137,7 +109,7 @@ const populateSelect = async (selectId, module) =>  {
             if (item.active === 1) {
                 const option = document.createElement('option');
                 option.value = item.id;
-                option.textContent = item.name;;
+                option.textContent = item.name;
                 newSelectElement.appendChild(option);
             }
         });
@@ -147,29 +119,18 @@ const populateSelect = async (selectId, module) =>  {
 }
 
 const insertFormSubmit = async () => {
-    const urlBatch = `${urlBase}/${currentModule}/agregar`;
-    const urlInventory = `${urlBase}/inventario/agregar`;
+    const url = `${urlBase}/${currentModule}/agregar`;
 
     const formData = () => ({
-        medicine_id: Number(document.getElementById('insModMedicine').value) || null,
-        supplier_id: Number(document.getElementById('insModSupplier').value) || null,
+        name: document.getElementById('insModName').value || '',
         branch_id: Number(document.getElementById('insModBranch').value) || null,
-        purchase_price: document.getElementById('insModPurchasePrice').value || '',
-        quantity: Number(document.getElementById('insModQuantity').value) || null,
-        expiration_date: document.getElementById('insModExpirationDate').value || '',
+        active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
     });
     
     try {
-        const response = await apiService.fetchData(urlBatch, 'POST', formData());
-        await apiService.fetchData(urlInventory, 'POST', {
-            batch_id: response.batch_id,
-            branch_id: formData().branch_id,
-            quantity: formData().quantity,
-            created_by: formData().created_by,
-            updated_by: formData().updated_by
-        });
+        await apiService.fetchData(url, 'POST', formData());
         showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
@@ -183,30 +144,19 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.batch_id;
-
-    await populateSelectMedicine('updModMedicine', 'medicina');
-    await populateSelect('updModSupplier', 'proveedor');
+    const id = data.room_id;
+    
     await populateSelect('updModBranch', 'sucursal');
-
+    
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-        const medicineSelect = document.getElementById('updModMedicine');
-        const supplierSelect = document.getElementById('updModSupplier');
         const branchSelect = document.getElementById('updModBranch');
-        const medicineOption = Array.from(medicineSelect.options).find(option => option.text.includes(response.medicine_name));
-        const supplierOption = Array.from(supplierSelect.options).find(option => option.text === response.supplier_name);
         const branchOption = Array.from(branchSelect.options).find(option => option.text === response.branch_name);
         
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
-        document.getElementById('updModBatchId').value = response.id || '';
-        document.getElementById('updModMedicine').value = medicineOption ? medicineOption.value : '';
-        document.getElementById('updModSupplier').value = supplierOption ? supplierOption.value : '';
+        document.getElementById('updModName').value = response.name || '';
         document.getElementById('updModBranch').value = branchOption ? branchOption.value : '';
-        document.getElementById('updModPurchasePrice').value = response.purchase_price || '';
-        document.getElementById('updModQuantity').value = response.quantity || '';
-        document.getElementById('updModCreatedAt').value = response.created_at || '';
-        document.getElementById('updModExpirationDate').value = response.expiration_date || '';
+        document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
     }
@@ -214,28 +164,21 @@ const updateModal = async (data) => {
     resetModal('updateModal', 'updateForm');
 };
 
-const updateFormSubmit = async () => {
-    const urlBatch = `${urlBase}/${currentModule}/actualizar`;
-    const urlInventory = `${urlBase}/inventario/actualizar`;
-    const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
 
+const updateFormSubmit = async () => {
+    const url = `${urlBase}/${currentModule}/actualizar`;
+    const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
+    
     const formData = () => ({
-        medicine_id: Number(document.getElementById('updModMedicine').value) || null,
-        supplier_id: Number(document.getElementById('updModSupplier').value) || null,
-        purchase_price: document.getElementById('updModPurchasePrice').value || '',
-        expiration_date: document.getElementById('updModExpirationDate').value || null,
+        name: document.getElementById('updModName').value || '',
+        branch_id: Number(document.getElementById('updModBranch').value) || null,
+        active: Number(document.getElementById('updModStatus').value),
         updated_by: currentData.user_id || null,
-        id: dataInfo.batch_id || null
+        id: dataInfo.room_id || null,
     });
     
     try {
-        await apiService.fetchData(urlBatch, 'POST', formData());
-        await apiService.fetchData(urlInventory, 'POST', {
-            batch_id: formData().id,
-            branch_id: Number(document.getElementById('updModBranch').value) || null,
-            updated_by: formData().updated_by
-        });
-
+        await apiService.fetchData(url, 'POST', formData());
         showAlert("Operación exitosa.", 'success');
         closeModal('updateModal');
     } catch (error) {
@@ -249,40 +192,32 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.batch_id;
+    const id = data.room_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
+        const status = response.active ? 'Activo' : 'Inactivo';
+
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModBatchId').innerText = response.id || '';
-        document.getElementById('delModMedicine').innerText = response.medicine_name || '';
-        document.getElementById('delModSupplier').innerText = response.supplier_name || '';
+        document.getElementById('delModName').innerText = response.name || '';
         document.getElementById('delModBranch').innerText = response.branch_name || '';
-        document.getElementById('delModPurchasePrice').innerText = response.purchase_price || '';
-        document.getElementById('delModQuantity').innerText = response.quantity || '';
-        document.getElementById('delModCreatedAt').innerText = response.created_at || '';
-        document.getElementById('delModExpirationDate').innerText = response.expiration_date || '';
+        document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
     }
 };
 
 const deleteFormSubmit = async () => {
-    const urlBatch = `${urlBase}/${currentModule}/eliminar`;
-    const urlInventory = `${urlBase}/inventario/eliminar`;
+    const url = `${urlBase}/${currentModule}/eliminar`;
     const dataInfo = JSON.parse(document.getElementById('deleteForm').getAttribute('data-info'));
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.batch_id || null
+        id: dataInfo.room_id || null
     });
 
     try {
-        await apiService.fetchData(urlBatch, 'POST', formData());
-        await apiService.fetchData(urlInventory, 'POST', {
-            batch_id: formData().id,
-            deleted_by: formData().deleted_by
-        });
+        await apiService.fetchData(url, 'POST', formData());
         showAlert("Operación exitosa.", 'success');
         closeModal('deleteModal');
     } catch (error) {
