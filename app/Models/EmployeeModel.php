@@ -22,13 +22,13 @@ class EmployeeModel{
                 p.name AS position,
                 b.id AS branch_id,
                 b.name AS branch
-            FROM employee e
-            LEFT JOIN position p
+            FROM employee AS e
+            LEFT JOIN position AS p
             ON p.id = e.position_id
-            AND p.active = 1
-            LEFT JOIN branch b
+            AND p.deleted_at IS NULL
+            LEFT JOIN branch AS b
             ON b.id = e.branch_id
-            AND b.active = 1
+            AND b.deleted_at IS NULL
             WHERE e.deleted_at IS NULL;"
         );
 
@@ -38,26 +38,8 @@ class EmployeeModel{
 
     public function insertEmployee($data){
         $this->db->query(
-            "INSERT INTO employee
-             (first_name, 
-              last_name, 
-              phone,
-              email,
-              `active`,
-              position_id,
-              branch_id,
-              created_by,
-              updated_by)
-             VALUES
-             (:first_name, 
-              :last_name, 
-              :phone, 
-              :email, 
-              :active, 
-              :position_id, 
-              :branch_id, 
-              :created_by,
-              :updated_by);"
+            "INSERT INTO employee (first_name, last_name, phone, email, `active`, position_id, branch_id, created_by, updated_by)
+            VALUES (:first_name, :last_name, :phone, :email, :active, :position_id, :branch_id, :created_by, :updated_by);"
         );
 
         $this->db->bind(":first_name", $data["first_name"]);
@@ -125,7 +107,7 @@ class EmployeeModel{
         }
     }
 
-    public function fileterEmployee($id){
+    public function filterEmployee($id){
         $this->db->query(
             "SELECT e.id,
                 e.first_name,
@@ -138,11 +120,14 @@ class EmployeeModel{
                 b.id AS branch_id,
                 b.name AS branch
             FROM employee AS e
-            LEFT JOIN position AS p ON p.id = e.position_id
+            LEFT JOIN position AS p
+            ON p.id = e.position_id
             AND p.active = 1
-            LEFT JOIN branch b
+            AND p.deleted_at IS NULL
+            LEFT JOIN branch AS b
             ON b.id = e.branch_id
             AND b.active = 1
+            AND b.deleted_at IS NULL
             WHERE e.id = :id
             AND e.deleted_at IS NULL;"
         );

@@ -16,19 +16,21 @@ class UserModel {
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name,
                 u.username,
                 e.id AS employee_id,
-                CONCAT(e.id, ' - ', e.first_name, ' ', e.last_name) AS employee_name,
+                IF(u.employee_id IS NULL,
+                    'Sin asignar',
+                    CONCAT(e.first_name, ' ', e.last_name)
+                ) AS employee_name,
                 u.`active`,
                 r.id AS role_id,
                 r.`name` AS role_name
             FROM `user` AS u
             LEFT JOIN `role` AS r
             ON u.role_id = r.id
-            AND r.active = 1
+            AND r.deleted_at IS NULL
             LEFT JOIN `employee` AS e
             ON u.employee_id = e.id
-            AND e.active = 1
-            WHERE u.deleted_at IS NULL
-            AND r.deleted_at IS NULL;"
+            AND e.deleted_at IS NULL
+            WHERE u.deleted_at IS NULL;"
         );
 
         $row = $this->db->records();
@@ -50,11 +52,12 @@ class UserModel {
             LEFT JOIN `role` AS r
             ON u.role_id = r.id
             AND r.active = 1
+            AND r.deleted_at IS NULL
             LEFT JOIN `employee` AS e
             ON u.employee_id = e.id
             AND e.active = 1
+            AND e.deleted_at IS NULL
             WHERE u.deleted_at IS NULL
-            AND r.deleted_at IS NULL
             AND u.id = :id
             LIMIT 1;"
         );

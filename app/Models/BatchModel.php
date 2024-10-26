@@ -13,25 +13,29 @@ class BatchModel{
     public function getBatchs(){
         $this->db->query(
             "SELECT b.id,
-            	b.medicine_id,
+            	m.id AS medicine_id,
             	m.`name` AS medicine_name,
-            	b.supplier_id,
+            	s.id AS supplier_id,
             	s.`name` AS supplier_name,
-            	i.branch_id,
+            	ba.id AS branch_id,
             	ba.`name` AS branch_name,
                 b.purchase_price,
             	b.quantity,
-            	DATE(b.created_at) AS created_at,
+            	b.created_at,
             	b.expiration_date
             FROM batch AS b
-            INNER JOIN medicine AS m
-            ON b.medicine_id = m.id
-            INNER JOIN supplier AS s
-            ON b.supplier_id = s.id
             INNER JOIN inventory AS i
             ON b.id = i.batch_id
-            INNER JOIN branch AS ba
+            AND i.deleted_at IS NULL
+            LEFT JOIN medicine AS m
+            ON b.medicine_id = m.id
+            AND m.deleted_at IS NULL
+            LEFT JOIN supplier AS s
+            ON b.supplier_id = s.id
+            AND s.deleted_at IS NULL
+            LEFT JOIN branch AS ba
             ON i.branch_id = ba.id
+            AND ba.deleted_at IS NULL
             WHERE b.deleted_at IS NULL;"
         );
 

@@ -29,26 +29,8 @@ class PatientModel{
 
     public function insertPatient($data){
         $this->db->query(
-            "INSERT INTO patient
-             (first_name, 
-              last_name, 
-              birth_date, 
-              gender, 
-              address,
-              phone,
-              email,
-              created_by,
-              updated_by)
-             VALUES
-             (:first_name, 
-              :last_name, 
-              :birth_date, 
-              :gender, 
-              :address, 
-              :phone, 
-              :email,
-              :created_by,
-              :updated_by);"
+            "INSERT INTO patient (first_name, last_name, birth_date, gender, address, phone, email, created_by, updated_by)
+             VALUES (:first_name, :last_name, :birth_date, :gender, :address, :phone, :email, :created_by, :updated_by);"
         );
 
         $this->db->bind(":first_name", $data["first_name"]);
@@ -117,35 +99,7 @@ class PatientModel{
         }
     }
 
-    public function searchPatients($name){
-        $this->db->query(
-            "SELECT p.id,
-                p.first_name,
-                p.last_name,
-                p.birth_date,
-                p.gender,
-                p.address,
-                p.phone,
-                p.email
-            FROM patient AS p
-            WHERE (p.first_name LIKE :name 
-				OR p.last_name LIKE :name 
-				OR p.birth_date LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.gender LIKE :name 
-				OR p.address LIKE :name 
-				OR p.phone LIKE :name 
-				OR p.email LIKE :name)
-            AND p.deleted_at IS NULL;"
-        );
-
-        $this->db->bind(':name', '%' . $name . '%');
-
-        $row = $this->db->records();
-        return $row;
-    }
-
-    public function fileterPatient($id){
+    public function filterPatient($id){
         $this->db->query(
             "SELECT p.id,
                 p.first_name,
@@ -161,8 +115,7 @@ class PatientModel{
         );
 
         $this->db->bind(':id', $id);
-
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }

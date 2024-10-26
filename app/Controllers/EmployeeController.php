@@ -118,7 +118,7 @@ class EmployeeController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $employee = $this->model->fileterEmployee($id);
+            $employee = $this->model->filterEmployee($id);
     
             if ($employee) {
                 $response = [
