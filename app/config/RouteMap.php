@@ -13,7 +13,8 @@ const ROUTE_MAP = [
     "medicina" => "MedicineController",
     "proveedor" => "SupplierController",
     "sucursal" => "BranchController",
-    "inventario" => "InventoryController"
+    "inventario" => "InventoryController",
+    "venta" => "SaleController"
 ];
 
 //Rutas de métodos de español a inglés
