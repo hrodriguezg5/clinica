@@ -1,7 +1,7 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Insertar Rol Inicio -->
+                <!-- Modal de Insertar Usuario Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -71,10 +71,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Rol Fin -->
+                <!-- Modal de Insertar Usuario Fin -->
 
 
-                <!-- Modal de Actualizar Rol Inicio -->
+                <!-- Modal de Actualizar Usuario Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -130,10 +130,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Rol Fin -->
+                <!-- Modal de Actualizar Usuario Fin -->
                 
                 
-                <!-- Modal de Eliminar Rol Inicio -->
+                <!-- Modal de Eliminar Usuario Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
@@ -151,6 +151,9 @@
                                             <span>Usuario: </span><span id="delModUsername"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
+                                            <span>Empleado: </span><span id="delModEmployee"></span>
+                                        </div>
+                                        <div class="mb-0 mb-sm-1 col-12">
                                             <span>Rol: </span><span id="delModRole"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
@@ -166,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Rol Fin -->
+                <!-- Modal de Eliminar Usuario Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -189,7 +192,7 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Citas Realizadas Inicio -->
+                <!-- Usuarios Registrados Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -212,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Citas Realizadas Fin -->
+                <!-- Usuarios Registrados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

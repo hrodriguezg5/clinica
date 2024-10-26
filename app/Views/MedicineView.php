@@ -1,7 +1,7 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Inventario Inicio -->
+                <!-- Modal de Ver Inventario Inicio -->
                 <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="showModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-xl">
                         <div class="modal-content">
@@ -36,10 +36,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Inventario Fin -->
+                <!-- Modal de Ver Inventario Fin -->
 
 
-                <!-- Modal de Insertar Rol Inicio -->
+                <!-- Modal de Insertar Medicamento Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModSellingPrice" class="form-label mb-0">Precio de Venta</label>
-                                            <input type="number" class="form-control" id="insModSellingPrice" step="0.01" min="0" maxlength="50" required>
+                                            <input type="number" class="form-control" id="insModSellingPrice" step="0.01" min="0" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModBrand" class="form-label mb-0">Marca</label>
@@ -84,10 +84,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Rol Fin -->
+                <!-- Modal de Insertar Medicamento Fin -->
 
 
-                <!-- Modal de Actualizar Rol Inicio -->
+                <!-- Modal de Actualizar Medicamento Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModSellingPrice" class="form-label mb-0">Precio de Venta</label>
-                                            <input type="number" class="form-control" id="updModSellingPrice" step="0.01" min="0" maxlength="50" required>
+                                            <input type="number" class="form-control" id="updModSellingPrice" step="0.01" min="0" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModBrand" class="form-label mb-0">Marca</label>
@@ -132,10 +132,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Rol Fin -->
+                <!-- Modal de Actualizar Medicamento Fin -->
                 
                 
-                <!-- Modal de Eliminar Rol Inicio -->
+                <!-- Modal de Eliminar Medicamento Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
@@ -171,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Rol Fin -->
+                <!-- Modal de Eliminar Medicamento Fin -->
 
 
                 <!-- Titulo del Módulo Inicio -->
@@ -195,7 +195,7 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Citas Realizadas Inicio -->
+                <!-- Medicamentos Registrados Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -219,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Citas Realizadas Fin -->
+                <!-- Medicamentos Registrados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

@@ -1,7 +1,7 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Insertar Rol Inicio -->
+                <!-- Modal de Insertar Proveedor Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -50,10 +50,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Rol Fin -->
+                <!-- Modal de Insertar Proveedor Fin -->
 
 
-                <!-- Modal de Actualizar Rol Inicio -->
+                <!-- Modal de Actualizar Proveedor Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -102,10 +102,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Rol Fin -->
+                <!-- Modal de Actualizar Proveedor Fin -->
                 
                 
-                <!-- Modal de Eliminar Rol Inicio -->
+                <!-- Modal de Eliminar Proveedor Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Rol Fin -->
+                <!-- Modal de Eliminar Proveedor Fin -->
 
 
                 <!-- Titulo del Módulo Inicio -->
@@ -168,7 +168,7 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Citas Realizadas Inicio -->
+                <!-- Proveedores Registrados Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Citas Realizadas Fin -->
+                <!-- Proveedores Registrados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>
