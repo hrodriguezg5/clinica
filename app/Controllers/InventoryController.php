@@ -7,27 +7,7 @@ class InventoryController extends Controllers {
     public function index() {
         $this->view("PatientView");
     }
-
-    public function show() {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (!$this->authMiddleware->validateToken()) return;
-            $inventories = $this->model->getInventories();
-        
-            if ($inventories) {
-                foreach ($inventories as $inventory){
-                    $response[] = [
-                        'id' => $inventory->id,
-                        'quantity_available' => $inventory->quantity_available,
-                        'last_update_date' =>$inventory->last_update_date,
-                        'name_branch' =>$inventory->name_branch
-                    ];
-                
-                }   
-                $this->jsonResponse($response);
-            }
-        }
-    }
-
+    
     public function insert() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$this->authMiddleware->validateToken()) return;
@@ -104,16 +84,20 @@ class InventoryController extends Controllers {
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
             $inventories = $this->model->filterInventory($id);
-    
+
             if ($inventories) {
-                foreach ($inventories as $inventory){
-                    $response = [
-                        'id' => $inventory->id,
-                        'quantity_available' => $inventory->quantity_available,
-                        'last_update_date' =>$inventory->last_update_date,
-                        'name_branch' =>$inventory->name_branch
+                foreach ($inventories as $inventory) {
+                    $response [] = [
+                        'batch_id' => $inventory->batch_id,
+                        'purchase_price' => $inventory->purchase_price,
+                        'original_quantity' =>$inventory->original_quantity,
+                        'current_quantity' =>$inventory->current_quantity,
+                        'expiration_date' =>$inventory->expiration_date,
+                        'created_at' =>$inventory->created_at,
+                        'updated_at' =>$inventory->updated_at
                     ];
-                }   
+                }
+
                 $this->jsonResponse($response);
             }
         }

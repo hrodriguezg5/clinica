@@ -85,19 +85,25 @@ class InventoryModel{
 
     public function filterInventory($id){
         $this->db->query(
-            "SELECT 
-                i.id,
-                i.quantity_available,
-                i.last_update_date,
-                b1.`name` AS name_branch
-            FROM inventory i
-            INNER JOIN batch AS b ON b.id = i.id_batch
-            INNER JOIN branch AS b1 ON b1.id = i.id_branch
-            WHERE i.id = :id
-            AND b.deleted_at IS NULL;");
+            "SELECT b.id AS batch_id,
+				b.purchase_price,
+				b.quantity AS original_quantity,
+				IFNULL(i.quantity, 0) AS current_quantity,
+				b.expiration_date,
+				i.created_at,
+				i.updated_at
+            FROM medicine AS m
+            INNER JOIN batch AS b
+            ON m.id = b.medicine_id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            WHERE m.deleted_at IS NULL
+            AND b.deleted_at IS NULL
+            AND i.deleted_at IS NULL
+            AND m.id = :id;"
+        );
 
         $this->db->bind(':id', $id);
-
         $row = $this->db->records();
         return $row;
     }

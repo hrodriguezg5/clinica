@@ -22,10 +22,11 @@ export async function initModule(data, module) {
     const addButton = document.getElementById('addButton');
     const moduleData = currentData.modules.find(moduleData => moduleData.link === currentModule);
 
+    const canShow = moduleData.show_operation === 1;
     const canCreate = moduleData.create_operation === 1;
     const canUpdate = moduleData.update_operation === 1;
     const canDelete = moduleData.delete_operation === 1;
-    const hasActions = canUpdate || canDelete;
+    const hasActions = canShow || canUpdate || canDelete;
     let rows = '';
 
     if (canCreate) {
@@ -50,13 +51,16 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({medicine_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({medicine_id: item.id, medicine: item.name}).replace(/"/g, '&quot;');
         const status = item.active ? 'Activo' : 'Inactivo';
         const alertType = item.active ? 'success' : 'danger';
         
         let actionButtons = '';
         
         // Crear los botones de acuerdo a los permisos
+        if (canShow) {
+            actionButtons += createButton('btn-info btn-show', 'Inventario', dataInfo, 'showModal', 'bi bi-clipboard-data');
+        }
         if (canUpdate) {
             actionButtons += createButton('btn-primary btn-update', 'Editar', dataInfo, 'updateModal', 'bi bi-pencil');
         }
@@ -70,6 +74,7 @@ export async function initModule(data, module) {
                 <td>${item.name}</td>
                 <td>${item.description}</td>
                 <td>Q${item.selling_price}</td>
+                <td>${item.quantity}u.</td>
                 <td>${item.brand}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
@@ -82,6 +87,7 @@ export async function initModule(data, module) {
     assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5]);
 
     if (hasActions) {
+        assignModalEvent('.btn-show', showModal, 'inventario');
         assignModalEvent('.btn-update', updateModal, currentModule);
         assignModalEvent('.btn-delete', deleteModal, currentModule);
     }
@@ -92,6 +98,40 @@ export async function initModule(data, module) {
 
     resetModal('insertModal', 'insertForm');
 }
+
+const showModal = async (data) => {
+    const url = `${urlBase}/inventario/filtrar`;
+    const { medicine_id, medicine } = data;
+
+    try {
+        const response = await apiService.fetchData(url, 'POST', { id: medicine_id });
+        const showTableBody = document.getElementById('showTableBody');
+        const showModalTitle = document.getElementById('showModalTitle');
+        let rows = '';
+        showModalTitle.textContent = `Inventario de  ${medicine}`;
+
+        if (response) {
+            response.forEach(item => {
+                rows += `
+                <tr>
+                <td>${item.batch_id}</td>
+                <td>Q${item.purchase_price}</td>
+                <td>${item.original_quantity}u.</td>
+                <td>${item.current_quantity}u.</td>
+                <td>${item.created_at}</td>
+                <td>${item.updated_at}</td>
+                <td>${item.expiration_date}</td>
+                </tr>
+                `;
+            });
+            showTableBody.innerHTML = rows;
+        } else {
+            showTableBody.innerHTML = '';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;

@@ -20,6 +20,7 @@ class MedicineController extends Controllers {
                         'name' =>$medicine->name,
                         'description' =>$medicine->description,
                         'selling_price' =>$medicine->selling_price,
+                        'quantity' =>$medicine->quantity,
                         'brand' =>$medicine->brand,
                         'active' =>$medicine->active
                     ];

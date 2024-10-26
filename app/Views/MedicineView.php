@@ -1,6 +1,44 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
+                <!-- Modal de Inventario Inicio -->
+                <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="showModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100 text-center" id="showModalTitle"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="showForm">
+                                    <div class="table-responsive px-3">
+                                        <table class="table table-bordered text-center">
+                                            <thead>
+                                                <tr class="text-dark align-middle">
+                                                    <th>No. Lote</th>
+                                                    <th>Precio de Compra</th>
+                                                    <th>Cantidad Original</th>
+                                                    <th>Cantidad Actual</th>
+                                                    <th>Fecha de Ingreso</th>
+                                                    <th>ÚltimaActualizado</th>
+                                                    <th>Fecha de Expiración</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="showTableBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal de Inventario Fin -->
+
+
                 <!-- Modal de Insertar Rol Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -22,7 +60,7 @@
                                             <textarea class="form-control" id="insModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModSellingPrice" class="form-label mb-0">Precio Venta</label>
+                                            <label for="insModSellingPrice" class="form-label mb-0">Precio de Venta</label>
                                             <input type="number" class="form-control" id="insModSellingPrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
@@ -70,7 +108,7 @@
                                             <textarea class="form-control" id="updModDescription""></textarea>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModSellingPrice" class="form-label mb-0">Precio Venta</label>
+                                            <label for="updModSellingPrice" class="form-label mb-0">Precio de Venta</label>
                                             <input type="number" class="form-control" id="updModSellingPrice" step="0.01" min="0" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
@@ -115,7 +153,7 @@
                                             <span>Descripción: </span><span id="delModDescription"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Precio Venta: </span><span id="delModSellingPrice"></span>
+                                            <span>Precio de Venta: </span><span id="delModSellingPrice"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Marca: </span><span id="delModBrand"></span>
@@ -164,12 +202,13 @@
                             <h6 class="mb-0">Medicamentos Registrados</h6>
                         </div>
                         <div class="table-responsive">
-                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
-                                    <tr class="text-dark">
+                                    <tr class="text-dark align-middle">
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Descripción</th>
-                                        <th scope="col">Precio Venta</th>
+                                        <th scope="col">Precio de Venta</th>
+                                        <th scope="col">Existencias</th>
                                         <th scope="col">Marca</th>
                                         <th scope="col">Estado</th>
                                     </tr>

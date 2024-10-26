@@ -16,9 +16,22 @@ class MedicineModel{
                 m.name,
                 m.description,
                 m.selling_price,
+                IFNULL(mq.quantity, 0) AS quantity,
                 m.brand,
                 m.active
             FROM medicine AS m
+            LEFT JOIN (
+            	SELECT b.medicine_id,
+	            	SUM(i.quantity) AS quantity
+	            FROM inventory AS i
+	            INNER JOIN batch AS b
+	            ON i.batch_id = b.id
+	    		WHERE i.quantity != 0
+	    		AND i.deleted_at IS NULL
+	    		AND b.deleted_at IS NULL
+	            GROUP BY b.medicine_id
+			) AS mq
+			ON m.id = mq.medicine_id
             WHERE m.deleted_at IS NULL;"
         );
 
@@ -109,14 +122,14 @@ class MedicineModel{
     public function filterMedicine($id){
         $this->db->query(
             "SELECT m.id,
-            m.`name`,
-            m.`description`,
-            m.selling_price,
-            m.brand,
-            m.active
-        FROM medicine AS m
-        WHERE m.id = :id
-        AND m.deleted_at IS NULL;"
+                m.`name`,
+                m.`description`,
+                m.selling_price,
+                m.brand,
+                m.active
+            FROM medicine AS m
+            WHERE m.id = :id
+            AND m.deleted_at IS NULL;"
         );
 
         $this->db->bind(':id', $id);
