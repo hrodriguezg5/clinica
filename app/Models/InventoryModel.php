@@ -10,22 +10,6 @@ class InventoryModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
-        $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
     public function getInventories(){
         $this->db->query(
             "SELECT 
@@ -43,28 +27,15 @@ class InventoryModel{
         return $row;
     }
 
-    public function insertInventories($data){
+    public function insertInventory($data){
         $this->db->query(
-            "INSERT INTO inventory
-             (id_batch, 
-             quantity_available,
-             last_update_date,
-             id_branch, 
-              created_by,
-              updated_by)
-             VALUES
-             (:id_batch, 
-              :quantity_available,
-              :last_update_date,
-              :id_branch,
-			  :created_by,
-			  :updated_by);"
+            "INSERT INTO inventory (batch_id, branch_id, quantity, created_by, updated_by)
+            VALUES (:batch_id, :branch_id, :quantity, :created_by, :updated_by);"
         );
 
-        $this->db->bind(":id_batch", $data["id_batch"]);
-        $this->db->bind(":quantity_available", $data["quantity_available"]);
-        $this->db->bind(":last_update_date", $data["last_update_date"]);
-        $this->db->bind(":id_branch", $data["id_branch"]);
+        $this->db->bind(":batch_id", $data["batch_id"]);
+        $this->db->bind(":branch_id", $data["branch_id"]);
+        $this->db->bind(":quantity", $data["quantity"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -75,23 +46,17 @@ class InventoryModel{
         }
     }
 
-    public function updateInventories($data){
+    public function updateInventory($data){
         $this->db->query(
             "UPDATE inventory
-                SET id_batch = :id_batch,
-                quantity_available = :quantity_available,
-                last_update_date = :last_update_date,
-                id_branch = :id_branch,
+                SET branch_id = :branch_id,
                 updated_at = CURRENT_TIMESTAMP(),
                 updated_by = :updated_by
-                WHERE id = :id;"
+                WHERE batch_id = :batch_id;"
         );
 
-        $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":id_batch", $data["id_batch"]);
-        $this->db->bind(":quantity_available", $data["quantity_available"]);
-        $this->db->bind(":last_update_date", $data["last_update_date"]);
-        $this->db->bind(":id_branch", $data["id_branch"]);
+        $this->db->bind(":batch_id", $data["batch_id"]);
+        $this->db->bind(":branch_id", $data["branch_id"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -100,15 +65,15 @@ class InventoryModel{
         }
     }
 
-    public function deleteInventories($data){
+    public function deleteInventory($data){
         $this->db->query(
             "UPDATE inventory
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
-            WHERE id = :id;"
+            WHERE batch_id = :batch_id;"
         );
 
-        $this->db->bind(":id", $data["id"]);
+        $this->db->bind(":batch_id", $data["batch_id"]);
         $this->db->bind(":deleted_by", $data["deleted_by"]);
 
         if($this->db->execute()){
@@ -118,21 +83,27 @@ class InventoryModel{
         }
     }
 
-    public function fileterInventories($id){
+    public function filterInventory($id){
         $this->db->query(
-            "SELECT 
-                i.id,
-                i.quantity_available,
-                i.last_update_date,
-                b1.`name` AS name_branch
-            FROM inventory i
-            INNER JOIN batch AS b ON b.id = i.id_batch
-            INNER JOIN branch AS b1 ON b1.id = i.id_branch
-            WHERE i.id = :id
-            AND b.deleted_at IS NULL;");
+            "SELECT b.id AS batch_id,
+				b.purchase_price,
+				b.quantity AS original_quantity,
+				IFNULL(i.quantity, 0) AS current_quantity,
+				b.expiration_date,
+				i.created_at,
+				i.updated_at
+            FROM medicine AS m
+            INNER JOIN batch AS b
+            ON m.id = b.medicine_id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            WHERE m.deleted_at IS NULL
+            AND b.deleted_at IS NULL
+            AND i.deleted_at IS NULL
+            AND m.id = :id;"
+        );
 
         $this->db->bind(':id', $id);
-
         $row = $this->db->records();
         return $row;
     }

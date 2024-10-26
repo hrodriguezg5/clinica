@@ -44,9 +44,14 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="<?= URL_ROUTE; ?>/paciente" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><img class="image me-2 mb-2" src="<?= URL_ROUTE; ?>/img/logo.png">Clínica</h3>
+                <a href="<?= URL_ROUTE; ?>" class="navbar-brand mx-4">
+                    <h3 class="text-primary mb-3 mb-lg-0">
+                        <img class="image me-2" src="<?= URL_ROUTE; ?>/img/logo.png">Clínica
+                    </h3>
                 </a>
+                <div class="w-100 mb-2">
+                    <h5 id="branchName" class="text-primary text-center text-wrap"></h5>
+                </div>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <i class="bi bi-person-circle user-icons"></i>

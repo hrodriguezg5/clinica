@@ -96,7 +96,7 @@ export async function initModule(data, module) {
 
 const permissionModal = async (data) => {
     const url = `${urlBase}/permiso/filtrar`;
-    const { role_id, role} = data;
+    const { role_id, role } = data;
 
     try {
         const response = await apiService.fetchData(url, 'POST', { role_id });

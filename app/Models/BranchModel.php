@@ -10,30 +10,14 @@ class BranchModel{
         $this->db->closeConnection();
     }
 
-    public function getTokenByUserId($data){
-        $this->db->query(
-            "SELECT token
-            FROM session_tokens
-            WHERE deleted_at IS NULL
-            AND user_id = :user_id
-            AND expires_at > :token_date
-            LIMIT 1;"
-        );
-
-        $this->db->bind(":user_id", $data["user_id"]);
-        $this->db->bind(":token_date", $data["token_date"]);
-        $row = $this->db->record();
-        return $row;
-    }
-
     public function getBranches(){
         $this->db->query(
-            "SELECT 
-                b.id,
+            "SELECT b.id,
                 b.`name`,
                 b.address,
                 b.phone,
-                b.city
+                b.city,
+                b.active
             FROM branch b
             WHERE b.deleted_at IS NULL;"
         );
@@ -42,13 +26,14 @@ class BranchModel{
         return $row;
     }
 
-    public function insertBranches($data){
+    public function insertBranch($data){
         $this->db->query(
             "INSERT INTO branch
              (`name`, 
               `address`,
 			  phone,
-			  city, 
+			  city,
+			  active,
               created_by,
               updated_by)
              VALUES
@@ -56,6 +41,7 @@ class BranchModel{
               :address,
               :phone,
               :city,
+              :active,
 			  :created_by,
 			  :updated_by);"
         );
@@ -64,6 +50,7 @@ class BranchModel{
         $this->db->bind(":address", $data["address"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":city", $data["city"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -74,13 +61,14 @@ class BranchModel{
         }
     }
 
-    public function updateBranches($data){
+    public function updateBranch($data){
         $this->db->query(
             "UPDATE branch
                     SET `name` = :name,
                     `address` = :address,
                     phone = :phone,
                     city = :city,
+                    active = :active,
                     updated_at = CURRENT_TIMESTAMP(),
                     updated_by = :updated_by
                     WHERE id = :id;"
@@ -91,6 +79,7 @@ class BranchModel{
         $this->db->bind(":address", $data["address"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":city", $data["city"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -99,7 +88,7 @@ class BranchModel{
         }
     }
 
-    public function deleteBranches($data){
+    public function deleteBranch($data){
         $this->db->query(
             "UPDATE branch
             SET deleted_at = CURRENT_TIMESTAMP(),
@@ -117,21 +106,22 @@ class BranchModel{
         }
     }
 
-    public function fileterBranches($id){
+    public function filterBranch($id){
         $this->db->query(
             "SELECT 
                 b.id,
                 b.`name`,
                 b.address,
                 b.phone,
-                b.city
+                b.city,
+                b.active
             FROM branch b
             WHERE b.id = :id
             AND b.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 
-        $row = $this->db->records();
+        $row = $this->db->record();
         return $row;
     }
 }
