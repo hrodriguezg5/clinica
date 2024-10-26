@@ -22,7 +22,9 @@ class EmployeeController extends Controllers {
                         'email' => $employee->email,
                         'active' => $employee->active,
                         'position_id' =>$employee->position_id,
-                        'position' =>$employee->position
+                        'position' =>$employee->position,
+                        'branch_id' =>$employee->branch_id,
+                        'branch' =>$employee->branch
                     ];
                 
                 }   
@@ -45,6 +47,7 @@ class EmployeeController extends Controllers {
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "position_id" => isset($decodedData['position_id']) ? filter_var($decodedData['position_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "branch_id" => isset($decodedData['branch_id']) ? filter_var($decodedData['branch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "created_by" => isset($decodedData['created_by']) ? filter_var($decodedData['created_by'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null,
             ];
@@ -71,6 +74,8 @@ class EmployeeController extends Controllers {
                 "last_name" => isset($decodedData['last_name']) ? htmlspecialchars($decodedData['last_name'], ENT_QUOTES, 'UTF-8') : null,
                 "phone" => isset($decodedData['phone']) ? htmlspecialchars($decodedData['phone'], ENT_QUOTES, 'UTF-8') : null,
                 "email" => isset($decodedData['email']) ? filter_var($decodedData['email'], FILTER_SANITIZE_EMAIL) : null,
+                "position_id" => isset($decodedData['position_id']) ? filter_var($decodedData['position_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "branch_id" => isset($decodedData['branch_id']) ? filter_var($decodedData['branch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
@@ -124,7 +129,9 @@ class EmployeeController extends Controllers {
                     'email' => $employee->email,
                     'active' =>$employee->active,
                     'position_id' =>$employee->position_id,
-                    'position' =>$employee->position
+                    'position' =>$employee->position,
+                    'branch_id' =>$employee->branch_id,
+                    'branch' =>$employee->branch
                 ];
                 
                 $this->jsonResponse($response);                

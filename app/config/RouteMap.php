@@ -14,7 +14,8 @@ const ROUTE_MAP = [
     "proveedor" => "SupplierController",
     "sucursal" => "BranchController",
     "inventario" => "InventoryController",
-    "habitacionpaciente" => "PatientRoomController"
+    "habitacionpaciente" => "PatientRoomController",
+    "venta" => "SaleController"
 ];
 
 //Rutas de métodos de español a inglés

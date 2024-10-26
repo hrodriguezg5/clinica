@@ -19,8 +19,8 @@ class MedicineController extends Controllers {
                         'id' => $medicine->id,
                         'name' =>$medicine->name,
                         'description' =>$medicine->description,
-                        'purchase_price' =>$medicine->purchase_price,
                         'selling_price' =>$medicine->selling_price,
+                        'quantity' =>$medicine->quantity,
                         'brand' =>$medicine->brand,
                         'active' =>$medicine->active
                     ];
@@ -41,7 +41,6 @@ class MedicineController extends Controllers {
             $data = [
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
-                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
                 "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
                 "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
@@ -72,7 +71,6 @@ class MedicineController extends Controllers {
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "name" => isset($decodedData['name']) ? htmlspecialchars($decodedData['name'], ENT_QUOTES, 'UTF-8') : null,
                 "description" => isset($decodedData['description']) ? htmlspecialchars($decodedData['description'], ENT_QUOTES, 'UTF-8') : null,
-                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
                 "selling_price" => isset($decodedData['selling_price']) ? filter_var($decodedData['selling_price'], FILTER_VALIDATE_FLOAT) : null,
                 "brand" => isset($decodedData['brand']) ? htmlspecialchars($decodedData['brand'], ENT_QUOTES, 'UTF-8') : null,
                 "active" => isset($decodedData['active']) ? filter_var($decodedData['active'], FILTER_SANITIZE_NUMBER_INT) : null,
@@ -124,7 +122,6 @@ class MedicineController extends Controllers {
                     'id' => $medicine->id,
                     'name' =>$medicine->name,
                     'description' =>$medicine->description,
-                    'purchase_price' =>$medicine->purchase_price,
                     'selling_price' =>$medicine->selling_price,
                     'brand' =>$medicine->brand,
                     'active' =>$medicine->active
