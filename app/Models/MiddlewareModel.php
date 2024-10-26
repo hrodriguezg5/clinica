@@ -43,13 +43,22 @@ class MiddlewareModel{
                 u.first_name,
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name,
                 r.id AS role_id,
-                r.`name` AS role_name
+                r.`name` AS role_name,
+                IFNULL(b.`name`, '') AS branch_name
             FROM `user` AS u
             LEFT JOIN `role` AS r
             ON u.role_id = r.id
             AND r.active = 1
-            WHERE u.deleted_at IS NULL
             AND r.deleted_at IS NULL
+            LEFT JOIN `employee` AS e
+            ON u.employee_id = e.id
+            AND e.active = 1
+            AND e.deleted_at IS NULL
+            LEFT JOIN `branch` AS b
+            ON e.branch_id = b.id
+            AND b.active = 1
+            AND b.deleted_at IS NULL
+            WHERE u.deleted_at IS NULL
             AND u.active = 1
             AND u.id = :user_id LIMIT 1;"
         );

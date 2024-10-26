@@ -17,6 +17,9 @@ class BatchModel{
             	m.`name` AS medicine_name,
             	b.supplier_id,
             	s.`name` AS supplier_name,
+            	i.branch_id,
+            	ba.`name` AS branch_name,
+                b.purchase_price,
             	b.quantity,
             	DATE(b.created_at) AS created_at,
             	b.expiration_date
@@ -25,6 +28,10 @@ class BatchModel{
             ON b.medicine_id = m.id
             INNER JOIN supplier AS s
             ON b.supplier_id = s.id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            INNER JOIN branch AS ba
+            ON i.branch_id = ba.id
             WHERE b.deleted_at IS NULL;"
         );
 
@@ -37,6 +44,7 @@ class BatchModel{
             "INSERT INTO batch
              (medicine_id,
 			  supplier_id,
+              purchase_price,
 			  quantity,
               expiration_date,
               created_by,
@@ -45,6 +53,7 @@ class BatchModel{
              (
               :medicine_id,
               :supplier_id,
+              :purchase_price,
               :quantity,
               :expiration_date,
 			  :created_by,
@@ -52,6 +61,7 @@ class BatchModel{
         );
 
         $this->db->bind(":expiration_date", $data["expiration_date"]);
+        $this->db->bind(":purchase_price", $data["purchase_price"]);
         $this->db->bind(":quantity", $data["quantity"]);
         $this->db->bind(":medicine_id", $data["medicine_id"]);
         $this->db->bind(":supplier_id", $data["supplier_id"]);
@@ -59,7 +69,7 @@ class BatchModel{
         $this->db->bind(":updated_by", $data["updated_by"]);
         
         if($this->db->execute()){
-            return true;
+            return $this->db->lastInsertId();
         } else{
             return false;
         }
@@ -69,7 +79,7 @@ class BatchModel{
         $this->db->query(
             "UPDATE batch
                     SET expiration_date = :expiration_date,
-                    quantity = :quantity,
+                    purchase_price = :purchase_price,
                     medicine_id = :medicine_id,
                     supplier_id = :supplier_id,
                     updated_at = CURRENT_TIMESTAMP(),
@@ -79,7 +89,7 @@ class BatchModel{
 
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":quantity", $data["quantity"]);
+        $this->db->bind(":purchase_price", $data["purchase_price"]);
         $this->db->bind(":medicine_id", $data["medicine_id"]);
         $this->db->bind(":supplier_id", $data["supplier_id"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -115,6 +125,9 @@ class BatchModel{
             	m.`name` AS medicine_name,
             	b.supplier_id,
             	s.`name` AS supplier_name,
+            	i.branch_id,
+            	ba.`name` AS branch_name,
+                b.purchase_price,
             	b.quantity,
             	DATE(b.created_at) AS created_at,
             	b.expiration_date
@@ -123,6 +136,10 @@ class BatchModel{
             ON b.medicine_id = m.id
             INNER JOIN supplier AS s
             ON b.supplier_id = s.id
+            INNER JOIN inventory AS i
+            ON b.id = i.batch_id
+            INNER JOIN branch AS ba
+            ON i.branch_id = ba.id
             WHERE b.id = :id
             AND b.deleted_at IS NULL;");
 

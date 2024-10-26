@@ -9,6 +9,7 @@ export function translateToEnglish (spanishModule){
         'medicina': 'medicine',
         'proveedor': 'supplier',
         'lote': 'batch',
+        'sucursal': 'branch',
     };
 
     return module[spanishModule] || spanishModule;
