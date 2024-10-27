@@ -121,30 +121,31 @@ class SalesDetailModel{
         }
     }
 
-    public function filterBatch($id){
+    public function filterSalesDetail($id){
         $this->db->query(
-            "SELECT b.id,
-            	b.medicine_id,
+            "SELECT s.id,
+            	s1.sale_date,
             	m.`name` AS medicine_name,
-            	b.supplier_id,
-            	s.`name` AS supplier_name,
-            	i.branch_id,
-            	ba.`name` AS branch_name,
-                b.purchase_price,
-            	b.quantity,
-            	DATE(b.created_at) AS created_at,
-            	b.expiration_date
-            FROM batch AS b
-            INNER JOIN medicine AS m
-            ON b.medicine_id = m.id
-            INNER JOIN supplier AS s
-            ON b.supplier_id = s.id
-            INNER JOIN inventory AS i
-            ON b.id = i.batch_id
-            INNER JOIN branch AS ba
-            ON i.branch_id = ba.id
-            WHERE b.id = :id
-            AND b.deleted_at IS NULL;");
+            	m.selling_price,
+            	b.quantity AS batch_quantity,
+               b.expiration_date,
+            	s.quantity,
+            	s.unit_price,
+            	s.subtotal,
+            	s1.total_amount,
+            	s.created_at
+            FROM sale_detail AS s
+            INNER JOIN sale AS s1
+            ON s.sale_id = s1.id
+            AND s1.deleted_at IS NULL
+            LEFT JOIN medicine AS m
+            ON s.medicine_id = m.id
+            AND m.deleted_at IS NULL
+            LEFT JOIN batch AS b
+            ON s.batch_id = b.id
+            AND b.deleted_at IS NULL
+            WHERE s.id = :id
+            AND s.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
 

@@ -120,21 +120,21 @@ class SalesDetailController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_SPECIAL_CHARS) : null;
-            $batch = $this->model->filterBatch($id);
+            $sale = $this->model->filterSalesDetail($id);
     
-            if ($batch) {
+            if ($sale) {
                 $response = [
-                    'id' => $batch->id,
-                    'medicine_id' =>$batch->medicine_id,
-                    'medicine_name' =>$batch->medicine_name,
-                    'supplier_id' =>$batch->supplier_id,
-                    'supplier_name' =>$batch->supplier_name,
-                    'branch_id' =>$batch->branch_id,
-                    'branch_name' =>$batch->branch_name,
-                    'purchase_price' =>$batch->purchase_price,
-                    'quantity' =>$batch->quantity,
-                    'created_at' =>$batch->created_at,
-                    'expiration_date' =>$batch->expiration_date
+                    'id' => $sale->id,
+                    'sale_date' =>$sale->sale_date,
+                    'medicine_name' =>$sale->medicine_name,
+                    'selling_price' =>$sale->selling_price,
+                    'batch_quantity' =>$sale->batch_quantity,
+                    'expiration_date' =>$sale->expiration_date,
+                    'quantity' =>$sale->quantity,
+                    'unit_price' =>$sale->unit_price,
+                    'subtotal' =>$sale->subtotal,
+                    'total_amount' =>$sale->total_amount,
+                    'created_at' => $sale->created_at
                 ];
 
                 $this->jsonResponse($response);
