@@ -68,6 +68,10 @@
                                             <input type="text" class="form-control" id="insModBrand" maxlength="50" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModImage" class="form-label mb-0">Imagen</label>
+                                            <input type="file" class="form-control" id="insModImage" accept="image/*" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
                                             <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
                                                 <option value="1">Activo</option>
@@ -114,6 +118,10 @@
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModBrand" class="form-label mb-0">Marca</label>
                                             <input type="text" class="form-control" id="updModBrand" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModImage" class="form-label mb-0">Imagen</label>
+                                            <input type="file" class="form-control" id="updModImage" accept="image/*">
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -210,6 +218,7 @@
                                         <th scope="col">Precio de Venta</th>
                                         <th scope="col">Existencias</th>
                                         <th scope="col">Marca</th>
+                                        <th scope="col">Imagen</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>
