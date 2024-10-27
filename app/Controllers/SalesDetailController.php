@@ -74,15 +74,15 @@ class SalesDetailController extends Controllers {
     
             $data = [
                 "id" => isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "sale_id" => isset($decodedData['sale_id']) ? filter_var($decodedData['sale_id'], FILTER_SANITIZE_NUMBER_INT) : null,
                 "medicine_id" => isset($decodedData['medicine_id']) ? filter_var($decodedData['medicine_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "supplier_id" => isset($decodedData['supplier_id']) ? filter_var($decodedData['supplier_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "branch_id" => isset($decodedData['branch_id']) ? filter_var($decodedData['branch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
-                "purchase_price" => isset($decodedData['purchase_price']) ? filter_var($decodedData['purchase_price'], FILTER_VALIDATE_FLOAT) : null,
-                "expiration_date" => isset($decodedData['expiration_date']) ? htmlspecialchars($decodedData['expiration_date'], ENT_QUOTES, 'UTF-8') : null,
+                "batch_id" => isset($decodedData['batch_id']) ? filter_var($decodedData['batch_id'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "quantity" => isset($decodedData['quantity']) ? filter_var($decodedData['quantity'], FILTER_SANITIZE_NUMBER_INT) : null,
+                "unit_price" => isset($decodedData['unit_price']) ? filter_var($decodedData['unit_price'], FILTER_VALIDATE_FLOAT) : null,
                 "updated_by" => isset($decodedData['updated_by']) ? filter_var($decodedData['updated_by'], FILTER_SANITIZE_NUMBER_INT) : null
             ];
             
-            if ($this->model->updateBatch($data)) {
+            if ($this->model->updateSalesDetail($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);
@@ -105,7 +105,7 @@ class SalesDetailController extends Controllers {
             ];
     
     
-            if ($this->model->deleteBatch($data)) {
+            if ($this->model->deleteSalesDetail($data)) {
                 $this->jsonResponse(["success" => true]);
             } else {
                 $this->jsonResponse(["success" => false]);

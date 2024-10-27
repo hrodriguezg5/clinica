@@ -76,23 +76,25 @@ class SalesDetailModel{
         }
     }
 
-    public function updateBatch($data){
+    public function updateSalesDetail($data){
         $this->db->query(
-            "UPDATE batch
-                    SET expiration_date = :expiration_date,
-                    purchase_price = :purchase_price,
+            "UPDATE sale_detail
+                    SET sale_id = :sale_id,
                     medicine_id = :medicine_id,
-                    supplier_id = :supplier_id,
+                    batch_id = :batch_id,
+                    quantity = :quantity,
+                    unit_price = :unit_price,
                     updated_at = CURRENT_TIMESTAMP(),
                     updated_by = :updated_by
                     WHERE id = :id;"
         );
 
         $this->db->bind(":id", $data["id"]);
-        $this->db->bind(":expiration_date", $data["expiration_date"]);
-        $this->db->bind(":purchase_price", $data["purchase_price"]);
+        $this->db->bind(":sale_id", $data["sale_id"]);
+        $this->db->bind(":batch_id", $data["batch_id"]);
         $this->db->bind(":medicine_id", $data["medicine_id"]);
-        $this->db->bind(":supplier_id", $data["supplier_id"]);
+        $this->db->bind(":quantity", $data["quantity"]);
+        $this->db->bind(":unit_price", $data["unit_price"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -101,9 +103,9 @@ class SalesDetailModel{
         }
     }
 
-    public function deleteBatch($data){
+    public function deleteSalesDetail($data){
         $this->db->query(
-            "UPDATE batch
+            "UPDATE sale_detail
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
