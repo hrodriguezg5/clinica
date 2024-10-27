@@ -1,12 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Insertar Proveedor Inicio -->
+                <!-- Modal de Insertar Habitación Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Proveedor</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Habitación</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -15,23 +15,12 @@
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="insModName" pattern="[0-9]{3}" placeholder="Ej: 001, 002" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="insModDescription""></textarea>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
+                                            <label for="insModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="insModBranch" class="form-control form-select" id="insModBranch" required>
+                                            </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
@@ -45,20 +34,20 @@
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Proveedor Fin -->
+                <!-- Modal de Insertar Habitación Fin -->
 
 
-                <!-- Modal de Actualizar Proveedor Inicio -->
+                <!-- Modal de Actualizar Habitación Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Proveedor</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -67,23 +56,12 @@
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModName" maxlength="50" required>
+                                            <input type="text" class="form-control" id="updModName" pattern="[0-9]{3}" placeholder="Ej: 001, 002" required>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModDescription" class="form-label mb-0">Descripción</label>
-                                            <textarea class="form-control" id="updModDescription""></textarea>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
+                                            <label for="updModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="updModBranch" class="form-control form-select" id="updModBranch" required>
+                                            </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModStatus" class="form-label mb-0">Estado</label>
@@ -102,15 +80,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Proveedor Fin -->
+                <!-- Modal de Actualizar Habitación Fin -->
                 
                 
-                <!-- Modal de Eliminar Proveedor Inicio -->
+                <!-- Modal de Eliminar Habitación Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Proveedor</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Empleado</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -120,16 +98,7 @@
                                             <span>Nombre: </span><span id="delModName"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Descripción: </span><span id="delModDescription"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Correo: </span><span id="delModEmail"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Dirección: </span><span id="delModAddress"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Teléfono: </span><span id="delModPhone"></span>
+                                            <span>Sucursal: </span><span id="delModBranch"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
                                             <span>Estado: </span><span id="delModStatus"></span>
@@ -144,8 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Proveedor Fin -->
-
+                <!-- Modal de Eliminar Habitación Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -168,21 +136,50 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Proveedores Registrados Inicio -->
+                <!-- Habitaciones Registradas Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Proveedores Registrados</h6>
+                            <h6 class="mb-0">Nueva Venta</h6>
                         </div>
+
+                        <form id="insertForm" data-info="" class="mb-3">
+                            <div class="row">
+                                <div class="mb-3 px-4 col-3 col-xl-2">
+                                    <label for="insModDate" class="form-label mb-0">Fecha</label>
+                                    <input type="date" class="form-control" id="insModDate" required>
+                                </div>
+                                <div class="mb-3 px-4 col-xl-3 col-xl-3">
+                                    <label for="insModCustomer" class="form-label mb-0">Cliente</label>
+                                    <input type="text" class="form-control" id="insModCustomer" required>
+                                </div>
+                                <div class="mb-3 px-4 col-xl-3 col-xl-3">
+                                    <label for="insModProduct" class="form-label mb-0">Producto</label>
+                                    <select name="insModProduct" class="form-control form-select" id="insModProduct">
+                                    </select>
+                                </div>
+                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
+                                    <label for="insModSalePrice" class="form-label mb-0">Precio</label>
+                                    <input type="number" class="form-control" id="insModSalePrice" step="0.01" min="0">
+                                </div>
+                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
+                                    <label for="insModSalePrice" class="form-label mb-0">Existencias</label>
+                                    <input type="number" class="form-control" id="insModSalePrice" step="0.01" min="0">
+                                </div>
+                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
+                                    <label for="insModBranch" class="form-label mb-0">Sucursal</label>
+                                    <select name="insModBranch" class="form-control form-select" id="insModBranch">
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                            
                         <div class="table-responsive">
                             <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark align-middle">
                                         <th scope="col">Nombre</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">Correo</th>
-                                        <th scope="col">Dirección</th>
-                                        <th scope="col">Teléfono</th>
+                                        <th scope="col">Sucursal</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>
@@ -192,7 +189,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Proveedores Registrados Fin -->
+                <!-- Habitaciones Registradas Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>
