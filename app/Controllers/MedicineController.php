@@ -10,7 +10,15 @@ class MedicineController extends Controllers {
 
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (!$this->authMiddleware->validateToken()) return;
+            $headers = getallheaders();
+            $secretKey = isset($headers['X-Api-Key']) ? $headers['X-Api-Key'] : null;
+
+            if (!$this->authMiddleware->validateToken() && $secretKey !== API_SECRET_KEY) {
+                return;
+            } else {
+                http_response_code(200);
+            }
+
             $medicines = $this->model->getMedicines();
         
             if ($medicines) {
@@ -177,6 +185,7 @@ class MedicineController extends Controllers {
                     'name' =>$medicine->name,
                     'description' =>$medicine->description,
                     'selling_price' =>$medicine->selling_price,
+                    'quantity' =>$medicine->quantity,
                     'brand' =>$medicine->brand,
                     'active' =>$medicine->active
                 ];

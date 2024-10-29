@@ -10,18 +10,18 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form id="insertForm" data-info="">
+                                <!-- <form id="insertForm" data-info=""> -->
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModName" class="form-label mb-0">Nombre</label>
                                             <input type="text" class="form-control" id="insModName" pattern="[0-9]{3}" placeholder="Ej: 001, 002" required>
                                         </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
+                                        <!-- <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModBranch" class="form-label mb-0">Sucursal</label>
                                             <select name="insModBranch" class="form-control form-select" id="insModBranch" required>
                                             </select>
-                                        </div>
+                                        </div> -->
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="insModStatus" class="form-label mb-0">Estado</label>
                                             <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
@@ -30,7 +30,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary" form="insertForm">Guardar</button>
@@ -118,78 +118,103 @@
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="row">
-                        <div id="iconClassTitle" class="col-12 col-sm-5 mb-0">
+                        <div id="iconClassTitle">
                             <div class="bg-transparent rounded d-flex align-items-center px-2">
                                 <i id="moduleIcon"></i>
                                 <h4 id="moduleTitle" class="mb-0"></h4>
-                            </div>
-                        </div>
-                        <div id="buttonClassTitle" class="col-12 col-sm-7 d-flex align-items-center justify-content-start justify-content-sm-end">
-                            <div class="bg-transparent rounded d-flex">
-                                <div class="rounded">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar">
-                                </div>
-                                <div id="addButton"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Habitaciones Registradas Inicio -->
+
+                <!-- Ventas Inicio -->
                 <div class="container-fluid pt-4 px-4">
-                    <div class="bg-light text-center rounded p-4">
+                    <div class="bg-light rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h6 class="mb-0">Nueva Venta</h6>
                         </div>
 
-                        <form id="insertForm" data-info="" class="mb-3">
-                            <div class="row">
-                                <div class="mb-3 px-4 col-3 col-xl-2">
-                                    <label for="insModDate" class="form-label mb-0">Fecha</label>
-                                    <input type="date" class="form-control" id="insModDate" required>
+                        <form id="addForm" data-info="" class="mb-3">
+                            <div class="row justify-content-center justify-content-md-start">
+                            <div class="mb-3 px-4 col-9 col-sm-5 col-md-3 col-lg-3 col-xl-3 col-xxl-2">
+                                    <label for="addDate" class="form-label mb-0">Fecha:</label>
+                                    <input type="date" class="form-control" id="addDate" required>
                                 </div>
-                                <div class="mb-3 px-4 col-xl-3 col-xl-3">
-                                    <label for="insModCustomer" class="form-label mb-0">Cliente</label>
-                                    <input type="text" class="form-control" id="insModCustomer" required>
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-5 col-lg-5 col-xl-4 col-xxl-3">
+                                    <label for="addCustomer" class="form-label mb-0">Cliente:</label>
+                                    <input type="text" class="form-control" id="addCustomer" required>
                                 </div>
-                                <div class="mb-3 px-4 col-xl-3 col-xl-3">
-                                    <label for="insModProduct" class="form-label mb-0">Producto</label>
-                                    <select name="insModProduct" class="form-control form-select" id="insModProduct">
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-3 col-lg-3 col-xl-3 col-xxl-2">
+                                    <label for="addBranch" class="form-label mb-0">Sucursal:</label>
+                                    <select name="addBranch" class="form-control form-select" id="addBranch" required>
                                     </select>
                                 </div>
-                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
-                                    <label for="insModSalePrice" class="form-label mb-0">Precio</label>
-                                    <input type="number" class="form-control" id="insModSalePrice" step="0.01" min="0">
-                                </div>
-                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
-                                    <label for="insModSalePrice" class="form-label mb-0">Existencias</label>
-                                    <input type="number" class="form-control" id="insModSalePrice" step="0.01" min="0">
-                                </div>
-                                <div class="mb-3 px-4 col-xl-3 col-xl-2">
-                                    <label for="insModBranch" class="form-label mb-0">Sucursal</label>
-                                    <select name="insModBranch" class="form-control form-select" id="insModBranch">
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-4 col-lg-4 col-xl-4 col-xxl-3">
+                                    <label for="addMedicine" class="form-label mb-0">Medicina:</label>
+                                    <select name="addMedicine" class="form-control form-select" id="addMedicine" required>
                                     </select>
+                                </div>
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-3 col-lg-3 col-xl-2 col-xxl-2">
+                                    <label for="addSalePrice" class="form-label mb-0">Precio:</label>
+                                    <input type="text" class="form-control" id="addSalePrice" disabled>
+                                </div>
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-3 col-lg-3 col-xl-2 col-xxl-2">
+                                    <label for="addStock" class="form-label mb-0">Existencias:</label>
+                                    <input type="text" class="form-control" id="addStock" disabled>
+                                </div>
+                                <div class="mb-3 px-4 col-9 col-sm-5 col-md-3 col-lg-3 col-xl-2 col-xxl-2">
+                                    <label for="addQuantity" class="form-label mb-0">Cantidad:</label>
+                                    <input type="number" class="form-control" id="addQuantity" step="1" min="1" required>
                                 </div>
                             </div>
+                            <div class="mt-4 text-center">
+                                <button type="button" class="btn btn-primary" id="resetButton">
+                                    <i class="bi bi-arrow-repeat me-1"></i>Nuevo
+                                </button>
+                                <button type="submit" class="btn btn-success" form="addForm">
+                                    <i class="bi bi-file-earmark-plus me-1"></i>Agregar
+                                </button>
+                            </div>
                         </form>
-                            
+                    </div>
+                </div>
+                <!-- Ventas Fin -->
+
+
+                <!-- Productos Ingresados Inicio -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-light text-center rounded p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h6 class="mb-0">Productos Registrados</h6>
+                        </div>
                         <div class="table-responsive">
                             <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark align-middle">
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Sucursal</th>
-                                        <th scope="col">Estado</th>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Lote</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableBody">
-                                </tbody>
+                                <tbody id="tableBody"></tbody>
+                                <tfoot id="totalRow" style="display: none;">
+                                    <tr>
+                                        <td colspan="4" class="text-start"><strong>Total</strong></td>
+                                        <td id="totalAmount">Q0.00</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
+                        <button id="finalizeButton" class="btn btn-success mt-3" style="display: none;">Finalizar Venta</button>
                     </div>
                 </div>
-                <!-- Habitaciones Registradas Fin -->
+                <!-- Productos Ingresados Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>

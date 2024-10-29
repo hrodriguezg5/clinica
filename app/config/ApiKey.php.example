@@ -1,0 +1,4 @@
+<?php
+//Clave secreta
+const API_SECRET_KEY = 'tu_clave_secreta';
+?>

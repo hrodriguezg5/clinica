@@ -76,7 +76,7 @@ export async function initModule(data, module) {
                 <td>Q${item.selling_price}</td>
                 <td>${item.quantity}u.</td>
                 <td>${item.brand}</td>
-                <td><img src="${item.image_path}" alt="${item.name}" width="30" height="30"></td>
+                <td class="text-center"><img src="${item.image_path}" alt="${item.name}" width="30" height="30"></td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -116,6 +116,7 @@ const showModal = async (data) => {
                 rows += `
                 <tr>
                 <td>${item.batch_id}</td>
+                <td>${item.branch_name}</td>
                 <td>Q${item.purchase_price}</td>
                 <td>${item.original_quantity}u.</td>
                 <td>${item.current_quantity}u.</td>

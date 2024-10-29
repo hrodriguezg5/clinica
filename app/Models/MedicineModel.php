@@ -115,10 +115,23 @@ class MedicineModel{
                 m.`name`,
                 m.`description`,
                 m.selling_price,
+                IFNULL(mq.quantity, 0) AS quantity,
                 m.brand,
                 m.image_path,
                 m.active
             FROM medicine AS m
+            LEFT JOIN (
+            	SELECT b.medicine_id,
+	            	SUM(i.quantity) AS quantity
+	            FROM inventory AS i
+	            INNER JOIN batch AS b
+	            ON i.batch_id = b.id
+	    		WHERE i.quantity != 0
+	    		AND i.deleted_at IS NULL
+	    		AND b.deleted_at IS NULL
+	            GROUP BY b.medicine_id
+			) AS mq
+			ON m.id = mq.medicine_id
             WHERE m.id = :id
             AND m.deleted_at IS NULL;"
         );

@@ -16,6 +16,7 @@
                                             <thead>
                                                 <tr class="text-dark align-middle">
                                                     <th>No. Lote</th>
+                                                    <th>Sucursal</th>
                                                     <th>Precio de Compra</th>
                                                     <th>Cantidad Original</th>
                                                     <th>Cantidad Actual</th>

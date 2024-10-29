@@ -11,6 +11,7 @@ export function translateToEnglish (spanishModule){
         'lote': 'batch',
         'sucursal': 'branch',
         'habitacion': 'room',
+        'venta': 'sale',
     };
 
     return module[spanishModule] || spanishModule;

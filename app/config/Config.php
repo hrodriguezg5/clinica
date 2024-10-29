@@ -1,6 +1,7 @@
 <?php
 require_once("Database.php");
 require_once("RouteMap.php");
+require_once("ApiKey.php");
 
 //Ruta de la aplicación
 define("APP_ROUTE", dirname(dirname(__FILE__)));
