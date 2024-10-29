@@ -10,6 +10,8 @@ export function translateToEnglish (spanishModule){
         'proveedor': 'supplier',
         'lote': 'batch',
         'sucursal': 'branch',
+        'habitacion': 'room',
+        'venta': 'sale',
     };
 
     return module[spanishModule] || spanishModule;

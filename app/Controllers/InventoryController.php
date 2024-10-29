@@ -89,6 +89,7 @@ class InventoryController extends Controllers {
                 foreach ($inventories as $inventory) {
                     $response [] = [
                         'batch_id' => $inventory->batch_id,
+                        'branch_name' => $inventory->branch_name,
                         'purchase_price' => $inventory->purchase_price,
                         'original_quantity' =>$inventory->original_quantity,
                         'current_quantity' =>$inventory->current_quantity,

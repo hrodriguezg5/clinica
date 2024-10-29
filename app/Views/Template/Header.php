@@ -96,8 +96,8 @@
              
         
             <!-- Alerta HTML Inicio-->
-            <div id="errorMessage" class="alert-dismissible position-fixed top-0 end-0 m-3 fade" role="alert">
+            <div id="errorMessage" class="d-flex justify-content-between position-fixed top-0 end-0 m-3 fade" role="alert">
                 <i class="bi bi-bell-fill me-2"></i><span id="errorText"></span>
-                <button id="closeButton" type="button" class="btn-close" aria-label="Close"></button>
+                <i id="closeButton" class="bi bi-x fs-5 ms-1" role="button" aria-label="Close"></i>
             </div>
             <!-- Alerta HTML Fin -->

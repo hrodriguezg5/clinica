@@ -76,6 +76,7 @@ export async function initModule(data, module) {
                 <td>Q${item.selling_price}</td>
                 <td>${item.quantity}u.</td>
                 <td>${item.brand}</td>
+                <td class="text-center"><img src="${item.image_path}" alt="${item.name}" width="30" height="30"></td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -115,6 +116,7 @@ const showModal = async (data) => {
                 rows += `
                 <tr>
                 <td>${item.batch_id}</td>
+                <td>${item.branch_name}</td>
                 <td>Q${item.purchase_price}</td>
                 <td>${item.original_quantity}u.</td>
                 <td>${item.current_quantity}u.</td>
@@ -135,18 +137,19 @@ const showModal = async (data) => {
 
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
-    const formData = () => ({
-        name: document.getElementById('insModName').value || '',
-        description: document.getElementById('insModDescription').value || '',
-        selling_price: document.getElementById('insModSellingPrice').value || '',
-        brand: document.getElementById('insModBrand').value || '',
-        active: Number(document.getElementById('insModStatus').value),
-        created_by: currentData.user_id || null,
-        updated_by: currentData.user_id || null
-    });
+    const formData = new FormData();
+    
+    formData.append('name', document.getElementById('insModName').value || '');
+    formData.append('description', document.getElementById('insModDescription').value || '');
+    formData.append('selling_price', document.getElementById('insModSellingPrice').value || '');
+    formData.append('brand', document.getElementById('insModBrand').value || '');
+    formData.append('image', document.getElementById('insModImage').files[0]); // Añadir imagen
+    formData.append('active', Number(document.getElementById('insModStatus').value));
+    formData.append('created_by', currentData.user_id || null);
+    formData.append('updated_by', currentData.user_id || null);
 
     try {
-        await apiService.fetchData(url, 'POST', formData());
+        await apiService.fetchData(url, 'POST', formData);
         showAlert("Operación exitosa.", 'success');
         closeModal('insertModal');
     } catch (error) {
@@ -156,6 +159,7 @@ const insertFormSubmit = async () => {
 
     await initModule(currentData, currentModule);
 };
+
 
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
@@ -178,21 +182,27 @@ const updateModal = async (data) => {
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
+    const formData = new FormData();
 
-    const formData = () => ({
-        name: document.getElementById('updModName').value || '',
-        description: document.getElementById('updModDescription').value || '',
-        selling_price: document.getElementById('updModSellingPrice').value || '',
-        brand: document.getElementById('updModBrand').value || '',
-        active: Number(document.getElementById('updModStatus').value),
-        updated_by: currentData.user_id || null,
-        id: dataInfo.medicine_id || null
-    });
-    
+    formData.append('name', document.getElementById('updModName').value || '');
+    formData.append('description', document.getElementById('updModDescription').value || '');
+    formData.append('selling_price', document.getElementById('updModSellingPrice').value || '');
+    formData.append('brand', document.getElementById('updModBrand').value || '');
+    formData.append('image', document.getElementById('updModImage').files[0]); // Añadir imagen
+    formData.append('active', Number(document.getElementById('updModStatus').value));
+    formData.append('updated_by', currentData.user_id || null);
+    formData.append('id', dataInfo.medicine_id || null);
+
     try {
-        await apiService.fetchData(url, 'POST', formData());
-        showAlert("Operación exitosa.", 'success');
-        closeModal('updateModal');
+        const response = await apiService.fetchData(url, 'POST', formData);
+        
+        if (response.success) {
+            showAlert("Operación exitosa.", 'success');
+            closeModal('updateModal');
+        } else {
+            showAlert(response.message, 'danger');
+            closeModal('updateModal');
+        }
     } catch (error) {
         showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);

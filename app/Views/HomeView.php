@@ -7,7 +7,7 @@
                         <div class="col-12 mb-0">
                             <div class="bg-transparent rounded d-flex align-items-center px-2">
                                 <i id="moduleIcon"></i>
-                                <h4 id="moduleTitle" class="mb-0 ms-2"></h4>
+                                <h4 id="moduleTitle" class="mb-0"></h4>
                             </div>
                         </div>
                     </div>

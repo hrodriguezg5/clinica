@@ -8,15 +8,21 @@ export function showAlert(message, alertType) {
     errorMessage.classList.add('show', 'alert', `alert-${alertType}`, 'slide-in');
     errorText.textContent = message;
 
-    // Ocultar la alerta después de 3 segundos
     setTimeout(function() {
-        errorMessage.classList.remove('show', 'slide-in', `alert-${alertType}`);
+        errorMessage.classList.remove('slide-in');
         errorMessage.classList.add('fade', 'slide-out');
+        
+        setTimeout(() => {
+            errorMessage.classList.remove(`alert-${alertType}`);
+        }, 1000);
     }, 4500);
 
-    // Añadir un listener al botón de cierre
     closeButton.addEventListener('click', function() {
-        errorMessage.classList.remove('show', 'slide-in', `alert-${alertType}`);
+        errorMessage.classList.remove('show', 'slide-in');
         errorMessage.classList.add('fade', 'slide-out');
+
+        setTimeout(() => {
+            errorMessage.classList.remove(`alert-${alertType}`);
+        }, 500);
     });
 }

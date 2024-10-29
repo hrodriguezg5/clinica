@@ -88,7 +88,7 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4]);
 
     if (hasActions) {
         assignModalEvent('.btn-update', updateModal);

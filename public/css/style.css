@@ -58,6 +58,7 @@
 #errorMessage {
     z-index: 1050; /* Ajusta este valor según sea necesario */
     max-width: 400px;
+    pointer-events: none;
 }
 
 @keyframes slideIn {
@@ -84,10 +85,12 @@
 
 .slide-in {
     animation: slideIn 0.5s forwards;
+    pointer-events: auto !important;
 }
 
 .slide-out {
     animation: slideOut 0.5s forwards;
+    pointer-events: none !important;
 }
 
 
