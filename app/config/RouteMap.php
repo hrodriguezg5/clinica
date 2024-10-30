@@ -1,20 +1,28 @@
 <?php
 //Rutas de controladores de español a inglés
 const ROUTE_MAP = [
-    "inicio" => "HomeController",
     "login" => "LoginController",
-    "paciente" => "PatientController"
+    "inicio" => "HomeController",
+    "usuario" => "UserController",
+    "rol" => "RoleController",
+    "paciente" => "PatientController",
+    "permiso" => "PermissionController",
+    "empleado" => "EmployeeController",
+    "posicion" => "PositionController",
+    "lote" => "BatchController",
+    "medicina" => "MedicineController",
+    "proveedor" => "SupplierController",
+    "sucursal" => "BranchController",
+    "inventario" => "InventoryController",
+    "habitacion" => "RoomController",
+    "historial" => "PatientHistoryController",
+    "habitacionpaciente" => "PatientRoomController",
+    "venta" => "SaleController",
+    "ventas" => "SalesDetailController"
 ];
 
 //Rutas de métodos de español a inglés
 const ROUTE_METHOD_MAP = [
-    "reservacion" => "reservation",
-    "cliente" => "customer",
-    "hora" => "hour",
-    "producto" => "product",
-    "usuarios" => "users",
-    "usuario" => "user",
-
     "ingresar" => "login",
     "salir" => "logout",
     "token" => "token",
@@ -22,6 +30,7 @@ const ROUTE_METHOD_MAP = [
     "eliminar" => "delete",
     "agregar" => "insert",
     "buscar" => "search",
-    "mostrar" => "show"
+    "mostrar" => "show",
+    "filtrar" => "filter"
 ];
 ?>

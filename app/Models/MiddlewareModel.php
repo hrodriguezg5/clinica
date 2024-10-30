@@ -42,13 +42,24 @@ class MiddlewareModel{
             "SELECT u.id AS user_id,
                 u.first_name,
                 CONCAT(u.first_name, ' ', u.last_name) AS user_name,
-                u.role_id,
-                r.`name` AS role_name
+                r.id AS role_id,
+                r.`name` AS role_name,
+                IFNULL(b.`name`, '') AS branch_name
             FROM `user` AS u
-            INNER JOIN `role` AS r
+            LEFT JOIN `role` AS r
             ON u.role_id = r.id
-            WHERE u.deleted_at IS NULL
+            AND r.active = 1
             AND r.deleted_at IS NULL
+            LEFT JOIN `employee` AS e
+            ON u.employee_id = e.id
+            AND e.active = 1
+            AND e.deleted_at IS NULL
+            LEFT JOIN `branch` AS b
+            ON e.branch_id = b.id
+            AND b.active = 1
+            AND b.deleted_at IS NULL
+            WHERE u.deleted_at IS NULL
+            AND u.active = 1
             AND u.id = :user_id LIMIT 1;"
         );
 
@@ -62,14 +73,17 @@ class MiddlewareModel{
             "SELECT m.`name` AS module,
                 m.link,
                 m.icon,
+                p.show_operation,
                 p.create_operation,
                 p.update_operation,
-                p.delete_operation
+                p.delete_operation,
+                m.cud_operation
             FROM `module` AS m
             INNER JOIN `permission` AS p
             ON m.id = p.module_id
             WHERE m.deleted_at IS NULL
-            AND p.deleted_at IS NULL 
+            AND p.deleted_at IS NULL
+            AND p.show_operation = 1
             AND p.role_id = :role_id
             ORDER BY m.order ASC;"
         );

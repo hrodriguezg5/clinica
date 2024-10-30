@@ -5,6 +5,8 @@
     --dark: #191C24;
 }
 
+
+/*** Botón de subir ***/
 .back-to-top {
     position: fixed;
     display: none;
@@ -14,7 +16,7 @@
 }
 
 
-/*** Spinner ***/
+/*** Spinner de carga ***/
 #spinner {
     opacity: 0;
     visibility: hidden;
@@ -36,25 +38,80 @@
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
     right: 0;
+    pointer-events: none;
 }
 
 .dropdown-menu.show {
     opacity: 1;
-transform: translateY(0);
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Error en el imput*/
+.input-error {
+    border: 1px solid red;
 }
 
 
-/*** Image ***/
+/*** Desplazamiento suave de alerta ***/
+
+#errorMessage {
+    z-index: 1050; /* Ajusta este valor según sea necesario */
+    max-width: 400px;
+    pointer-events: none;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s forwards;
+    pointer-events: auto !important;
+}
+
+.slide-out {
+    animation: slideOut 0.5s forwards;
+    pointer-events: none !important;
+}
+
+
+/*** Imagen de Logotipo ***/
 .image {
     width: 40px;
     height: 40px;
 }
 
 
-/*** User Icons ***/
+/*** Icono de usuario ***/
 .user-icons {
     font-size: 40px;
 }
+
+
+/*** Puntero desabilitado en check input ***/
+.form-check:has(input:disabled) {
+    cursor: not-allowed;
+}
+
 
 /*** Button ***/
 .btn {

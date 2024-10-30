@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title><?= SITE_NAME; ?></title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -44,9 +44,14 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="<?= URL_ROUTE; ?>/paciente" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><img class="image me-2 mb-2" src="<?= URL_ROUTE; ?>/img/logo.png">Clínica</h3>
+                <a href="<?= URL_ROUTE; ?>" class="navbar-brand mx-4">
+                    <h3 class="text-primary mb-3 mb-lg-0">
+                        <img class="image me-2" src="<?= URL_ROUTE; ?>/img/logo.png">Clínica
+                    </h3>
                 </a>
+                <div class="w-100 mb-2">
+                    <h5 id="branchName" class="text-primary text-center text-wrap"></h5>
+                </div>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <i class="bi bi-person-circle user-icons"></i>
@@ -67,7 +72,7 @@
         <div class="content">
             <!-- Navbar Start -->
             <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a href="<?= URL_ROUTE; ?>/paciente" class="navbar-brand d-flex d-lg-none me-4">
+                <a href="<?= URL_ROUTE; ?>" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary"><img class="image mt-2" src="<?= URL_ROUTE; ?>/img/logo.png"></h2>
                 </a>
 
@@ -88,3 +93,11 @@
                 </div>
             </nav>
             <!-- Navbar End -->
+             
+        
+            <!-- Alerta HTML Inicio-->
+            <div id="errorMessage" class="d-flex justify-content-between position-fixed top-0 end-0 m-3 fade" role="alert">
+                <i class="bi bi-bell-fill me-2"></i><span id="errorText"></span>
+                <i id="closeButton" class="bi bi-x fs-5 ms-1" role="button" aria-label="Close"></i>
+            </div>
+            <!-- Alerta HTML Fin -->
