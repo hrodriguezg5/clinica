@@ -88,6 +88,7 @@ class InventoryModel{
             AND b.deleted_at IS NULL
             AND i.deleted_at IS NULL
             AND ba.deleted_at IS NULL
+            AND i.quantity > 0
             AND m.id = :id
             ORDER BY i.created_at ASC;"
         );

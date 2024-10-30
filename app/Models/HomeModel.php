@@ -38,8 +38,11 @@ class HomeModel{
         $this->db->bind(":expires_at", $data["expires_at"]);
         $this->db->bind(":ip_address", $data["ip_address"]);
         $this->db->bind(":user_agent", $data["user_agent"]);
-        $row = $this->db->record();
-        return $row;
+        if($this->db->execute()){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     public function deleteSessionToken($data){

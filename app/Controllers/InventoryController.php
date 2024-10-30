@@ -4,9 +4,7 @@ class InventoryController extends Controllers {
         parent::__construct();
     }
     
-    public function index() {
-        $this->view("PatientView");
-    }
+    public function index(){}
     
     public function insert() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
