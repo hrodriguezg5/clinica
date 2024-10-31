@@ -3,6 +3,7 @@ Options -Multiviews
 
 # Unicas reglas que se aplican en hostinger
 RewriteEngine On
+# Quitar /clinic/ en produccion
 RewriteBase /clinica//public
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
