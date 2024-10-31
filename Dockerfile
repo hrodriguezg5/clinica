@@ -16,6 +16,9 @@ RUN service apache2 restart
 # Instalar extensiones necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+# Instalar nano
+RUN apt update && apt upgrade -y && apt install nano -y
+
 # Copiar archivos de la aplicación al directorio raíz de Apache
 COPY . /var/www/html
 

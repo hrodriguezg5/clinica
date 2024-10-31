@@ -3,8 +3,8 @@ Options -Multiviews
 
 # Unicas reglas que se aplican en hostinger
 RewriteEngine On
-# Quitar /clinic/ en produccion
-RewriteBase /clinica//public
+# Quitar /carpeta/ en produccion
+RewriteBase /carpeta//public
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
