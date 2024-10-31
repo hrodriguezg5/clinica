@@ -194,7 +194,6 @@
                                 <thead id="tableHead">
                                     <tr class="text-dark align-middle">
                                         <th scope="col">Producto</th>
-                                        <th scope="col">Lote</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Precio</th>
                                         <th scope="col">Total</th>
@@ -204,14 +203,14 @@
                                 <tbody id="tableBody"></tbody>
                                 <tfoot id="totalRow" style="display: none;">
                                     <tr>
-                                        <td colspan="4" class="text-start"><strong>Total</strong></td>
+                                        <td colspan="3" class="text-start"><strong>Total</strong></td>
                                         <td id="totalAmount">Q0.00</td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-                        <button id="finalizeButton" class="btn btn-success mt-3" style="display: none;">Finalizar Venta</button>
+                        <button id="finalizeButton" class="btn btn-success mt-5" style="display: none;">Finalizar Venta</button>
                     </div>
                 </div>
                 <!-- Productos Ingresados Fin -->

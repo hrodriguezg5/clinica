@@ -1,17 +1,8 @@
 import { apiService } from '../services/apiService.js';
 import { showAlert } from '../utils/showArlert.js';
-import { 
-    createButton, 
-    assignModalEvent, 
-    assignFormSubmitEvent, 
-    assignSearchEvent,
-    closeModal,
-    resetModal
-} from '../utils/actionButton.js';
 
 let currentData;
 let currentModule;
-let rows = '';
 
 export async function initModule(data, module) {
     currentData = data;
@@ -62,6 +53,13 @@ export async function initModule(data, module) {
         document.getElementById('addStock').value = '';
         document.getElementById('addQuantity').value = '';
     });
+
+    document.getElementById('finalizeButton').addEventListener('click', async function () {
+        await insertFormSubmit();
+        await resetForm();
+        document.getElementById('finalizeButton').style.display = 'none';
+        document.getElementById('totalRow').style.display = 'none';
+    });
     
 };
 
@@ -72,7 +70,7 @@ const updateTotal = async () => {
     // Verificar si hay filas en la tabla antes de iterar
     if (tableBody.rows.length > 0) {
         Array.from(tableBody.rows).forEach(row => {
-            const rowTotal = parseFloat(row.cells[4]?.innerText.replace('Q', '')) || 0;
+            const rowTotal = parseFloat(row.cells[3]?.innerText.replace('Q', '')) || 0;
             totalSum += rowTotal;
         });
     }
@@ -107,7 +105,7 @@ const getTotalQuantityFromTable = async (medicineId, branchId) => {
     Array.from(tableBody.rows).forEach(row => {
         const rowMedicineId = row.dataset.medicineId; // Obtiene medicine_id de data attribute
         const rowBranchId = row.dataset.branchId;     // Obtiene branch_id de data attribute
-        const rowQuantity = Number(row.cells[2].innerText) || 0; // Cantidad de la columna correspondiente
+        const rowQuantity = Number(row.cells[1].innerText) || 0; // Cantidad de la columna correspondiente
 
         if (rowMedicineId === medicineId && rowBranchId === branchId) {
             totalQuantity += rowQuantity;
@@ -126,45 +124,47 @@ const resetForm = async () => {
 };
 
 const addProduct = async () => {
-    const url = `${urlBase}/${currentModule}/mostrar`;
+    const url = `${urlBase}/${currentModule}/filtrar`;
     const tableBody = document.getElementById('tableBody');
+    const quantity=  Number(document.getElementById('addQuantity').value) || null;
 
-    const formData = () => ({
-        id: document.getElementById('addMedicine').value || '',
-        branch_id: document.getElementById('addBranch').value || '',
-        quantity: Number(document.getElementById('addQuantity').value) || null
+    const inputData = () => ({
+        medicine_id: document.getElementById('addMedicine').value || '',
+        branch_id: document.getElementById('addBranch').value || ''
     });
 
-    const response = await apiService.fetchData(url, 'POST', formData());
+    const response = await apiService.fetchData(url, 'POST', inputData());
+    const sellingPrice = parseFloat(response.selling_price) || 0;
+    const total = (sellingPrice * quantity).toFixed(2);
 
-    response.forEach(item => {
-        const row = document.createElement('tr');
-        row.dataset.medicineId = item.medicine_id;
-        row.dataset.branchId = item.branch_id;
+    const row = document.createElement('tr');
+    row.dataset.medicineId = response.medicine_id;
+    row.dataset.branchId = response.branch_id;
 
-        row.innerHTML = `
-            <td>${item.medicine_name}</td>
-            <td>${item.batch_id}</td>
-            <td>${item.requested_quantity}</td>
-            <td>Q${item.selling_price}</td>
-            <td>Q${item.total_amount.toFixed(2)}</td>
-            <td><button class="btn btn-danger btn-sm delete-button">
-                    <i class="bi bi bi-trash-fill"></i>
-                </button>
-            </td>
-        `;
+    row.innerHTML = `
+        <td>${response.medicine_name}</td>
+        <td>${quantity}</td>
+        <td>Q${sellingPrice.toFixed(2)}</td>
+        <td>Q${total}</td>
+        <td><button class="btn btn-danger btn-sm delete-button">
+                <i class="bi bi bi-trash-fill"></i>
+            </button>
+        </td>
+    `;
 
-        // Agregar el evento de eliminación al botón
-        row.querySelector('.delete-button').addEventListener('click', () => {
-            row.remove(); // Elimina la fila de la tabla
-            updateTotal();
-        });
-
-        tableBody.appendChild(row);
+    row.querySelector('.delete-button').addEventListener('click', () => {
+        row.remove(); // Elimina la fila de la tabla
+        updateTotal();
+        document.getElementById('addMedicine').value = '';
+        document.getElementById('addSalePrice').value = '';
+        document.getElementById('addStock').value = '';
     });
+
+    tableBody.appendChild(row);
 
     updateTotal();
 };
+
 
 const populateSelect = async (selectId, module) =>  {
     const select = document.getElementById(selectId);
@@ -194,11 +194,11 @@ const populateSelect = async (selectId, module) =>  {
     }
 }
 
-const populateInput = async (id, branch_id) => {
+const populateInput = async (medicine_id, branch_id) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
 
     try {
-        const response = await apiService.fetchData(url, 'POST', { id,  branch_id});
+        const response = await apiService.fetchData(url, 'POST', { medicine_id,  branch_id});
         document.getElementById('addSalePrice').value = `Q${response.selling_price}` || '';
         document.getElementById('addStock').value = response.quantity || '';
     } catch (error) {
@@ -206,90 +206,59 @@ const populateInput = async (id, branch_id) => {
     }
 };
 
+const insertFormSubmit = async () => {
+    const urlInsSale = `${urlBase}/${currentModule}/agregar`;
+    const urlSaleDetail = `${urlBase}/ventadetalle/agregar`;
+    const urlUpdSale = `${urlBase}/${currentModule}/actualizar`;
 
-const updateModal = async (data) => {
-    const url = `${urlBase}/${currentModule}/filtrar`;
-    const dataInfo = JSON.stringify(data);
-    const id = data.room_id;
-    
-    await populateSelect('updModBranch', 'sucursal');
-    
+    const inputData = () => ({
+        branch_id: document.getElementById('addBranch').value || null,
+        customer: document.getElementById('addCustomer').value || '',
+        sale_date: document.getElementById('addDate').value || '',
+        created_by: currentData.user_id || null,
+        updated_by: currentData.user_id || null
+    });
+
     try {
-        const response = await apiService.fetchData(url, 'POST', { id });
-        const branchSelect = document.getElementById('updModBranch');
-        const branchOption = Array.from(branchSelect.options).find(option => option.text === response.branch_name);
+        const response = await apiService.fetchData(urlInsSale, 'POST', inputData());
         
-        document.getElementById('updateForm').setAttribute('data-info', dataInfo);
-        document.getElementById('updModName').value = response.name || '';
-        document.getElementById('updModBranch').value = branchOption ? branchOption.value : '';
-        document.getElementById('updModStatus').value = response.active.toString() || '';
-    } catch (error) {
-        console.error('Error:', error);
-    }
+        const tableBody = document.getElementById('tableBody');
 
-    resetModal('updateModal', 'updateForm');
-};
-
-
-const updateFormSubmit = async () => {
-    const url = `${urlBase}/${currentModule}/actualizar`;
-    const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
+        const promises = Array.from(tableBody.rows).map(async row => {
+            const tableData = () => ({
+                sale_id: response.sale_id || null,
+                medicine_id: row.dataset.medicineId,
+                selling_price: parseFloat(row.cells[2]?.innerText.replace('Q', '')) || null,
+                quantity: Number(row.cells[1].innerText) || null,
+                created_by: currentData.user_id || null,
+                updated_by: currentData.user_id || null
+            });
     
-    const formData = () => ({
-        name: document.getElementById('updModName').value || '',
-        branch_id: Number(document.getElementById('updModBranch').value) || null,
-        active: Number(document.getElementById('updModStatus').value),
-        updated_by: currentData.user_id || null,
-        id: dataInfo.room_id || null,
-    });
-    
-    try {
-        await apiService.fetchData(url, 'POST', formData());
+            try {
+                return await apiService.fetchData(urlSaleDetail, 'POST', tableData());
+            } catch (error) {
+                showAlert("Error de conexión.", 'danger');
+                console.error('Error:', error);
+            }
+        });
+        
+        await Promise.all(promises);
+
+        const saleData = () => ({
+            sale_id: response.sale_id || null,
+            updated_by: currentData.user_id || null
+        });
+
+        try {
+            await apiService.fetchData(urlUpdSale, 'POST', saleData());
+        } catch (error) {
+            showAlert("Error de conexión.", 'danger');
+            console.error('Error:', error);
+        }
+
         showAlert("Operación exitosa.", 'success');
-        closeModal('updateModal');
     } catch (error) {
         showAlert("Error de conexión.", 'danger');
         console.error('Error:', error);
     }
-
-    await initModule(currentData, currentModule);
-};
-
-const deleteModal = async (data) => {
-    const url = `${urlBase}/${currentModule}/filtrar`;
-    const dataInfo = JSON.stringify(data);
-    const id = data.room_id;
-    
-    try {
-        const response = await apiService.fetchData(url, 'POST', { id });
-        const status = response.active ? 'Activo' : 'Inactivo';
-
-        document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
-        document.getElementById('delModName').innerText = response.name || '';
-        document.getElementById('delModBranch').innerText = response.branch_name || '';
-        document.getElementById('delModStatus').innerText = status || '';
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-const deleteFormSubmit = async () => {
-    const url = `${urlBase}/${currentModule}/eliminar`;
-    const dataInfo = JSON.parse(document.getElementById('deleteForm').getAttribute('data-info'));
-
-    const formData = () => ({
-        deleted_by: currentData.user_id || null,
-        id: dataInfo.room_id || null
-    });
-
-    try {
-        await apiService.fetchData(url, 'POST', formData());
-        showAlert("Operación exitosa.", 'success');
-        closeModal('deleteModal');
-    } catch (error) {
-        showAlert("Error de conexión.", 'danger');
-        console.error('Error:', error);
-    }
-
-    await initModule(currentData, currentModule);
 };
