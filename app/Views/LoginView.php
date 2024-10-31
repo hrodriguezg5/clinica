@@ -56,7 +56,7 @@
                     <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
                         <div class="d-flex align-items-center justify-content-center mb-3">
                             <h3 class="text-primary">
-                                <img class="image me-2 mb-2" src="/clinica/img/logo.png">Clínica
+                                <img class="image me-2 mb-2" src="<?= URL_ROUTE; ?>/img/logo.png">Clínica
                             </h3>
                         </div>
                         <form id="loginForm">
