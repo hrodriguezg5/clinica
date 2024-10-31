@@ -33,7 +33,6 @@ class MedicineController extends Controllers {
                         'image_path' =>$medicine->image_path,
                         'active' =>$medicine->active
                     ];
-                
                 }   
                 $this->jsonResponse($response);
             }

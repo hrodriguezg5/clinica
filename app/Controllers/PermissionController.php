@@ -4,8 +4,7 @@ class PermissionController extends Controllers {
         parent::__construct();
     }
     
-    public function index() {
-    }
+    public function index() {}
 
     public function filter() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

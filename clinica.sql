@@ -16,12 +16,10 @@
 
 
 -- Volcando estructura de base de datos para clinica
-DROP DATABASE IF EXISTS `clinica`;
 CREATE DATABASE IF NOT EXISTS `clinica` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `clinica`;
 
 -- Volcando estructura para tabla clinica.batch
-DROP TABLE IF EXISTS `batch`;
 CREATE TABLE IF NOT EXISTS `batch` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `medicine_id` int unsigned NOT NULL,
@@ -40,20 +38,20 @@ CREATE TABLE IF NOT EXISTS `batch` (
   KEY `fk_batch_supplier` (`supplier_id`) USING BTREE,
   CONSTRAINT `fk_batch_medicine` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_batch_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.batch: ~7 rows (aproximadamente)
 DELETE FROM `batch`;
 INSERT INTO `batch` (`id`, `medicine_id`, `supplier_id`, `purchase_price`, `quantity`, `expiration_date`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 2, 1, 5.00, 25, '2025-10-01', '2024-10-19 15:09:14', 1, '2024-10-25 13:38:27', 2, NULL, NULL),
+	(1, 2, 1, 5.00, 25, '2025-10-01', '2024-10-19 15:09:14', 1, '2024-10-27 20:27:52', 2, NULL, NULL),
 	(2, 1, 1, 1.50, 30, '2025-11-01', '2024-10-19 15:31:54', 2, '2024-10-22 21:59:13', 2, NULL, NULL),
 	(3, 2, 2, 4.00, 25, '2025-10-01', '2024-10-22 18:00:05', 1, '2024-10-22 21:59:28', 2, NULL, NULL),
 	(4, 8, 3, 11.00, 12, '2025-10-22', '2024-10-22 19:39:45', 2, '2024-10-22 21:59:57', 2, NULL, NULL),
 	(5, 8, 3, 10.00, 11, '2026-11-25', '2024-10-22 20:36:00', 2, '2024-10-22 22:00:11', 2, NULL, NULL),
-	(6, 2, 1, 2.00, 20, '2025-11-08', '2024-10-24 21:06:51', 2, '2024-10-25 13:44:54', 2, NULL, NULL);
+	(6, 2, 1, 2.00, 20, '2025-11-08', '2024-10-24 21:06:51', 2, '2024-10-25 13:44:54', 2, NULL, NULL),
+	(7, 2, 1, 5.00, 30, '2025-10-30', '2024-10-29 17:06:47', 2, '2024-10-29 17:07:12', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.branch
-DROP TABLE IF EXISTS `branch`;
 CREATE TABLE IF NOT EXISTS `branch` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -73,14 +71,13 @@ CREATE TABLE IF NOT EXISTS `branch` (
 -- Volcando datos para la tabla clinica.branch: ~6 rows (aproximadamente)
 DELETE FROM `branch`;
 INSERT INTO `branch` (`id`, `name`, `address`, `phone`, `city`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Zona 1', '1a Avenida 10-20, Zona 1', '12345678', 'Ciudad de Guatemala', 1, '2024-10-23 13:51:14', 1, '2024-10-24 19:03:18', 2, NULL, NULL),
+	(1, 'Zona 1', '1a Avenida 10-20, Zona 1', '12345678', 'Ciudad de Guatemala', 1, '2024-10-23 13:51:14', 1, '2024-10-27 21:49:01', 2, NULL, NULL),
 	(2, 'Antigua', 'Calle del Arco 15, Antigua Guatemala', '87654321', 'Antigua Guatemala', 1, '2024-10-23 13:51:14', 1, '2024-10-24 19:03:46', 2, NULL, NULL),
 	(3, 'Quetzal', 'Avenida Las Américas 2-45, Zona 3', '11223344', 'Quetzal', 1, '2024-10-23 13:51:14', 1, '2024-10-24 19:04:07', 2, NULL, NULL),
 	(4, 'Petén', 'Calle Principal 3-21, Flores', '99887766', 'Flores, Petén', 1, '2024-10-23 13:51:14', 1, '2024-10-24 19:03:40', 2, NULL, NULL),
 	(5, 'Escuintla', 'Boulevard Centroamérica 5-67, Zona 2', '55443322', 'Escuintla', 1, '2024-10-23 13:51:14', 1, '2024-10-24 19:03:35', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.employee
-DROP TABLE IF EXISTS `employee`;
 CREATE TABLE IF NOT EXISTS `employee` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `position_id` int unsigned NOT NULL,
@@ -91,11 +88,11 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_employee_position` (`position_id`) USING BTREE,
   KEY `fk_employee_branch` (`branch_id`),
@@ -107,62 +104,61 @@ CREATE TABLE IF NOT EXISTS `employee` (
 DELETE FROM `employee`;
 INSERT INTO `employee` (`id`, `position_id`, `branch_id`, `first_name`, `last_name`, `phone`, `email`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, 1, 'Jose', 'Monroy', '12345678', 'jmonroy@gmail.com', 1, '2024-10-13 12:59:38', 1, '2024-10-24 18:29:07', 2, NULL, NULL),
-	(2, 1, 1, 'Henry', 'Rodríguez', '12345678', 'hrodriguez@gmail.com', 1, '2024-10-13 14:00:43', 1, '2024-10-26 00:07:20', 2, NULL, NULL),
+	(2, 1, 3, 'Henry', 'Rodríguez', '12345678', 'hrodriguez@gmail.com', 1, '2024-10-13 14:00:43', 1, '2024-10-27 11:16:28', 1, NULL, NULL),
 	(3, 1, 3, 'Dennys', 'Hernández', '12345678', 'dhernadez@gmail.com', 1, '2024-10-13 14:28:21', 1, '2024-10-26 00:07:34', 2, NULL, NULL),
-	(4, 1, 4, 'Jonatan', 'Torres', '12345678', 'jtorres@gmail.com', 1, '2024-10-13 14:49:13', 1, '2024-10-24 20:53:44', 2, NULL, NULL),
+	(4, 1, 1, 'Jonatan', 'Torres', '12345678', 'jtorres@gmail.com', 1, '2024-10-13 14:49:13', 1, '2024-10-27 11:16:11', 1, NULL, NULL),
 	(5, 3, 5, 'Wilmer', 'Contreras', '12345678', 'wcontreras@gmail.com', 1, '2024-10-21 14:01:12', 1, '2024-10-24 20:53:39', 2, NULL, NULL),
 	(6, 1, 1, 'Henry', 'Rodriguez', '54573864', 'hrodriguezhenry@gmail.com', 1, '2024-10-24 18:33:14', 2, '2024-10-24 18:33:21', 2, '2024-10-24 18:33:21', 2);
 
 -- Volcando estructura para tabla clinica.inventory
-DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `batch_id` int DEFAULT NULL,
   `branch_id` int unsigned NOT NULL,
   `quantity` int unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `unique_batch_id` (`batch_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.inventory: ~6 rows (aproximadamente)
 DELETE FROM `inventory`;
 INSERT INTO `inventory` (`id`, `batch_id`, `branch_id`, `quantity`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 1, 1, 25, '2024-10-24 21:30:48', 1, '2024-10-25 13:38:27', 2, NULL, NULL),
+	(1, 1, 1, 25, '2024-10-24 21:30:48', 1, '2024-10-27 20:27:52', 2, NULL, NULL),
 	(2, 2, 1, 30, '2024-10-24 21:30:48', 1, '2024-10-24 21:31:22', 1, NULL, NULL),
 	(3, 3, 1, 25, '2024-10-24 21:30:48', 1, '2024-10-24 21:31:10', 1, NULL, NULL),
 	(4, 4, 1, 12, '2024-10-24 21:30:48', 1, '2024-10-24 21:31:27', 1, NULL, NULL),
 	(5, 5, 1, 11, '2024-10-24 21:30:48', 1, '2024-10-24 21:31:31', 1, NULL, NULL),
-	(6, 6, 1, 20, '2024-10-24 21:30:48', 1, '2024-10-25 13:45:11', 2, NULL, NULL);
+	(6, 6, 1, 20, '2024-10-24 21:30:48', 1, '2024-10-25 13:45:11', 2, NULL, NULL),
+	(7, 7, 2, 30, '2024-10-29 17:06:47', 2, '2024-10-29 17:07:12', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.medicine
-DROP TABLE IF EXISTS `medicine`;
 CREATE TABLE IF NOT EXISTS `medicine` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `selling_price` decimal(10,2) NOT NULL,
+  `selling_price` decimal(10,2) unsigned NOT NULL,
   `brand` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `image_path` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.medicine: ~32 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.medicine: ~30 rows (aproximadamente)
 DELETE FROM `medicine`;
 INSERT INTO `medicine` (`id`, `name`, `description`, `selling_price`, `brand`, `image_path`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Paracetamol', 'Analgésico y antipirético', 2.50, 'Medissa', 'img/medicine/671daa29860b8_Paracetamol.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 20:49:13', 2, NULL, NULL),
+	(1, 'Paracetamol', 'Analgésico y antipirético', 2.50, 'Medissa', 'img/medicine/671daa29860b8_Paracetamol.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-27 20:18:34', 2, NULL, NULL),
 	(2, 'Ibuprofeno', 'Antiinflamatorio y analgésico', 6.00, 'Medissa', 'img/medicine/671daa365c67c_Ibuprofeno.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 20:49:26', 2, NULL, NULL),
 	(3, 'Omeprazol', 'Inhibidor de la bomba de protones', 8.50, 'Medissa', 'img/medicine/671da95286b0d_Omeprazol.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 20:45:38', 2, NULL, NULL),
 	(4, 'Amoxicilina', 'Antibiótico de amplio espectro', 9.75, 'Intergrup', 'img/medicine/671daaca4a717_Amoxicilina.png', 1, '2024-10-21 13:41:50', 1, '2024-10-26 20:51:54', 2, NULL, NULL),
@@ -175,7 +171,7 @@ INSERT INTO `medicine` (`id`, `name`, `description`, `selling_price`, `brand`, `
 	(11, 'Acetaminofén', 'Analgésico y antipirético', 2.95, 'Unipharm', 'img/medicine/671dac7557955_Acetaminofén.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 20:59:01', 2, NULL, NULL),
 	(12, 'Simvastatina', 'Reductor de colesterol', 10.50, 'Unipharm', 'img/medicine/671dacccbc25e_Simvastatina.png', 1, '2024-10-21 13:41:50', 1, '2024-10-26 21:00:28', 2, NULL, NULL),
 	(13, 'Diclofenaco', 'Antiinflamatorio y analgésico', 8.50, 'Vijosa', 'img/medicine/671dacd582a15_Diclofenaco.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 21:00:37', 2, NULL, NULL),
-	(14, 'Vitamina C', 'Suplemento vitamínico', 5.95, 'Vijosa', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
+	(14, 'Vitamina C', 'Suplemento vitamínico', 5.95, 'Vijosa', 'img/medicine/671eadc198153_Vitamina C.png', 1, '2024-10-21 13:41:50', 1, '2024-10-27 15:16:49', 2, NULL, NULL),
 	(15, 'Azitromicina', 'Antibiótico', 12.50, 'Vijosa', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
 	(16, 'Furosemida', 'Diurético', 6.75, 'Grupo Farma', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
 	(17, 'Clonazepam', 'Ansiolítico', 9.25, 'Grupo Farma', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
@@ -194,24 +190,23 @@ INSERT INTO `medicine` (`id`, `name`, `description`, `selling_price`, `brand`, `
 	(30, 'Metronidazol', 'Antibiótico y antiparasitario', 5.00, 'Mepro', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.module
-DROP TABLE IF EXISTS `module`;
 CREATE TABLE IF NOT EXISTS `module` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `order` int NOT NULL,
+  `order` int unsigned NOT NULL,
   `link` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `cud_operation` int NOT NULL DEFAULT '1',
+  `cud_operation` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `unique_link` (`link`),
   UNIQUE KEY `unique_order` (`order`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.module: ~10 rows (aproximadamente)
 DELETE FROM `module`;
@@ -226,10 +221,10 @@ INSERT INTO `module` (`id`, `name`, `order`, `link`, `icon`, `cud_operation`, `c
 	(8, 'Proveedores', 8, 'proveedor', 'bi bi-person-badge', 1, '2024-10-21 14:00:17', 1, '2024-10-22 21:58:01', 1, NULL, NULL),
 	(9, 'Lotes', 9, 'lote', 'bi bi-box-seam', 1, '2024-10-21 20:34:01', 1, '2024-10-22 18:04:13', 1, NULL, NULL),
 	(10, 'Sucursales', 10, 'sucursal', 'bi bi-geo-alt', 1, '2024-10-23 13:38:36', 1, '2024-10-26 14:32:36', 1, NULL, NULL),
-	(11, 'Habitaciones', 11, 'habitacion', 'bi bi-person-check-fill', 1, '2024-10-26 14:28:39', 1, '2024-10-26 14:32:05', 1, NULL, NULL);
+	(11, 'Habitaciones', 11, 'habitacion', 'bi bi-person-check-fill', 1, '2024-10-26 14:28:39', 1, '2024-10-26 14:32:05', 1, NULL, NULL),
+	(13, 'Ventas', 12, 'venta', 'bi bi-cart', 1, '2024-10-27 07:31:00', 1, '2024-10-27 07:31:56', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.patient
-DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -240,11 +235,11 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -259,7 +254,6 @@ INSERT INTO `patient` (`id`, `first_name`, `last_name`, `birth_date`, `gender`, 
 	(6, 'Maria', 'Hernández', '2022-10-07', 'Masculino', 'Guatemala', '58523698', 'pedro@gmail.com', '2024-10-10 19:18:28', 1, '2024-10-21 13:58:31', 1, '2024-10-12 15:16:02', 2);
 
 -- Volcando estructura para tabla clinica.permission
-DROP TABLE IF EXISTS `permission`;
 CREATE TABLE IF NOT EXISTS `permission` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int unsigned NOT NULL,
@@ -269,17 +263,17 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `update_operation` int unsigned NOT NULL DEFAULT '0',
   `delete_operation` int unsigned NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `fk_permission_role` (`role_id`),
   KEY `fk_permission_module` (`module_id`),
   CONSTRAINT `fk_permission_module` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_permission_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.permission: ~20 rows (aproximadamente)
 DELETE FROM `permission`;
@@ -304,21 +298,21 @@ INSERT INTO `permission` (`id`, `role_id`, `module_id`, `show_operation`, `creat
 	(18, 1, 6, 1, 1, 1, 1, '2024-10-21 19:51:49', 2, '2024-10-21 19:51:49', 2, NULL, NULL),
 	(19, 1, 9, 1, 1, 1, 1, '2024-10-21 20:34:32', 2, '2024-10-21 20:41:35', 2, NULL, NULL),
 	(20, 1, 10, 1, 1, 1, 1, '2024-10-23 13:38:48', 2, '2024-10-24 17:36:19', 2, NULL, NULL),
-	(21, 1, 11, 1, 1, 1, 1, '2024-10-26 15:07:11', 2, '2024-10-26 15:07:11', 2, NULL, NULL);
+	(21, 1, 11, 1, 1, 1, 1, '2024-10-26 15:07:11', 2, '2024-10-26 15:07:11', 2, NULL, NULL),
+	(22, 1, 13, 1, 1, 1, 1, '2024-10-27 07:32:21', 2, '2024-10-27 07:54:43', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.position
-DROP TABLE IF EXISTS `position`;
 CREATE TABLE IF NOT EXISTS `position` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -337,18 +331,17 @@ INSERT INTO `position` (`id`, `name`, `description`, `active`, `created_at`, `cr
 	(10, 'Técnico de Mantenimiento', 'Mantenimiento de equipos médicos', 1, '2024-10-21 13:56:45', 1, '2024-10-21 13:56:45', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.role
-DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -364,18 +357,17 @@ INSERT INTO `role` (`id`, `name`, `description`, `active`, `created_at`, `create
 	(7, 'Gerente Clínico', 'Supervisión de operaciones y reportes', 1, '2024-10-19 13:17:18', 2, '2024-10-21 20:38:15', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.room
-DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `branch_id` int unsigned NOT NULL,
   `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active` int unsigned NOT NULL DEFAULT (1),
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_room_branch` (`branch_id`),
   CONSTRAINT `fk_room_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON UPDATE CASCADE
@@ -384,56 +376,52 @@ CREATE TABLE IF NOT EXISTS `room` (
 -- Volcando datos para la tabla clinica.room: ~2 rows (aproximadamente)
 DELETE FROM `room`;
 INSERT INTO `room` (`id`, `branch_id`, `name`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 1, '001', 1, '2024-10-24 11:55:38', 1, '2024-10-26 15:54:12', 2, NULL, NULL),
+	(1, 1, '001', 1, '2024-10-24 11:55:38', 1, '2024-10-27 21:47:04', 2, NULL, NULL),
 	(2, 1, '002', 1, '2024-10-24 12:15:55', 1, '2024-10-24 12:15:55', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.sale
-DROP TABLE IF EXISTS `sale`;
 CREATE TABLE IF NOT EXISTS `sale` (
-  `id_sale` int NOT NULL AUTO_INCREMENT,
-  `sale_date` datetime NOT NULL DEFAULT (now()),
-  `total_amount` decimal(10,2) NOT NULL,
-  `id_branch` int DEFAULT NULL,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `branch_id` int unsigned NOT NULL,
+  `customer` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `sale_date` date NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
   `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id_sale`),
-  KEY `id_branch` (`id_branch`)
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `fk_sale_branch` (`branch_id`),
+  CONSTRAINT `fk_sale_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.sale: ~0 rows (aproximadamente)
 DELETE FROM `sale`;
 
 -- Volcando estructura para tabla clinica.sale_detail
-DROP TABLE IF EXISTS `sale_detail`;
 CREATE TABLE IF NOT EXISTS `sale_detail` (
-  `id_sale_detail` int NOT NULL AUTO_INCREMENT,
-  `id_sale` int DEFAULT NULL,
-  `id_medicine` int DEFAULT NULL,
-  `id_batch` int DEFAULT NULL,
-  `quantity` int NOT NULL,
-  `unit_price` decimal(10,2) NOT NULL,
-  `subtotal` decimal(10,2) GENERATED ALWAYS AS ((`quantity` * `unit_price`)) STORED,
-  `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `sale_id` int unsigned NOT NULL,
+  `medicine_id` int unsigned NOT NULL,
+  `selling_price` int unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
   `deleted_by` int DEFAULT NULL,
-  PRIMARY KEY (`id_sale_detail`),
-  KEY `id_sale` (`id_sale`),
-  KEY `id_medicine` (`id_medicine`),
-  CONSTRAINT `sale_detail_ibfk_1` FOREIGN KEY (`id_sale`) REFERENCES `sale` (`id_sale`)
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `fk_sale_detail_sale` (`sale_id`) USING BTREE,
+  KEY `fk_sale_detail_medicine` (`medicine_id`) USING BTREE,
+  CONSTRAINT `fk_sale_detail_medicine` FOREIGN KEY (`medicine_id`) REFERENCES `medicine` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_sale_detail_sale` FOREIGN KEY (`sale_id`) REFERENCES `sale` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.sale_detail: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.sale_detail: ~1 rows (aproximadamente)
 DELETE FROM `sale_detail`;
 
 -- Volcando estructura para tabla clinica.session_tokens
-DROP TABLE IF EXISTS `session_tokens`;
 CREATE TABLE IF NOT EXISTS `session_tokens` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
@@ -442,17 +430,17 @@ CREATE TABLE IF NOT EXISTS `session_tokens` (
   `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_session_tokens_user` (`user_id`),
   CONSTRAINT `fk_session_tokens_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=342 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.session_tokens: ~318 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.session_tokens: ~315 rows (aproximadamente)
 DELETE FROM `session_tokens`;
 INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_address`, `user_agent`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, '2757ca582a84bb1e24ed9e46d4a914220a0022a22e5ce2c8c7ee71b755d29687', '2024-09-25 15:07:01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', '2024-09-25 14:07:01', 1, '2024-10-03 13:36:28', 1, '2024-10-03 00:00:00', 1),
@@ -787,7 +775,7 @@ INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_addres
 	(330, 2, 'aa78ca9e32f313b9875f269576ce9ed4446128a744e6c78412e48598d4e62da9', '2024-10-26 00:46:48', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 00:04:15', 2, '2024-10-26 10:18:07', 2, '2024-10-26 00:00:00', 2),
 	(331, 2, '8c13aa301aecd519511b7bb857b03d03b5dcf6c01bc141ddbbf96759d3d4dbf6', '2024-10-26 11:29:15', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 10:18:07', 2, '2024-10-26 13:11:45', 2, '2024-10-26 00:00:00', 2),
 	(332, 2, '1368f3197f27f71462ea4a1e2efd71154af2bd816e55c596d65c6a75ed830d09', '2024-10-26 14:01:16', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 13:11:45', 2, '2024-10-26 15:07:00', 2, '2024-10-26 00:00:00', 2),
-	(333, 1, '0c7de06c95a95a57f92d4be8181a8237b7ec3fe80b303f8b62b025ab3a52d9a7', '2024-10-26 14:13:49', '::1', 'PostmanRuntime/7.42.0', '2024-10-26 13:43:44', 1, '2024-10-26 13:43:49', 1, NULL, NULL),
+	(333, 1, '0c7de06c95a95a57f92d4be8181a8237b7ec3fe80b303f8b62b025ab3a52d9a7', '2024-10-26 14:13:49', '::1', 'PostmanRuntime/7.42.0', '2024-10-26 13:43:44', 1, '2024-10-27 11:15:45', 1, '2024-10-27 00:00:00', 1),
 	(334, 2, 'fe8fd6dfc10b24fba0de6c48ad390439c50a8fb83f30a1ea594fbe71ee814bdc', '2024-10-26 15:39:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 15:07:00', 2, '2024-10-26 15:52:40', 2, '2024-10-26 00:00:00', 2),
 	(335, 2, 'e3863f4736c3989413622d4a1099d8859edff13d5ca8a57f5294c167af99293e', '2024-10-26 16:22:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 15:52:40', 2, '2024-10-26 15:52:40', 2, '2024-10-26 00:00:00', 2),
 	(336, 2, 'f7524df193a47147cd50b04bad2feac092fe4056c20bab566743ea5846ac8cfa', '2024-10-26 16:22:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 15:52:40', 2, '2024-10-26 15:52:55', 2, '2024-10-26 00:00:00', 2),
@@ -795,10 +783,31 @@ INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_addres
 	(338, 2, '29fbec149971ba8e56030911d4db0b975c04b5bf0d6011821b11d964dc08ac17', '2024-10-26 16:24:21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 15:53:49', 2, '2024-10-26 17:10:08', 2, '2024-10-26 00:00:00', 2),
 	(339, 2, 'b2c27c68549fa6faf9fb136e3f941d1a715926ea418e7af9d07f090472cf60a3', '2024-10-26 18:10:06', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 17:10:08', 2, '2024-10-26 19:33:13', 2, '2024-10-26 00:00:00', 2),
 	(340, 2, 'dc65a8ec8145d8e3d9a1cfcd128ae393ee17c1cc926189b8cb1d8ae36dd2a488', '2024-10-26 20:19:16', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 19:33:13', 2, '2024-10-26 20:44:45', 2, '2024-10-26 00:00:00', 2),
-	(341, 2, 'a208511b528a4d59da9b946040ef1e17e15db03da18ecb81f20a44a0e7902472', '2024-10-26 21:30:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 20:44:45', 2, '2024-10-26 21:00:37', 2, NULL, NULL);
+	(341, 2, 'a208511b528a4d59da9b946040ef1e17e15db03da18ecb81f20a44a0e7902472', '2024-10-26 21:35:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-26 20:44:45', 2, '2024-10-27 07:15:29', 2, '2024-10-27 00:00:00', 2),
+	(342, 2, 'd9cca4f17fa3adbd1a8111576da026033975a592b72ab3e17bf1fff5c781cbef', '2024-10-27 09:15:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 07:15:29', 2, '2024-10-27 09:43:44', 2, '2024-10-27 00:00:00', 2),
+	(343, 2, 'd90f782f1a1c514f584998a762b562eeb8e3c1dfe01dcac1c8f3140adb7d5d2d', '2024-10-27 11:43:14', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 09:43:44', 2, '2024-10-27 11:15:29', 2, '2024-10-27 00:00:00', 2),
+	(344, 2, 'bfb0d9d44bd028340a8c5141c1bd8bba38018e255e39b8110d42c0d7984f28ad', '2024-10-27 11:45:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 11:15:29', 2, '2024-10-27 11:15:38', 2, '2024-10-27 00:00:00', 2),
+	(345, 1, '42e2cce166a234fbd28da4a0afe6870da20a297a1e7d9615bc350117037f511b', '2024-10-27 11:46:28', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 11:15:45', 1, '2024-10-27 11:16:32', 1, '2024-10-27 00:00:00', 1),
+	(346, 2, '3e88bf650b4a6c0618e45e297c1194df7b5593744a795128082a0cf20bde6e03', '2024-10-27 13:19:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 11:16:36', 2, '2024-10-27 14:17:29', 2, '2024-10-27 00:00:00', 2),
+	(347, 2, '5b9ffb36239ea04a3d15c57cbbf273cdb6720b794773ad7e26be6fd03d0ca51e', '2024-10-27 17:34:05', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 14:17:29', 2, '2024-10-27 18:12:36', 2, '2024-10-27 00:00:00', 2),
+	(348, 2, 'd341f4e6ff7297adbd7e1055d51fc065a4e39981efd25b8c850dc2ef1dd45c84', '2024-10-27 21:28:45', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 18:12:36', 2, '2024-10-27 21:30:53', 2, '2024-10-27 00:00:00', 2),
+	(349, 1, 'a58e961c85c8f3cb21ec97b90e6312c94083e60815687b2f210663b5e78b6ca6', '2024-10-27 21:32:13', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 20:54:14', 1, '2024-10-27 23:40:19', 1, '2024-10-27 00:00:00', 1),
+	(350, 2, '80a884efd66d8dd6835bf31cde0f6205238726ee67e6770836b8586c534aa457', '2024-10-27 22:00:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 21:30:53', 2, '2024-10-27 21:30:53', 2, '2024-10-27 00:00:00', 2),
+	(351, 2, '028b3fda555e2edba128f6ef1177eb43f7dc6809df0d75987ec8d9779619a197', '2024-10-27 22:00:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 21:30:53', 2, '2024-10-27 21:31:19', 2, '2024-10-27 00:00:00', 2),
+	(352, 2, '4e65ba07250e95963463241f09d7b9405244a593fa59f387d8528a25143f1c75', '2024-10-28 00:51:32', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-27 21:31:19', 2, '2024-10-28 15:12:26', 2, '2024-10-28 00:00:00', 2),
+	(353, 1, '2d21be141d6526fa8005f42eeb92c59f0b5b4687811cc0c49a8d7ad17047116e', '2024-10-28 00:36:06', '::1', 'PostmanRuntime/7.42.0', '2024-10-27 23:40:19', 1, '2024-10-29 18:50:13', 1, '2024-10-29 00:00:00', 1),
+	(354, 2, 'd9ffb62c715822af47ad40d7ec45876c833b5d55cca1b53df1032a3d09369d28', '2024-10-28 15:42:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-28 15:12:26', 2, '2024-10-28 15:12:27', 2, '2024-10-28 00:00:00', 2),
+	(355, 2, '62b65876a0d6c7b6ad2cfe6343e81a134a9e95856a3ca235898ae998d52c1e2f', '2024-10-28 15:42:27', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-28 15:12:27', 2, '2024-10-28 15:12:40', 2, '2024-10-28 00:00:00', 2),
+	(356, 2, 'b0334c3333a944ef9fffff9ffb190561f53d5e311531010930d65a7b5c5b87b2', '2024-10-28 16:04:27', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-28 15:12:40', 2, '2024-10-28 19:58:56', 2, '2024-10-28 00:00:00', 2),
+	(357, 2, '18f1a86018f82f2213df9b19b5d21046cd1fec1100f31073acbf6c17752c9d2d', '2024-10-28 20:57:25', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-28 19:58:56', 2, '2024-10-28 22:21:28', 2, '2024-10-28 00:00:00', 2),
+	(358, 2, '5a1357adb1b83adf95aa78c04580a2d3fa1c907f3f6288981d9da1c4841d10a2', '2024-10-29 00:58:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-28 22:21:28', 2, '2024-10-29 17:01:16', 2, '2024-10-29 00:00:00', 2),
+	(359, 2, '036b875f7d8ecd4804e4d2d10fc9a55f3a63e54a1efbd6760936037b2528e465', '2024-10-29 17:44:53', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-29 17:01:16', 2, '2024-10-29 17:49:38', 2, '2024-10-29 00:00:00', 2),
+	(360, 2, 'cae0c904fddbc68ac2b7c6e0a86e7835dab8810935d4c1a053cfcce4bfbb2922', '2024-10-29 18:20:03', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-29 17:49:38', 2, '2024-10-29 19:00:36', 2, '2024-10-29 00:00:00', 2),
+	(361, 1, 'd890f05beb263f3b677111504a92f066ebdc80d86858b167cc14ddc7e95d03d9', '2024-10-29 19:58:35', '::1', 'PostmanRuntime/7.42.0', '2024-10-29 18:50:13', 1, '2024-10-29 20:54:42', 1, '2024-10-29 00:00:00', 1),
+	(362, 2, '0162c04337c4cda1f3db5be7d9dea2a9c347c9a6841ae37641c23450558acc3c', '2024-10-29 21:57:40', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-29 19:00:36', 2, '2024-10-29 21:27:40', 2, NULL, NULL),
+	(363, 1, 'e594988841978c63e7b1e0716a2adb9508db105fa21ff66734107f9e49a264dd', '2024-10-29 21:54:54', '::1', 'PostmanRuntime/7.42.0', '2024-10-29 20:54:42', 1, '2024-10-29 21:24:54', 1, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.supplier
-DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -808,18 +817,18 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.supplier: ~10 rows (aproximadamente)
 DELETE FROM `supplier`;
 INSERT INTO `supplier` (`id`, `name`, `description`, `email`, `phone`, `address`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 'Medissa', 'Medicamentos de calidad y eficiencia', 'contacto@medissa.com.gt', '22114567', '2 Calle 23-80, Zona 15', 1, '2024-10-21 13:34:57', 1, '2024-10-21 13:35:27', 1, NULL, NULL),
+	(1, 'Medissa', 'Medicamentos de calidad y eficiencia', 'contacto@medissa.com.gt', '22114567', '2 Calle 23-80, Zona 15', 1, '2024-10-21 13:34:57', 1, '2024-10-27 21:01:02', 1, NULL, NULL),
 	(2, 'Droguería Intergrup', 'Distribuidor de productos farmacéuticos', 'ventas@intergrupgt.com', '23097890', '10 Avenida 5-30, Zona 10', 1, '2024-10-21 13:34:57', 1, '2024-10-21 13:36:38', 1, NULL, NULL),
 	(3, 'Farmacéutica Lanquetin', 'Medicamentos genéricos y de marca', 'info@lanquetin.com.gt', '23108877', '5 Calle 18-42, Zona 4', 1, '2024-10-21 13:34:57', 1, '2024-10-21 13:36:39', 1, NULL, NULL),
 	(4, 'Unipharm', 'Productos farmacéuticos accesibles y seguros', 'contacto@unipharm.gt', '22440909', '15 Avenida 9-11, Zona 13', 1, '2024-10-21 13:34:57', 1, '2024-10-21 13:36:41', 1, NULL, NULL),
@@ -831,7 +840,6 @@ INSERT INTO `supplier` (`id`, `name`, `description`, `email`, `phone`, `address`
 	(10, 'Mepro Guatemala', 'Distribución de productos farmacéuticos', 'info@mepro.com.gt', '23894321', '16 Calle 9-18, Zona 5', 1, '2024-10-21 13:34:57', 1, '2024-10-22 17:43:35', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.user
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `role_id` int unsigned NOT NULL,
@@ -842,11 +850,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `active` int unsigned NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL DEFAULT (now()),
-  `created_by` int NOT NULL DEFAULT '1',
+  `created_by` int unsigned NOT NULL DEFAULT '1',
   `updated_at` datetime NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
-  `updated_by` int NOT NULL DEFAULT '1',
+  `updated_by` int unsigned NOT NULL DEFAULT '1',
   `deleted_at` datetime DEFAULT NULL,
-  `deleted_by` int DEFAULT NULL,
+  `deleted_by` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_username` (`username`) USING BTREE,
   KEY `fk_user_role` (`role_id`) USING BTREE,
