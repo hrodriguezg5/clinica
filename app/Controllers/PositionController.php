@@ -106,7 +106,7 @@ class PositionController extends Controllers {
             $decodedData = json_decode($json, true); 
     
             $id = isset($decodedData['id']) ? filter_var($decodedData['id'], FILTER_SANITIZE_NUMBER_INT) : null;
-            $position = $this->model->fileterPosition($id);
+            $position = $this->model->filterPosition($id);
     
             if ($position) {
                 $response = [
