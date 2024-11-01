@@ -1,5 +1,5 @@
 <?php
-class PositionModel{
+class ExamModel{
     private $db;
 
     public function __construct(){
@@ -10,35 +10,24 @@ class PositionModel{
         $this->db->closeConnection();
     }
 
-    public function getPositions(){
+    public function getExams(){
         $this->db->query(
-            "SELECT 
-                p.id,
-                p.name,
-                p.description,
-                p.active
-            FROM position p
-            WHERE p.deleted_at IS NULL;"
+            "SELECT e.id,
+                e.name,
+                e.description,
+                e.active
+            FROM exam AS e
+            WHERE e.deleted_at IS NULL;"
         );
 
         $row = $this->db->records();
         return $row;
     }
 
-    public function insertPosition($data){
+    public function insertExam($data){
         $this->db->query(
-            "INSERT INTO position 
-             (name, 
-              description, 
-              active, 
-              created_by,
-              updated_by)
-             VALUES
-             (:name, 
-              :description,
-              :active,
-			  :created_by,
-			  :updated_by);"
+            "INSERT INTO exam (name,  description,  active, created_by, updated_by)
+            VALUES (:name, :description, :active, :created_by, :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
@@ -54,10 +43,10 @@ class PositionModel{
         }
     }
 
-    public function updatePosition($data){
+    public function updateExam($data){
         $this->db->query(
-            "UPDATE position
-            SET NAME = :name,
+            "UPDATE exam
+            SET name = :name,
             description = :description,
             active = :active,
             updated_at = CURRENT_TIMESTAMP(),
@@ -77,9 +66,9 @@ class PositionModel{
         }
     }
 
-    public function deletePosition($data){
+    public function deleteExam($data){
         $this->db->query(
-            "UPDATE position
+            "UPDATE exam
             SET deleted_at = CURRENT_TIMESTAMP(),
             deleted_by = :deleted_by
             WHERE id = :id;"
@@ -95,18 +84,17 @@ class PositionModel{
         }
     }
 
-    public function filterPosition($id){
+    public function filterExam($id){
         $this->db->query(
-            "SELECT p.id,
-                    p.name,
-                    p.description,
-                    p.active
-                FROM position AS p
-                WHERE p.id = :id
-                AND p.deleted_at IS NULL;");
+            "SELECT e.id,
+                    e.name,
+                    e.description,
+                    e.active
+                FROM exam AS e
+                WHERE e.id = :id
+                AND e.deleted_at IS NULL;");
 
         $this->db->bind(':id', $id);
-
         $row = $this->db->record();
         return $row;
     }

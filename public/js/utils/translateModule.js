@@ -12,6 +12,7 @@ export function translateToEnglish (spanishModule){
         'sucursal': 'branch',
         'habitacion': 'room',
         'venta': 'sale',
+        'examen': 'exam',
     };
 
     return module[spanishModule] || spanishModule;

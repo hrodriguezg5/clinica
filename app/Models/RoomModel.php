@@ -16,6 +16,7 @@ class RoomModel{
             	r.name,
             	b.id AS branch_id,
             	b.`name` AS branch_name,
+            	r.capacity,
                 r.`active`
             FROM room AS r
             LEFT JOIN branch AS b
@@ -30,12 +31,13 @@ class RoomModel{
 
     public function insertRoom($data){
         $this->db->query(
-            "INSERT INTO room (name, branch_id, active, created_by, updated_by)
-            VALUES (:name, :branch_id, :active, :created_by, :updated_by);"
+            "INSERT INTO room (name, branch_id, capacity, active, created_by, updated_by)
+            VALUES (:name, :branch_id, :capacity, :active, :created_by, :updated_by);"
         );
 
         $this->db->bind(":name", $data["name"]);
         $this->db->bind(":branch_id", $data["branch_id"]);
+        $this->db->bind(":capacity", $data["capacity"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -52,6 +54,7 @@ class RoomModel{
             "UPDATE room
                 SET name = :name,
                 branch_id = :branch_id,
+                capacity = :capacity,
                 active = :active,
                 updated_at = CURRENT_TIMESTAMP(),
                 updated_by = :updated_by
@@ -60,6 +63,7 @@ class RoomModel{
 
         $this->db->bind(":id", $data["id"]);
         $this->db->bind(":name", $data["name"]);
+        $this->db->bind(":capacity", $data["capacity"]); 
         $this->db->bind(":branch_id", $data["branch_id"]);
         $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -94,6 +98,7 @@ class RoomModel{
             	r.name,
             	b.id AS branch_id,
             	b.`name` AS branch_name,
+            	r.capacity,
                 r.`active`
             FROM room AS r
             LEFT JOIN branch AS b

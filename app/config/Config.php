@@ -8,7 +8,7 @@ define("APP_ROUTE", dirname(dirname(__FILE__)));
 
 //Ruta URL
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-$basePath = rtrim(dirname(dirname(dirname($_SERVER['PHP_SELF']))), '/');
+$basePath = rtrim(dirname(dirname($_SERVER['PHP_SELF'])), '/');
 define('URL_ROUTE', $protocol . $_SERVER['HTTP_HOST'] . $basePath);
 
 //Nombre del sitio
