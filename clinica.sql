@@ -207,22 +207,22 @@ INSERT INTO `medicine` (`id`, `name`, `description`, `selling_price`, `brand`, `
 	(12, 'Simvastatina', 'Reductor de colesterol', 10.50, 'Unipharm', 'img/medicine/671dacccbc25e_Simvastatina.png', 1, '2024-10-21 13:41:50', 1, '2024-10-26 21:00:28', 2, NULL, NULL),
 	(13, 'Diclofenaco', 'Antiinflamatorio y analgésico', 8.50, 'Vijosa', 'img/medicine/671dacd582a15_Diclofenaco.webp', 1, '2024-10-21 13:41:50', 1, '2024-10-26 21:00:37', 2, NULL, NULL),
 	(14, 'Vitamina C', 'Suplemento vitamínico', 5.95, 'Vijosa', 'img/medicine/671eadc198153_Vitamina C.png', 1, '2024-10-21 13:41:50', 1, '2024-10-27 15:16:49', 2, NULL, NULL),
-	(15, 'Azitromicina', 'Antibiótico', 12.50, 'Vijosa', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(16, 'Furosemida', 'Diurético', 6.75, 'Grupo Farma', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(17, 'Clonazepam', 'Ansiolítico', 9.25, 'Grupo Farma', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(18, 'Prednisona', 'Corticosteroide', 9.80, 'Grupo Farma', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(19, 'Aspirina', 'Analgésico y antipirético', 2.50, 'Abbott', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(20, 'Enalapril', 'Antihipertensivo', 12.00, 'Abbott', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(21, 'Atorvastatina', 'Reductor de colesterol', 14.00, 'Abbott', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(22, 'Hidroxicloroquina', 'Antiinflamatorio y antimalárico', 9.50, 'Ancalmo', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(23, 'Levofloxacino', 'Antibiótico', 11.50, 'Ancalmo', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(24, 'Tramadol', 'Analgésico opioide', 6.75, 'Ancalmo', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(25, 'Propranolol', 'Antihipertensivo', 11.50, 'Laboratorios López', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(26, 'Dexametasona', 'Corticosteroide', 6.75, 'Laboratorios López', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(27, 'Fluconazol', 'Antifúngico', 8.00, 'Laboratorios López', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(28, 'Insulina Glargina', 'Tratamiento para la diabetes', 35.00, 'Mepro', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(29, 'Naproxeno', 'Antiinflamatorio y analgésico', 9.00, 'Mepro', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL),
-	(30, 'Metronidazol', 'Antibiótico y antiparasitario', 5.00, 'Mepro', NULL, 1, '2024-10-21 13:41:50', 1, '2024-10-21 13:41:50', 1, NULL, NULL);
+	(15, 'Azitromicina', 'Antibiótico', 12.50, 'Vijosa', 'img/medicine/6724f2df1f22e_Azitromicina.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:25:19', 2, NULL, NULL),
+	(16, 'Furosemida', 'Diurético', 6.75, 'Grupo Farma', 'img/medicine/6724f38192a32_Furosemida.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:01', 2, NULL, NULL),
+	(17, 'Clonazepam', 'Ansiolítico', 9.25, 'Grupo Farma', 'img/medicine/6724f38b9f4ed_Clonazepam.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:11', 2, NULL, NULL),
+	(18, 'Prednisona', 'Corticosteroide', 9.80, 'Grupo Farma', 'img/medicine/6724f3925cad1_Prednisona.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:18', 2, NULL, NULL),
+	(19, 'Aspirina', 'Analgésico y antipirético', 2.50, 'Abbott', 'img/medicine/6724f398be68f_Aspirina.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:24', 2, NULL, NULL),
+	(20, 'Enalapril', 'Antihipertensivo', 12.00, 'Abbott', 'img/medicine/6724f3a796b6b_Enalapril.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:39', 2, NULL, NULL),
+	(21, 'Atorvastatina', 'Reductor de colesterol', 14.00, 'Abbott', 'img/medicine/6724f3b00b133_Atorvastatina.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 09:28:48', 2, NULL, NULL),
+	(22, 'Hidroxicloroquina', 'Antiinflamatorio y antimalárico', 9.50, 'Ancalmo', 'img/medicine/672515fceead6_Hidroxicloroquina.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:55:08', 2, NULL, NULL),
+	(23, 'Levofloxacino', 'Antibiótico', 11.50, 'Ancalmo', 'img/medicine/67251612675be_Levofloxacino.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:55:30', 2, NULL, NULL),
+	(24, 'Tramadol', 'Analgésico opioide', 6.75, 'Ancalmo', 'img/medicine/6725169411a3d_Tramadol.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:57:40', 2, NULL, NULL),
+	(25, 'Propranolol', 'Antihipertensivo', 11.50, 'Laboratorios López', 'img/medicine/6725169bcb9d3_Propranolol.webp', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:57:47', 2, NULL, NULL),
+	(26, 'Dexametasona', 'Corticosteroide', 6.75, 'Laboratorios López', 'img/medicine/672516a65cc36_Dexametasona.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:57:58', 2, NULL, NULL),
+	(27, 'Fluconazol', 'Antifúngico', 8.00, 'Laboratorios López', 'img/medicine/672516ac9bb4c_Fluconazol.png', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:58:04', 2, NULL, NULL),
+	(28, 'Insulina Glargina', 'Tratamiento para la diabetes', 35.00, 'Mepro', 'img/medicine/672516b49980a_Insulina Glargina.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:58:12', 2, NULL, NULL),
+	(29, 'Naproxeno', 'Antiinflamatorio y analgésico', 9.00, 'Mepro', 'img/medicine/672516bc11147_Naproxeno.png', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:58:20', 2, NULL, NULL),
+	(30, 'Metronidazol', 'Antibiótico y antiparasitario', 5.00, 'Mepro', 'img/medicine/672516c395c05_Metronidazol.jpg', 1, '2024-10-21 13:41:50', 1, '2024-11-01 11:58:27', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.module
 DROP TABLE IF EXISTS `module`;
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   UNIQUE KEY `unique_order` (`order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.module: ~13 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.module: ~12 rows (aproximadamente)
 DELETE FROM `module`;
 INSERT INTO `module` (`id`, `name`, `order`, `link`, `icon`, `cud_operation`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 'Inicio', 1, 'inicio', 'bi bi-house-door', 0, '2024-10-05 15:11:37', 1, '2024-10-20 02:27:30', 1, NULL, NULL),
@@ -366,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `patient_history` (
   CONSTRAINT `fk_patient_history_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.patient_history: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.patient_history: ~0 rows (aproximadamente)
 DELETE FROM `patient_history`;
 INSERT INTO `patient_history` (`id`, `patient_id`, `employee_id`, `branch_id`, `notes`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, 2, 1, 'Consulta general, paciente con síntomas de gripe.', '2024-10-31 21:14:13', 1, '2024-10-31 21:14:13', 1, NULL, NULL),
@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
 -- Volcando datos para la tabla clinica.permission: ~22 rows (aproximadamente)
 DELETE FROM `permission`;
 INSERT INTO `permission` (`id`, `role_id`, `module_id`, `show_operation`, `create_operation`, `update_operation`, `delete_operation`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
-	(1, 1, 1, 1, 0, 0, 0, '2024-10-06 17:20:19', 2, '2024-10-21 09:26:12', 2, NULL, NULL),
+	(1, 1, 1, 1, 0, 0, 0, '2024-10-06 17:20:19', 2, '2024-11-01 10:21:05', 2, NULL, NULL),
 	(2, 1, 2, 1, 1, 1, 1, '2024-10-06 19:50:27', 2, '2024-10-21 09:26:12', 2, NULL, NULL),
 	(3, 1, 3, 1, 1, 1, 1, '2024-10-11 22:35:47', 2, '2024-10-21 09:26:12', 2, NULL, NULL),
 	(4, 1, 4, 1, 1, 1, 1, '2024-10-12 19:31:52', 2, '2024-10-21 09:28:12', 2, NULL, NULL),
@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `room` (
   CONSTRAINT `fk_room_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.room: ~4 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.room: ~2 rows (aproximadamente)
 DELETE FROM `room`;
 INSERT INTO `room` (`id`, `branch_id`, `name`, `capacity`, `active`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, '001', 5, 1, '2024-10-24 11:55:38', 1, '2024-10-31 21:56:27', 2, NULL, NULL),
@@ -555,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `sale` (
   CONSTRAINT `fk_sale_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.sale: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.sale: ~0 rows (aproximadamente)
 DELETE FROM `sale`;
 INSERT INTO `sale` (`id`, `branch_id`, `customer`, `sale_date`, `created_at`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, 'Juan Peréz', '2024-10-31', '2024-10-31 20:24:54', 2, '2024-10-31 20:24:54', 2, NULL, NULL);
@@ -580,7 +580,7 @@ CREATE TABLE IF NOT EXISTS `sale_detail` (
   CONSTRAINT `fk_sale_detail_sale` FOREIGN KEY (`sale_id`) REFERENCES `sale` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla clinica.sale_detail: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla clinica.sale_detail: ~0 rows (aproximadamente)
 DELETE FROM `sale_detail`;
 INSERT INTO `sale_detail` (`id`, `sale_id`, `medicine_id`, `selling_price`, `quantity`, `created_by`, `updated_at`, `updated_by`, `deleted_at`, `deleted_by`) VALUES
 	(1, 1, 1, 3, 10, 2, '2024-10-31 20:24:54', 2, NULL, NULL),
@@ -604,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `session_tokens` (
   PRIMARY KEY (`id`),
   KEY `fk_session_tokens_user` (`user_id`),
   CONSTRAINT `fk_session_tokens_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=372 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=373 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Volcando datos para la tabla clinica.session_tokens: ~362 rows (aproximadamente)
 DELETE FROM `session_tokens`;
@@ -979,7 +979,8 @@ INSERT INTO `session_tokens` (`id`, `user_id`, `token`, `expires_at`, `ip_addres
 	(368, 2, '79d5863f3f60f27822b17cb810912df23ce514d10f2095b8c1bcd0daefe6c946', '2024-10-30 20:15:18', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-30 19:45:15', 2, '2024-10-31 20:05:20', 2, '2024-10-31 00:00:00', 2),
 	(369, 2, '16f7e6072449719ef5622f16c59406d7ac6b171455fd87d27835dae10fcf0938', '2024-10-31 20:35:20', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-31 20:05:20', 2, '2024-10-31 21:39:18', 2, '2024-10-31 00:00:00', 2),
 	(370, 2, '4e7a790e90ad8753c43e1fcac946c1466e9130755bf4b8342378d40956c7a413', '2024-10-31 21:26:26', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-31 20:05:20', 2, '2024-10-31 21:39:18', 2, '2024-10-31 00:00:00', 2),
-	(371, 2, 'da43a2d59a37ec2732e27113f3d5a7214dca461eceabc9ba4de1f637205528e4', '2024-10-31 23:37:49', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-31 21:39:18', 2, '2024-10-31 23:07:49', 2, NULL, NULL);
+	(371, 2, 'da43a2d59a37ec2732e27113f3d5a7214dca461eceabc9ba4de1f637205528e4', '2024-10-31 23:50:19', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-10-31 21:39:18', 2, '2024-11-01 09:24:20', 2, '2024-11-01 00:00:00', 2),
+	(372, 2, '90cc23deacce2d3fb20652b21b24c5ba2baf7c338b5ac14befd818dd7460c250', '2024-11-01 12:28:41', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', '2024-11-01 09:24:20', 2, '2024-11-01 11:58:41', 2, NULL, NULL);
 
 -- Volcando estructura para tabla clinica.supplier
 DROP TABLE IF EXISTS `supplier`;
