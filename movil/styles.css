@@ -1,0 +1,21 @@
+/* Estilos para el modal de detalle de producto */
+.modal-title {
+    font-weight: bold;
+}
+
+#productPrice {
+    font-size: 1.5rem;
+    color: #28a745;
+}
+
+#productImage {
+    border-radius: 5px;
+    max-height: 250px;
+}
+
+@media (max-width: 768px) {
+    #productImage {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+}
