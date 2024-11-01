@@ -34,17 +34,12 @@ export async function initModule(data, module) {
                 <button type="button" class="btn btn-primary fw-bold btn-insert" data-bs-toggle="modal" data-bs-target="#insertModal">Agregar</button>
             </div>
         `;
-
-        const insertModal = document.getElementById('insertModal');
-        insertModal.addEventListener('show.bs.modal', () => {
-            populateSelect('insModBranch', 'sucursal');
-        });
-
     } else {
         addButton.innerHTML = ''; // Si no hay permisos, limpiar el contenedor
     }
 
     if (hasActions) {
+        // Verificar si ya existe la columna "Acción" para evitar duplicados
         if (!document.querySelector('th.action-column')) {
             const actionHeader = document.createElement('th');
             actionHeader.scope = 'col';
@@ -55,7 +50,7 @@ export async function initModule(data, module) {
     }
 
     response.forEach(item => {
-        const dataInfo = JSON.stringify({room_id: item.id}).replace(/"/g, '&quot;');
+        const dataInfo = JSON.stringify({exam_id: item.id}).replace(/"/g, '&quot;');
         const status = item.active ? 'Activo' : 'Inactivo';
         const alertType = item.active ? 'success' : 'danger';
 
@@ -69,11 +64,11 @@ export async function initModule(data, module) {
             actionButtons += createButton('btn-danger btn-delete', 'Borrar', dataInfo, 'deleteModal', 'bi bi-trash-fill');
         }
 
+        // Si existen acciones permitidas, agregamos el <td> de acciones
         rows += `
             <tr>
                 <td>${item.name}</td>
-                <td class="${item.branch_name ? '' : 'text-danger'}">${item.branch_name}</td>
-                <td>${item.capacity}</td>
+                <td>${item.description}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -85,52 +80,27 @@ export async function initModule(data, module) {
     assignSearchEvent('searchInput', 'tableBody', [0, 1, 2]);
 
     if (hasActions) {
-        assignModalEvent('.btn-update', updateModal);
-        assignModalEvent('.btn-delete', deleteModal);
+        assignModalEvent('.btn-update', updateModal, currentModule);
+        assignModalEvent('.btn-delete', deleteModal, currentModule);
     }
 
-    assignFormSubmitEvent('insertForm', insertFormSubmit);
-    assignFormSubmitEvent('updateForm', updateFormSubmit);
-    assignFormSubmitEvent('deleteForm', deleteFormSubmit);
+    assignFormSubmitEvent('insertForm', insertFormSubmit, currentModule);
+    assignFormSubmitEvent('updateForm', updateFormSubmit, currentModule);
+    assignFormSubmitEvent('deleteForm', deleteFormSubmit, currentModule);
 
     resetModal('insertModal', 'insertForm');
 }
 
-const populateSelect = async (selectId, module) =>  {
-    const select = document.getElementById(selectId);
-    const newSelect = select.outerHTML;
-    select.outerHTML = newSelect;
-
-    const newSelectElement = document.getElementById(selectId);
-    newSelectElement.innerHTML = '';
-    
-    try {
-        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
-        options.forEach(item => {
-            if (item.active === 1) {
-                const option = document.createElement('option');
-                option.value = item.id;
-                option.textContent = item.name;
-                newSelectElement.appendChild(option);
-            }
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;
-
     const formData = () => ({
         name: document.getElementById('insModName').value || '',
-        branch_id: Number(document.getElementById('insModBranch').value) || null,
-        capacity: Number(document.getElementById('insModCapacity').value) || null,
+        description: document.getElementById('insModDescription').value || '',
         active: Number(document.getElementById('insModStatus').value),
         created_by: currentData.user_id || null,
         updated_by: currentData.user_id || null
     });
-    
+
     try {
         await apiService.fetchData(url, 'POST', formData());
         showAlert("Operación exitosa.", 'success');
@@ -146,39 +116,29 @@ const insertFormSubmit = async () => {
 const updateModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.room_id;
-    
-    await populateSelect('updModBranch', 'sucursal');
+    const id = data.exam_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
-        const branchSelect = document.getElementById('updModBranch');
-        const branchOption = Array.from(branchSelect.options).find(option => option.text === response.branch_name);
-        
         document.getElementById('updateForm').setAttribute('data-info', dataInfo);
         document.getElementById('updModName').value = response.name || '';
-        document.getElementById('updModBranch').value = branchOption ? branchOption.value : '';
-        document.getElementById('updModCapacity').value = response.capacity || null;
+        document.getElementById('updModDescription').innerText = response.description || '';
         document.getElementById('updModStatus').value = response.active.toString() || '';
     } catch (error) {
         console.error('Error:', error);
     }
-
-    resetModal('updateModal', 'updateForm');
 };
-
 
 const updateFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/actualizar`;
     const dataInfo = JSON.parse(document.getElementById('updateForm').getAttribute('data-info'));
-    
+
     const formData = () => ({
         name: document.getElementById('updModName').value || '',
-        branch_id: Number(document.getElementById('updModBranch').value) || null,
-        capacity: Number(document.getElementById('updModCapacity').value) || null,
+        description: document.getElementById('updModDescription').value || '',
         active: Number(document.getElementById('updModStatus').value),
         updated_by: currentData.user_id || null,
-        id: dataInfo.room_id || null,
+        id: dataInfo.exam_id || null
     });
     
     try {
@@ -196,16 +156,14 @@ const updateFormSubmit = async () => {
 const deleteModal = async (data) => {
     const url = `${urlBase}/${currentModule}/filtrar`;
     const dataInfo = JSON.stringify(data);
-    const id = data.room_id;
+    const id = data.exam_id;
     
     try {
         const response = await apiService.fetchData(url, 'POST', { id });
         const status = response.active ? 'Activo' : 'Inactivo';
-
         document.getElementById('deleteForm').setAttribute('data-info', dataInfo);
         document.getElementById('delModName').innerText = response.name || '';
-        document.getElementById('delModBranch').innerText = response.branch_name || '';
-        document.getElementById('delModCapacity').innerText = response.capacity || null;
+        document.getElementById('delModDescription').innerText = response.description || '';
         document.getElementById('delModStatus').innerText = status || '';
     } catch (error) {
         console.error('Error:', error);
@@ -218,7 +176,7 @@ const deleteFormSubmit = async () => {
 
     const formData = () => ({
         deleted_by: currentData.user_id || null,
-        id: dataInfo.room_id || null
+        id: dataInfo.exam_id || null
     });
 
     try {
