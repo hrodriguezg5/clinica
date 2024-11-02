@@ -1,6 +1,6 @@
 // URL de la API y clave API
 const API_URL = 'http://localhost/clinica/medicina/mostrar';
-const API_KEY = 'alk724#$.sd'; // Reemplaza con tu API Key
+const API_KEY = '22535582'; // Reemplaza con tu API Key
 
 // Constante para almacenar productos
 let products = [];
