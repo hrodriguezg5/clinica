@@ -69,5 +69,19 @@ function showProductModal(index) {
     modal.show();
 }
 
+function filterProducts(){
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const filterProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchInput)
+    );
+
+    displayFilteredProducts(filterProducts);
+
+}
+
+function displayFilteredProducts(filterProducts) {
+    
+}
+
 // Llama a la función para cargar productos al cargar la página
 loadProducts();
