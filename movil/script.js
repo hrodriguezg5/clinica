@@ -69,5 +69,42 @@ function showProductModal(index) {
     modal.show();
 }
 
+
+// Función para filtrar productos según la búsqueda
+function filterProducts() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchInput)
+    );
+
+    displayFilteredProducts(filteredProducts);
+}
+
+// Función para mostrar los productos filtrados en tarjetas
+function displayFilteredProducts(filteredProducts) {
+    const productContainer = document.querySelector('.container .row');
+    productContainer.innerHTML = ''; // Limpia el contenido existente
+
+    filteredProducts.forEach((product, index) => {
+        // Crea el HTML de cada tarjeta
+        const productCard = `
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}" onclick="showProductModal(${index})" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <button type="button" class="btn btn-primary" onclick="showProductModal(${index})">Ver Detalle</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        productContainer.insertAdjacentHTML('beforeend', productCard);
+    });
+}
+
 // Llama a la función para cargar productos al cargar la página
 loadProducts();
+
+// Añadir un evento para filtrar productos cuando el usuario escribe en el campo de búsqueda
+document.getElementById('searchInput').addEventListener('input', filterProducts);
