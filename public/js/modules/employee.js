@@ -40,7 +40,6 @@ export async function initModule(data, module) {
             populateSelect('insModPosition', 'posicion');
             populateSelect('insModBranch', 'sucursal');
         });
-
     } else {
         addButton.innerHTML = ''; // Si no hay permisos, limpiar el contenedor
     }

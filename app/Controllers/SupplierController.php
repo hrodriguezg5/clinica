@@ -59,10 +59,7 @@ class SupplierController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) {
-                
-                return;
-            }
+            if (!$this->authMiddleware->validateToken()) return;
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');

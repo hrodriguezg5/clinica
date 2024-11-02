@@ -24,7 +24,8 @@ class EmployeeController extends Controllers {
                         'position_id' =>$employee->position_id,
                         'position' =>$employee->position,
                         'branch_id' =>$employee->branch_id,
-                        'branch' =>$employee->branch
+                        'branch' =>$employee->branch,
+                        'patient_care' =>$employee->patient_care
                     ];
                 
                 }   
@@ -131,7 +132,8 @@ class EmployeeController extends Controllers {
                     'position_id' =>$employee->position_id,
                     'position' =>$employee->position,
                     'branch_id' =>$employee->branch_id,
-                    'branch' =>$employee->branch
+                    'branch' =>$employee->branch,
+                    'patient_care' =>$employee->patient_care
                 ];
                 
                 $this->jsonResponse($response);                
