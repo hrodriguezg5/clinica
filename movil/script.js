@@ -24,6 +24,8 @@ async function loadProducts() {
             name: item.name,
             description: item.description,
             price: `Q${item.selling_price}`,
+            brand: item.brand,
+            quantity: item.quantity,
             imageUrl: `http://localhost/clinica/${item.image_path}`
         }));
 
@@ -40,12 +42,18 @@ function displayProducts() {
 
     products.forEach((product, index) => {
         // Crea el HTML de cada tarjeta
+
+        const availabilityBadge = product.quantity > 0
+            ? `<span class="badge available">Disponible</span>`
+            : `<span class="badge out-of-stock">Agotado</span>`;
+
         const productCard = `
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card position-relative">
                     <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}" onclick="showProductModal(${index})" style="cursor:pointer;">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
+                        ${availabilityBadge}
                         <button type="button" class="btn btn-primary" onclick="showProductModal(${index})">Ver Detalle</button>
                     </div>
                 </div>
@@ -60,8 +68,10 @@ function displayProducts() {
 function showProductModal(index) {
     const product = products[index];
     document.getElementById("productName").textContent = product.name;
-    document.getElementById("productDescription").textContent = product.description;
-    document.getElementById("productPrice").textContent = product.price;
+    document.getElementById("productDescription").textContent = `Descripción: ${product.description}`;
+    document.getElementById("productPrice").textContent = `Precio ${product.price}`;
+    document.getElementById("productBrand").textContent = `Marca: ${product.brand}`;
+    document.getElementById("productQuantity").textContent = `Stock: ${product.quantity}`;
     document.getElementById("productImage").src = product.imageUrl;
 
     // Abrir el modal
@@ -84,6 +94,9 @@ function displayFilteredProducts(filterProducts) {
     productContainer.innerHTML = '';
 
     filterProducts.forEach((product, index) => {
+        const availabilityBadge = product.quantity > 0
+            ? `<span class="badge available">Disponible</span>`
+            : `<span class="badge out-of-stock">Agotado</span>`;
         
         const productCard = `
             <div class="col-md-4 mb-4">
@@ -91,6 +104,7 @@ function displayFilteredProducts(filterProducts) {
                     <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}" onclick="showProductModal(${index})" style="cursor:pointer;">
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
+                        ${availabilityBadge}
                         <button type="button" class="btn btn-primary" onclick="showProductModal(${index})">Ver Detalle</button>
                     </div>
                 </div>

@@ -37,7 +37,7 @@
 
 header {
     position: fixed;
-    top: 0;
+    top: -20px;
     left: 0;
     right: 0;
     background-color: #f8f9fa;
@@ -47,9 +47,47 @@ header {
 }
 
 body {
-    padding-top: 80px;
+    padding-top: 60px;
 }
 
 .container.my-5 {
     margin-top: 20px;
+}
+
+.card {
+    height: 300px; /* Ajusta la altura según sea necesario */
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos dentro se apilen verticalmente */
+}
+
+.card img {
+    max-height: 150px; /* Ajusta la altura máxima de la imagen */
+    width: 100%;
+    object-fit: contain;
+}
+
+.card-body {
+    flex-grow: 1; /* Asegura que el cuerpo de la tarjeta ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacia los elementos en la tarjeta */
+}
+
+/* Nuevos estilos para la bandera de disponibilidad */
+.badge {
+    position: absolute; /* Posiciona la bandera dentro del contenedor de la tarjeta */
+    top: 10px; /* Ajusta según sea necesario */
+    right: 10px; /* Ajusta para que quede a la derecha */
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: white; /* Texto blanco para mejor contraste */
+}
+
+.available {
+    background-color: green; /* Color verde para disponibilidad */
+}
+
+.out-of-stock {
+    background-color: red; /* Color rojo para agotado */
 }
