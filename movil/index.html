@@ -10,7 +10,8 @@
 <body>
     <header class="container d-flex justify-content-between align-items-center my-3">
         <img src="../movil/img/logo.png" alt="Logo" class="logo" style="height: 50px;">
-        <input type="text" id="searchInput" class="form-control custom-input mb-4" placeholder="Buscar productos">
+        <h2 class="text-center mt-4">Productos disponibles</h2>
+        <input type="text" id="searchInput" class="form-control custom-input mb-0" placeholder="Buscar productos" style="width: 300px;">
     </header>
     <div class="container my-5">
         <div class="row">
@@ -33,14 +34,16 @@
                         </div>
                         <div class="col-12 col-md-7">
                             <h2 id="productName">Nombre del Producto</h2>
+                            
                             <p id="productDescription">Descripción detallada del producto.</p>
+                            <p id="productBrand">Marca</p>
+                            <p id="productQuantity">Cantidad disponible</p>
                             <h4 class="text-success" id="productPrice">$0.00</h4>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Agregar al Carrito</button>
                 </div>
             </div>
         </div>
