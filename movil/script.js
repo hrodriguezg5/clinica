@@ -23,7 +23,7 @@ async function loadProducts() {
         products = data.map(item => ({
             name: item.name,
             description: item.description,
-            price: `$${item.selling_price}`,
+            price: `Q${item.selling_price}`,
             imageUrl: `http://localhost/clinica/${item.image_path}`
         }));
 
