@@ -1,0 +1,55 @@
+/* Estilos para el modal de detalle de producto */
+.modal-title {
+    font-weight: bold;
+}
+
+#productPrice {
+    font-size: 1.5rem;
+    color: #28a745;
+}
+
+#productImage {
+    border-radius: 5px;
+    max-height: 250px;
+}
+
+@media (max-width: 768px) {
+    #productImage {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+.custom-input {
+    width: 300px;
+}
+
+@media (max-width: 768px) {
+    .custom-input {
+        width: 50%;
+    }
+}
+
+.logo {
+    margin: 15px;
+    align-self: center;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    padding: 2px 20px;
+    border-bottom: 1px solid #dee2e6;
+    z-index: 1000;
+}
+
+body {
+    padding-top: 80px;
+}
+
+.container.my-5 {
+    margin-top: 20px;
+}
