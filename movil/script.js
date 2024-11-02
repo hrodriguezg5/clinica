@@ -80,8 +80,29 @@ function filterProducts(){
 }
 
 function displayFilteredProducts(filterProducts) {
-    
+    const productContainer = document.querySelector('.container .row');
+    productContainer.innerHTML = '';
+
+    filterProducts.forEach((product, index) => {
+        
+        const productCard = `
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}" onclick="showProductModal(${index})" style="cursor:pointer;">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <button type="button" class="btn btn-primary" onclick="showProductModal(${index})">Ver Detalle</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        productContainer.insertAdjacentHTML('beforeend', productCard);
+    });
 }
 
 // Llama a la función para cargar productos al cargar la página
 loadProducts();
+
+//activa el evento del filtro
+document.getElementById('searchInput').addEventListener('input', filterProducts);
