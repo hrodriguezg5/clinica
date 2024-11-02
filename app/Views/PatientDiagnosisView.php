@@ -100,11 +100,17 @@
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModExams" class="form-label mb-0">Exámenes</label>
-                                            <input type="text" class="form-control" id="updModExams" maxlength="50" required>
+                                            <div class="dropdown">
+                                                <button class="form-control dropdown-toggle" type="button" id="updModExams" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Seleccione opciones
+                                                </button>
+                                                <ul class="dropdown-menu w-100" aria-labelledby="updModExams">
+                                                </ul>
+                                            </div>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
                                             <label for="updModTreatmentPlan" class="form-label mb-0">Tratamiento</label>
-                                            <input type="text" class="form-control" id="updModTreatmentPlan" maxlength="50" required>
+                                            <input type="text" class="form-control" id="updModTreatmentPlan" maxlength="50">
                                         </div>
                                     </div>
                                 </form>
