@@ -1,31 +1,36 @@
 <?php
-class PatientHistoryController extends Controllers {
+class PatientDiagnosisController extends Controllers {
     public function __construct() {
         parent::__construct();
     }
     
     public function index() {
-        $this->view("PatientHistoryView");
+        $this->view("PatientDiagnosisView");
     }
 
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if (!$this->authMiddleware->validateToken()) return;
-            $histories = $this->model->getPatientHistory();
+            $patientDiagnoses = $this->model->getPatientDiagnoses();
         
-            if ($histories) {
-                foreach ($histories as $history){
+            if ($patientDiagnoses) {
+                foreach ($patientDiagnoses as $patientDiagnosis){
                     $response[] = [
-                        'id' => $history->id,
-                        'name_patient' =>$history->name_patient,
-                        'visit_date' =>$history->visit_date,
-                        'name_employee' =>$history->name_employee,
-                        'potition' =>$history->potition,
-                        'notes' =>$history->notes,
-                        'created_at' => $history->created_at
+                        'id' => $patientDiagnosis->id,
+                        'patient_id' =>$patientDiagnosis->patient_id,
+                        'patient_name' =>$patientDiagnosis->patient_name,
+                        'employee_id' =>$patientDiagnosis->employee_id,
+                        'employee_name' =>$patientDiagnosis->employee_name,
+                        'branch_id' =>$patientDiagnosis->branch_id,
+                        'branch_name' => $patientDiagnosis->branch_name,
+                        'visit_date' => $patientDiagnosis->visit_date,
+                        'diagnosis' => $patientDiagnosis->diagnosis,
+                        'exams_id' => $patientDiagnosis->exams_id,
+                        'exams' => $patientDiagnosis->exams,
+                        'treatment_plan' => $patientDiagnosis->treatment_plan
                     ];
-                
-                }   
+                }
+
                 $this->jsonResponse($response);
             }
         }
@@ -57,10 +62,7 @@ class PatientHistoryController extends Controllers {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!$this->authMiddleware->validateToken()) {
-                
-                return;
-            }
+            if (!$this->authMiddleware->validateToken()) return;
             
             // Obtener el contenido de la solicitud y decodificar el JSON
             $json = file_get_contents('php://input');

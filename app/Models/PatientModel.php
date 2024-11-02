@@ -13,12 +13,13 @@ class PatientModel{
     public function getPatients(){
         $this->db->query(
             "SELECT p.id,
-                CONCAT(p.first_name, ' ', p.last_name) AS full_name,
+                CONCAT(p.first_name, ' ', p.last_name) AS name,
                 p.birth_date,
                 p.gender,
                 p.address,
                 p.phone,
-                p.email
+                p.email,
+                p.active
             FROM patient AS p
             WHERE p.deleted_at IS NULL;"
         );
@@ -29,8 +30,8 @@ class PatientModel{
 
     public function insertPatient($data){
         $this->db->query(
-            "INSERT INTO patient (first_name, last_name, birth_date, gender, address, phone, email, created_by, updated_by)
-             VALUES (:first_name, :last_name, :birth_date, :gender, :address, :phone, :email, :created_by, :updated_by);"
+            "INSERT INTO patient (first_name, last_name, birth_date, gender, address, phone, email, active, created_by, updated_by)
+             VALUES (:first_name, :last_name, :birth_date, :gender, :address, :phone, :email, :active, :created_by, :updated_by);"
         );
 
         $this->db->bind(":first_name", $data["first_name"]);
@@ -40,6 +41,7 @@ class PatientModel{
         $this->db->bind(":address", $data["address"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         
@@ -60,6 +62,7 @@ class PatientModel{
             address = :address,
             phone = :phone,
             email = :email,
+            active = :active,
             updated_at = CURRENT_TIMESTAMP(),
             updated_by = :updated_by
             WHERE id = :id;"
@@ -73,6 +76,7 @@ class PatientModel{
         $this->db->bind(":address", $data["address"]);
         $this->db->bind(":phone", $data["phone"]);
         $this->db->bind(":email", $data["email"]);
+        $this->db->bind(":active", $data["active"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -108,7 +112,8 @@ class PatientModel{
                 p.gender,
                 p.address,
                 p.phone,
-                p.email
+                p.email,
+                p.active
             FROM patient AS p
             WHERE p.id = :id
             AND p.deleted_at IS NULL;"
