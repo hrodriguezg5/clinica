@@ -21,7 +21,8 @@ class EmployeeModel{
                 p.id AS position_id,
                 p.name AS position,
                 b.id AS branch_id,
-                b.name AS branch
+                b.name AS branch,
+                p.patient_care
             FROM employee AS e
             LEFT JOIN position AS p
             ON p.id = e.position_id
@@ -118,7 +119,8 @@ class EmployeeModel{
                 p.id AS position_id,
                 p.name AS position,
                 b.id AS branch_id,
-                b.name AS branch
+                b.name AS branch,
+                p.patient_care
             FROM employee AS e
             LEFT JOIN position AS p
             ON p.id = e.position_id

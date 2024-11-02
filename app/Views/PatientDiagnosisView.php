@@ -1,12 +1,12 @@
 <?php require_once APP_ROUTE."/Views/Template/Header.php"; ?>
             <!-- Contenido de la Página Inicio -->
             <div id="content">
-                <!-- Modal de Insertar Paciente Inicio -->
+                <!-- Modal de Insertar Diagnóstico Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Agregar Diagnóstico</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -14,43 +14,41 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="insModFirstName" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="insModLastName" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="insModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModGender" class="form-label mb-0">Género</label>
-                                            <select name="insModGender" class="form-control form-select" id="insModGender" required>
-                                                <option>Masculino</option>
-                                                <option>Femenino</option>
-                                                <option>Otro</option>
+                                            <label for="insModPatient" class="form-label mb-0">Paciente</label>
+                                            <select name="insModPatient" class="form-control form-select" id="insModPatient" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="insModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="insModPhone" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control" id="insModBirthDate" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="insModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="insModStatus" class="form-control form-select" id="insModStatus" required>
-                                                <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>
+                                            <label for="insModDoctor" class="form-label mb-0">Doctor</label>
+                                            <select name="insModDoctor" class="form-control form-select" id="insModDoctor" required>
                                             </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="insModBranch" class="form-control form-select" id="insModBranch" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModVisitDate" class="form-label mb-0">Fecha de Visita</label>
+                                            <input type="date" class="form-control" id="insModVisitDate" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModDiagnosis" class="form-label mb-0">Diagnóstico</label>
+                                            <input type="text" class="form-control" id="insModDiagnosis" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModExams" class="form-label mb-0">Exámenes</label>
+                                            <div class="dropdown">
+                                                <button class="form-control dropdown-toggle" type="button" id="insModExams" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Seleccione opciones
+                                                </button>
+                                                <ul class="dropdown-menu w-100" aria-labelledby="insModExams">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="insModTreatmentPlan" class="form-label mb-0">Tratamiento</label>
+                                            <input type="text" class="form-control" id="insModTreatmentPlan" maxlength="50">
                                         </div>
                                     </div>
                                 </form>
@@ -62,15 +60,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Insertar Paciente Fin -->
+                <!-- Modal de Insertar Diagnóstico Fin -->
 
 
-                <!-- Modal de Actualizar Paciente Inicio -->
+                <!-- Modal de Actualizar Diagnóstico Inicio -->
                 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="updateTitle">Actualizar Diagnóstico</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -78,47 +76,35 @@
 
                                     <div class="row">
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPatientCode" class="form-label mb-0">Código</label>
-                                            <input type="text" class="form-control" id="updModPatientCode" maxlength="50" disabled>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModFirstName" class="form-label mb-0">Nombre</label>
-                                            <input type="text" class="form-control" id="updModFirstName" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModLastName" class="form-label mb-0">Apellido</label>
-                                            <input type="text" class="form-control" id="updModLastName" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModEmail" class="form-label mb-0">Correo</label>
-                                            <input type="email" class="form-control" id="updModEmail" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModGender" class="form-label mb-0">Género</label>
-                                            <select name="updModGender" class="form-control form-select" id="updModGender" required>
-                                                <option>Masculino</option>
-                                                <option>Femenino</option>
-                                                <option>Otro</option>
+                                            <label for="updModPatient" class="form-label mb-0">Paciente</label>
+                                            <select name="updModPatient" class="form-control form-select" id="updModPatient" required>
                                             </select>
                                         </div>
                                         <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModAddress" class="form-label mb-0">Dirección</label>
-                                            <input type="text" class="form-control" id="updModAddress" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModPhone" class="form-label mb-0">Teléfono</label>
-                                            <input type="tel" class="form-control" id="updModPhone" pattern="[0-9]{8}" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModBirthDate" class="form-label mb-0">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control" id="updModBirthDate" maxlength="50" required>
-                                        </div>
-                                        <div class="mb-2 mb-sm-3 px-4">
-                                            <label for="updModStatus" class="form-label mb-0">Estado</label>
-                                            <select name="updModStatus" class="form-control form-select" id="updModStatus" required>
-                                                <option value="1">Activo</option>
-                                                <option value="0">Inactivo</option>
+                                            <label for="updModDoctor" class="form-label mb-0">Doctor</label>
+                                            <select name="updModDoctor" class="form-control form-select" id="updModDoctor" required>
                                             </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="updModBranch" class="form-control form-select" id="updModBranch" required>
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModVisitDate" class="form-label mb-0">Fecha de Visita</label>
+                                            <input type="date" class="form-control" id="updModVisitDate" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModDiagnosis" class="form-label mb-0">Diagnóstico</label>
+                                            <input type="text" class="form-control" id="updModDiagnosis" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModExams" class="form-label mb-0">Exámenes</label>
+                                            <input type="text" class="form-control" id="updModExams" maxlength="50" required>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="updModTreatmentPlan" class="form-label mb-0">Tratamiento</label>
+                                            <input type="text" class="form-control" id="updModTreatmentPlan" maxlength="50" required>
                                         </div>
                                     </div>
                                 </form>
@@ -130,43 +116,40 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Actualizar Paciente Fin -->
+                <!-- Modal de Actualizar Diagnóstico Fin -->
                 
                 
-                <!-- Modal de Eliminar Paciente Inicio -->
+                <!-- Modal de Eliminar Diagnóstico Inicio -->
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Paciente</h5>
+                                <h5 class="modal-title w-100 text-center" id="deleteTitle">Eliminar Diagnóstico</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="deleteForm">
                                     <div class="row">
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Código: </span><span id="delModPatientCode"></span>
+                                            <span>Paciente: </span><span id="delModPatient"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Nombre: </span><span id="delModName"></span>
+                                            <span>Doctor: </span><span id="delModDoctor"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Correo: </span><span id="delModEmail"></span>
+                                            <span>Sucursal: </span><span id="delModBranch"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Genero: </span><span id="delModGender"></span>
+                                            <span>Fecha: </span><span id="delModVisitDate"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Dirección: </span><span id="delModAddress"></span>
+                                            <span>Diagóstico: </span><span id="delModDiagnosis"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Teléfono: </span><span id="delModPhone"></span>
+                                            <span>Exámenes: </span><span id="delModExams"></span>
                                         </div>
                                         <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Fecha de Nacimiento: </span><span id="delModBirthDate"></span>
-                                        </div>
-                                        <div class="mb-0 mb-sm-1 col-12">
-                                            <span>Estado: </span><span id="delModStatus"></span>
+                                            <span>Tratamiento: </span><span id="delModTreatmentPlan"></span>
                                         </div>
                                     </div>
                                 </form>
@@ -178,7 +161,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal de Eliminar Paciente Fin -->
+                <!-- Modal de Eliminar Diagnóstico Fin -->
 
                 <!-- Titulo del Módulo Inicio -->
                 <div class="container-fluid pt-4 px-4">
@@ -201,24 +184,23 @@
                 </div>
                 <!-- Titulo del Módulo Fin -->
 
-                <!-- Pacientes Registrados Inicio -->
+                <!-- Historial Clínico Inicio -->
                 <div class="container-fluid pt-4 px-4">
                     <div class="bg-light text-center rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">Pacientes Registrados</h6>
+                            <h6 class="mb-0">Historial Clínico</h6>
                         </div>
                         <div class="table-responsive">
                             <table class="table text-start table-bordered table-hover mb-0">
                                 <thead id="tableHead">
                                     <tr class="text-dark align-middle">
-                                        <th scope="col">Código</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Correo</th>
-                                        <th scope="col">Género</th>
-                                        <th scope="col">Dirección</th>
-                                        <th scope="col">Teléfono</th>
-                                        <th scope="col">Fecha de Nacimiento</th>
-                                        <th scope="col">Estado</th>
+                                        <th scope="col">Paciente</th>
+                                        <th scope="col">Doctor</th>
+                                        <th scope="col">Sucursal</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Diagnóstico</th>
+                                        <th scope="col">Exámenes</th>
+                                        <th scope="col">Tratamiento</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -227,7 +209,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Pacientes Registrados Fin -->
+                <!-- Historial Clínico Fin -->
             </div>
             <!-- Contenido de la Página Fin -->
 <?php require_once APP_ROUTE."/Views/Template/Footer.php"; ?>
