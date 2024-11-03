@@ -124,7 +124,7 @@ const populateSelect = async (selectId, module) =>  {
     }
 }
 
-const populateSelectRoom = async (selectId, module) =>  {
+const populateSelectRoom = async (selectId, module, patientId) =>  {
     const select = document.getElementById(selectId);
     const newSelect = select.outerHTML;
     select.outerHTML = newSelect;
@@ -134,7 +134,7 @@ const populateSelectRoom = async (selectId, module) =>  {
 
     try {
         const branch_id = document.getElementById('roomModBranch').value;
-        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'POST', { branch_id });
+        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'POST', { branch_id, patient_id: patientId });
         
         // Crear la opción por defecto
         const defaultOption = new Option('Seleccionar', '');
@@ -175,7 +175,7 @@ const roomModal = async (data) => {
     await populateSelect('roomModBranch', 'sucursal');
     
     document.getElementById('roomModBranch').addEventListener('change', async function () {
-        await populateSelectRoom('roomModRoom', 'pacientehabitacion');
+        await populateSelectRoom('roomModRoom', 'pacientehabitacion', patient_id);
     });
     
     try {
@@ -204,37 +204,49 @@ const roomFormSubmit = async () => {
 
     
     const existingRoom = await apiService.fetchData(
-        `${urlBase}/pacientehabitacion/filtrar`,
+        `${urlBase}/pacientehabitacion/buscar`,
         'POST', 
         { patient_id: dataInfo.patient_id }
     );
+
+    if (existingRoom) {
+        const formData = () => ({
+            patient_id: existingRoom.patient_id,
+            branch_id: Number(branch) || null,
+            room_id: Number(room) || null,
+            status: Number(room)  ? 1 : 0,
+            updated_by: currentData.user_id || null
+        });
+        
+        try {
+            await apiService.fetchData(urlUpdate, 'POST', formData());
+            showAlert("Operación exitosa.", 'success');
+            closeModal('roomModal');
+        } catch (error) {
+            showAlert("Error de conexión.", 'danger');
+        }
+    } else {
+        const formData = () => ({
+            patient_id: dataInfo.patient_id,
+            branch_id: Number(branch) || null,
+            room_id: Number(room) || null,
+            status: Number(room)  ? 1 : 0,
+            created_by: currentData.user_id || null,
+            updated_by: currentData.user_id || null
+        });
+        
+        try {
+            await apiService.fetchData(urlInsert, 'POST', formData());
+            showAlert("Operación exitosa.", 'success');
+            closeModal('roomModal');
+        } catch (error) {
+            showAlert("Error de conexión.", 'danger');
+        }
+    }
+
     
-    console.log(existingRoom);
-    // const promises = Array.from(rows).map(async row => {
-    //     const id = row.getAttribute('mp-id');
-    //     const url = id === '0' ? urlInsert : urlUpdate;
-    //     const formData = () => ({
-    //         id: row.getAttribute('mp-id'),
-    //         role_id: row.getAttribute('mr-id'),
-    //         module_id: row.getAttribute('mm-id'),
-    //         show_operation: row.querySelectorAll('input[type="checkbox"]')[0].checked ? 1 : 0,
-    //         create_operation: row.querySelectorAll('input[type="checkbox"]')[1].checked ? 1 : 0,
-    //         update_operation: row.querySelectorAll('input[type="checkbox"]')[2].checked ? 1 : 0,
-    //         delete_operation: row.querySelectorAll('input[type="checkbox"]')[3].checked ? 1 : 0,
-    //         user_id: currentData.user_id || null
-    //     });
 
-    //     try {
-    //         showAlert("Operación exitosa.", 'success');
-    //         return await apiService.fetchData(url, 'POST', formData());
-    //     } catch (error) {
-    //         showAlert("Error de conexión.", 'danger');
-    //         console.error('Error:', error);
-    //     }
-    // });
-
-    // await Promise.all(promises);
-    // closeModal('permissionModal');
+    await initModule(currentData, currentModule);
 };
 
 

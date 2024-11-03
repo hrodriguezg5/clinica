@@ -23,6 +23,7 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 # Establecer permisos para el directorio específico
-RUN mkdir -p /var/www/html/img/medicine && \
+RUN chown -R www-data:www-data /var/www/html && \
+    mkdir -p /var/www/html/img/medicine && \
     chown -R www-data:www-data /var/www/html/img/medicine && \
     chmod -R 755 /var/www/html/img/medicine
