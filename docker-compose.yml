@@ -2,12 +2,11 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: app_container
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - db
     environment:
@@ -17,6 +16,9 @@ services:
       - MYSQL_PASSWORD=admin
     volumes:
       - .:/var/www/html
+      # Montar los certificados SSL
+      - /etc/letsencrypt/live/clinicagt.shop:/etc/letsencrypt/live/clinicagt.shop:ro
+      - /etc/letsencrypt/archive/clinicagt.shop:/etc/letsencrypt/archive/clinicagt.shop:ro
 
   db:
     image: mysql:8.0
@@ -31,16 +33,6 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-
-  productos:
-    build:
-      context: .
-      dockerfile: Dockerfile-productos
-    container_name: productos_container
-    ports:
-      - "8080:80"
-    volumes:
-      - ./movil:/usr/share/nginx/html
 
 volumes:
   mysql_data:
