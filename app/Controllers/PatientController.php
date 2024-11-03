@@ -23,6 +23,7 @@ class PatientController extends Controllers {
                         'address' =>$patient->address,
                         'phone' =>$patient->phone,
                         'email' => $patient->email,
+                        'room' => $patient->room,
                         'active' => $patient->active
                     ];
                 }

@@ -1,6 +1,6 @@
 // URL de la API y clave API
-const API_URL = 'http://localhost/clinica/medicina/mostrar';
-const API_KEY = '22535582'; // Reemplaza con tu API Key
+const API_URL = 'http://172.210.17.135/medicina/mostrar';
+const API_KEY = 'Asfasd80L.$$12'; // Reemplaza con tu API Key
 
 // Constante para almacenar productos
 let products = [];
@@ -26,7 +26,7 @@ async function loadProducts() {
             price: `Q${item.selling_price}`,
             brand: item.brand,
             quantity: item.quantity,
-            imageUrl: `http://localhost/clinica/${item.image_path}`
+            imageUrl: `http://172.210.17.135/${item.image_path}`
         }));
 
         displayProducts(); // Llama a la función para mostrar productos en la página
