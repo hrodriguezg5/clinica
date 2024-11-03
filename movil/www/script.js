@@ -1,6 +1,8 @@
 // URL de la API y clave API
-const API_URL = 'http://172.210.17.135/medicina/mostrar';
+//const API_URL = 'http://192.168.1.3/clinica/medicina/mostrar';
+const API_URL = 'https://clinicagt.shop/medicina/mostrar';
 const API_KEY = 'Asfasd80L.$$12'; // Reemplaza con tu API Key
+//const API_KEY = '22535582'; // Reemplaza con tu API Key
 
 // Constante para almacenar productos
 let products = [];
@@ -26,7 +28,7 @@ async function loadProducts() {
             price: `Q${item.selling_price}`,
             brand: item.brand,
             quantity: item.quantity,
-            imageUrl: `http://172.210.17.135/${item.image_path}`
+            imageUrl: `https://clinicagt.shop/${item.image_path}`
         }));
 
         displayProducts(); // Llama a la función para mostrar productos en la página
@@ -105,7 +107,7 @@ function displayFilteredProducts(filterProducts) {
                     <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
                         ${availabilityBadge}
-                        <button type="button" class="btn btn-primary" onclick="showProductModal(${index})">Ver Detalle</button>
+                        <button type="button" class="btn btn-primary" onclick="showProductModal(${products.indexOf(product)})">Ver Detalle</button>
                     </div>
                 </div>
             </div>
@@ -114,6 +116,12 @@ function displayFilteredProducts(filterProducts) {
         productContainer.insertAdjacentHTML('beforeend', productCard);
     });
 }
+
+// Añadir evento para el botón de recarga
+document.getElementById('reloadButton').addEventListener('click', function() {
+    location.reload(); // Recarga la página
+});
+
 
 // Llama a la función para cargar productos al cargar la página
 loadProducts();
