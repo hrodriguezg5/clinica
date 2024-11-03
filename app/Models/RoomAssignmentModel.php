@@ -10,7 +10,7 @@ class RoomAssignmentModel{
         $this->db->closeConnection();
     }
 
-    public function getRooms($branch_id){
+    public function getRooms($data){
         $this->db->query(
             "SELECT r.id,
                 r.`name`
@@ -23,10 +23,12 @@ class RoomAssignmentModel{
                 WHERE ra.deleted_at IS NULL
                 AND ra.room_id = r.id
                 AND ra.branch_id = r.branch_id
+                AND ra.patient_id != :patient_id
             );"
         );
 
-        $this->db->bind(':branch_id', $branch_id);
+        $this->db->bind(":branch_id", $data["branch_id"]);
+        $this->db->bind(":patient_id", $data["patient_id"]);
         $row = $this->db->records();
         return $row;
     }
@@ -52,7 +54,7 @@ class RoomAssignmentModel{
 
         $this->db->bind(":patient_id", $data["patient_id"]);
         $this->db->bind(":room_id", $data["room_id"]);
-        $this->db->bind(":branch_id", $data["assigned_at"]);
+        $this->db->bind(":branch_id", $data["branch_id"]);
         $this->db->bind(":status", $data["status"]);
         $this->db->bind(":created_by", $data["created_by"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
@@ -78,6 +80,7 @@ class RoomAssignmentModel{
         $this->db->bind(":patient_id", $data["patient_id"]);
         $this->db->bind(":room_id", $data["room_id"]);
         $this->db->bind(":branch_id", $data["branch_id"]);
+        $this->db->bind(":status", $data["status"]);
         $this->db->bind(":updated_by", $data["updated_by"]);
         if($this->db->execute()){
             return true;
@@ -101,6 +104,23 @@ class RoomAssignmentModel{
             ON ra.branch_id = b.id
             WHERE ra.deleted_at IS NULL
             AND ra.status = 1
+            AND ra.patient_id = :patient_id;"
+        );
+
+        $this->db->bind(':patient_id', $patient_id);
+
+        $row = $this->db->record();
+        return $row;
+    }
+
+    public function searchRoomAssignment($patient_id) {
+        $this->db->query(
+            "SELECT ra.patient_id,
+                ra.room_id,
+                ra.branch_id,
+                ra.status
+            FROM room_assignment AS ra
+            WHERE ra.deleted_at IS NULL
             AND ra.patient_id = :patient_id;"
         );
 

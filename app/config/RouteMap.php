@@ -20,7 +20,8 @@ const ROUTE_MAP = [
     "venta" => "SaleController",
     "ventadetalle" => "SaleDetailController",
     "examen" => "ExamController",
-    "pacienteexamen" => "PatientExamController"
+    "pacienteexamen" => "PatientExamController",
+    "habitaciondisponible" => "RoomAvailableController",
 ];
 
 //Rutas de métodos de español a inglés
