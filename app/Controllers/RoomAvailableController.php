@@ -2,15 +2,30 @@
 class RoomAvailableController extends Controllers {
     public function __construct() {
         parent::__construct();
+        $this->enableCors();
     }
     
     public function index() {
         $this->view("RoomAvailableView");
     }
 
+    private function enableCors() {
+        // Permitir el acceso desde cualquier origen, ideal solo en desarrollo
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: X-Api-Key, Authorization, Content-Type");
+
+        // Si es una solicitud OPTIONS (preflight), finalizar aquí
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            http_response_code(200);
+            exit();
+        }
+    }
+
+
     public function show() {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if (!$this->authMiddleware->validateToken()) return;
+            // if (!$this->authMiddleware->validateToken()) return;
             $roomsAvailables = $this->model->getRoomsAvailables();
         
             if ($roomsAvailables) {
