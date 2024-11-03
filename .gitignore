@@ -1,3 +1,4 @@
 /app/config/Database.php
 /app/config/ApiKey.php
 /public/.htaccess
+/movil/node_modules/

@@ -1,0 +1,12 @@
+{
+  "appId": "com.productos.app",
+  "appName": "Productos Clinica",
+  "webDir": "www",
+  "server": {
+    "cleartext": true
+  },
+  "android": {
+    "icon": "resources/logo.png",
+    "splash": "resources/logo.png"
+  }
+}
