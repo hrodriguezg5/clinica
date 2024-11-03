@@ -10,9 +10,6 @@ RUN a2enmod rewrite ssl
 # Activa tu configuración personalizada
 RUN a2enconf apache2-custom
 
-# Reiniciar el servicio de Apache
-# RUN service apache2 restart
-
 # Instalar extensiones necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
@@ -24,3 +21,8 @@ COPY . /var/www/html
 
 # Configurar permisos si es necesario
 RUN chown -R www-data:www-data /var/www/html
+
+# Establecer permisos para el directorio específico
+RUN mkdir -p /var/www/html/img/medicine && \
+    chown -R www-data:www-data /var/www/html/img/medicine && \
+    chmod -R 755 /var/www/html/img/medicine
