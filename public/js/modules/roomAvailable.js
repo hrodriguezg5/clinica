@@ -11,8 +11,6 @@ export async function initModule(data, module) {
         // Llama a la API para obtener los datos de las habitaciones
         const response = await apiService.fetchData(url, 'GET');
 
-        console.log(response); // Muestra la respuesta en la consola para verificar los datos
-
         // Asegúrate de que el contenedor esté vacío antes de agregar nuevas tarjetas
         $('#roomsContainer').empty();
 
