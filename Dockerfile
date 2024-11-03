@@ -24,3 +24,12 @@ COPY . /var/www/html
 
 # Configurar permisos si es necesario
 RUN chown -R www-data:www-data /var/www/html
+
+# Usar una imagen base de nginx
+FROM nginx:latest
+
+# Copiar archivos de la aplicación al directorio de nginx
+COPY movil /usr/share/nginx/html
+
+# Configurar permisos si es necesario
+RUN chown -R www-data:www-data /usr/share/nginx/html

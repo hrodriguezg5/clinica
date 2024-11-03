@@ -2,6 +2,41 @@
             <!-- Contenido de la Página Inicio -->
             <div id="content">
                 <!-- Modal de Insertar Paciente Inicio -->
+                <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title w-100 text-center" id="insertTitle">Asignar Habitación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="roomForm" data-info="">
+
+                                    <div class="row">
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="roomModBranch" class="form-label mb-0">Sucursal</label>
+                                            <select name="roomModBranch" class="form-control form-select" id="roomModBranch">
+                                            </select>
+                                        </div>
+                                        <div class="mb-2 mb-sm-3 px-4">
+                                            <label for="roomModRoom" class="form-label mb-0">Habitación</label>
+                                            <select name="roomModRoom" class="form-control form-select" id="roomModRoom" required>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" class="btn btn-primary" form="roomForm">Guardar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal de Insertar Paciente Fin -->
+
+
+                <!-- Modal de Insertar Paciente Inicio -->
                 <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -218,6 +253,7 @@
                                         <th scope="col">Dirección</th>
                                         <th scope="col">Teléfono</th>
                                         <th scope="col">Fecha de Nacimiento</th>
+                                        <th scope="col">Habitación</th>
                                         <th scope="col">Estado</th>
                                     </tr>
                                 </thead>

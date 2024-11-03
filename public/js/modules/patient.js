@@ -57,6 +57,7 @@ export async function initModule(data, module) {
         
         // Crear los botones de acuerdo a los permisos
         if (canUpdate) {
+            actionButtons += createButton('btn-info btn-room', 'Editar', dataInfo, 'roomModal', 'bi bi-door-closed');
             actionButtons += createButton('btn-primary btn-update', 'Editar', dataInfo, 'updateModal', 'bi bi-pencil');
         }
         if (canDelete) {
@@ -72,6 +73,7 @@ export async function initModule(data, module) {
                 <td>${item.address}</td>
                 <td>${item.phone}</td>
                 <td>${item.birth_date}</td>
+                <td>${item.room}</td>
                 <td><span class="badge bg-${alertType}">${status}</span></td>
                 ${hasActions ? `<td><div class="d-flex">${actionButtons}</div></td>` : ''}
             </tr>
@@ -80,19 +82,161 @@ export async function initModule(data, module) {
     
     tableBody.innerHTML = rows;
     
-    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5, 6, 7]);
+    assignSearchEvent('searchInput', 'tableBody', [0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
     if (hasActions) {
+        assignModalEvent('.btn-room', roomModal);
         assignModalEvent('.btn-update', updateModal);
         assignModalEvent('.btn-delete', deleteModal);
     }
 
+    assignFormSubmitEvent('roomForm', roomFormSubmit);
     assignFormSubmitEvent('insertForm', insertFormSubmit);
     assignFormSubmitEvent('updateForm', updateFormSubmit);
     assignFormSubmitEvent('deleteForm', deleteFormSubmit);
 
     resetModal('insertModal', 'insertForm');
 }
+
+const populateSelect = async (selectId, module) =>  {
+    const select = document.getElementById(selectId);
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
+
+    try {
+        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'GET');
+        const defaultOption = new Option('Sin Asignar', '');
+        newSelectElement.appendChild(defaultOption);
+
+        options.forEach(item => {
+            if (item.active === 1) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name;
+                newSelectElement.appendChild(option);
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+const populateSelectRoom = async (selectId, module) =>  {
+    const select = document.getElementById(selectId);
+    const newSelect = select.outerHTML;
+    select.outerHTML = newSelect;
+
+    const newSelectElement = document.getElementById(selectId);
+    newSelectElement.innerHTML = '';
+
+    try {
+        const branch_id = document.getElementById('roomModBranch').value;
+        const options = await apiService.fetchData(`${urlBase}/${module}/mostrar`, 'POST', { branch_id });
+        
+        // Crear la opción por defecto
+        const defaultOption = new Option('Seleccionar', '');
+        defaultOption.hidden = true;
+        defaultOption.selected = true;
+        newSelectElement.appendChild(defaultOption);
+
+        // Verificar si hay opciones disponibles
+        if (options && options.length > 0) {
+            // Si hay opciones, agregar cada una al <select>
+            options.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.name;
+                newSelectElement.appendChild(option);
+            });
+        } else if (branch_id == '' && options.length === 0) {
+            newSelectElement.innerHTML = '';
+            const noRoomsOption = new Option('Sin Asignar', '0');
+            noRoomsOption.hidden = true;
+            noRoomsOption.selected = true;
+            newSelectElement.appendChild(noRoomsOption);
+        } else {
+            // Si no hay opciones, mostrar un mensaje de "No hay habitaciones"
+            const noRoomsOption = new Option('No hay habitaciones disponibles', '');
+            noRoomsOption.disabled = true;
+            newSelectElement.appendChild(noRoomsOption);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+const roomModal = async (data) => {
+    const url = `${urlBase}/pacientehabitacion/filtrar`;
+    const dataInfo = JSON.stringify(data);
+    const patient_id = data.patient_id;
+    await populateSelect('roomModBranch', 'sucursal');
+    
+    document.getElementById('roomModBranch').addEventListener('change', async function () {
+        await populateSelectRoom('roomModRoom', 'pacientehabitacion');
+    });
+    
+    try {
+        const response = await apiService.fetchData(url, 'POST', { patient_id });
+        const branchSelect = document.getElementById('roomModBranch');
+        const branchOption = Array.from(branchSelect.options).find(option => option.text === response.branch_name);
+        document.getElementById('roomForm').setAttribute('data-info', dataInfo);
+        document.getElementById('roomModBranch').value = branchOption ? branchOption.value : '';
+        await populateSelectRoom('roomModRoom', 'pacientehabitacion');
+        const roomSelect = document.getElementById('roomModRoom');
+        const roomOption = Array.from(roomSelect.options).find(option => option.text === response.room_name);
+        document.getElementById('roomModRoom').value = roomOption ? roomOption.value : document.getElementById('roomModRoom').value;
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+const roomFormSubmit = async () => {
+    const urlInsert = `${urlBase}/pacientehabitacion/agregar`;
+    const urlUpdate = `${urlBase}/pacientehabitacion/actualizar`;
+    const dataInfo = JSON.parse(document.getElementById('roomForm').getAttribute('data-info'));
+    
+    const room = document.getElementById('roomModRoom').value
+    const branch = document.getElementById('roomModBranch').value
+
+    
+    const existingRoom = await apiService.fetchData(
+        `${urlBase}/pacientehabitacion/filtrar`,
+        'POST', 
+        { patient_id: dataInfo.patient_id }
+    );
+    
+    console.log(existingRoom);
+    // const promises = Array.from(rows).map(async row => {
+    //     const id = row.getAttribute('mp-id');
+    //     const url = id === '0' ? urlInsert : urlUpdate;
+    //     const formData = () => ({
+    //         id: row.getAttribute('mp-id'),
+    //         role_id: row.getAttribute('mr-id'),
+    //         module_id: row.getAttribute('mm-id'),
+    //         show_operation: row.querySelectorAll('input[type="checkbox"]')[0].checked ? 1 : 0,
+    //         create_operation: row.querySelectorAll('input[type="checkbox"]')[1].checked ? 1 : 0,
+    //         update_operation: row.querySelectorAll('input[type="checkbox"]')[2].checked ? 1 : 0,
+    //         delete_operation: row.querySelectorAll('input[type="checkbox"]')[3].checked ? 1 : 0,
+    //         user_id: currentData.user_id || null
+    //     });
+
+    //     try {
+    //         showAlert("Operación exitosa.", 'success');
+    //         return await apiService.fetchData(url, 'POST', formData());
+    //     } catch (error) {
+    //         showAlert("Error de conexión.", 'danger');
+    //         console.error('Error:', error);
+    //     }
+    // });
+
+    // await Promise.all(promises);
+    // closeModal('permissionModal');
+};
+
 
 const insertFormSubmit = async () => {
     const url = `${urlBase}/${currentModule}/agregar`;

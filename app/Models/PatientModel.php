@@ -19,8 +19,24 @@ class PatientModel{
                 p.address,
                 p.phone,
                 p.email,
+                IFNULL(pr.room, '') AS room,
                 p.active
             FROM patient AS p
+            LEFT JOIN (
+            	SELECT ra.patient_id,
+					IF(
+						ra.`status` = 0,
+						'',
+						CONCAT(r.`name`, '-', b.`name`)
+					) AS room
+				FROM room_assignment AS ra
+				INNER JOIN room AS r
+				ON ra.room_id = r.id
+				INNER JOIN branch AS b
+				ON ra.branch_id = b.id
+				WHERE ra.deleted_at IS NULL
+			) AS pr
+			ON p.id = pr.patient_id
             WHERE p.deleted_at IS NULL;"
         );
 
